@@ -5,12 +5,16 @@ import {
   Card,
   CardStateInterface,
   KnowledgeStateInterface,
+  QuestionStateInterface,
+  StrategyType,
 } from "./types";
 import OpponentDisplay from "./OpponentDisplay";
 import PlayerDisplay from "./PlayerDisplay";
 import ChoicePicker from "./ChoicePicker";
+import getQuestion from "./strategies";
 
 const AGENTS: AgentType[] = ["player", "opponent1", "opponent2"];
+const STRATEGIES: StrategyType[] = ["random", "smart"];
 
 export default function Game() {
   const [turn, setTurn] = useState<AgentType>("player");
@@ -30,7 +34,13 @@ export default function Game() {
   });
   const [hideOpponentCards, setHideOpponentCards] = useState<boolean>(true);
 
-  const [knowledge, setKnowledge] = useState<KnowledgeStateInterface>();
+  const [knowledge, setKnowledge] = useState<KnowledgeStateInterface>({
+    player: {},
+    opponent1: {},
+    opponent2: {},
+  });
+
+  const [questions, setQuestions] = useState<QuestionStateInterface>();
 
   useEffect(() => {
     // Randomly distribute cards to 3 players
@@ -109,6 +119,37 @@ export default function Game() {
     }
   };
 
+  useEffect(() => {
+    // For each agent, execute their strategy calculations
+    const newQuestions = {
+      player: getQuestion(
+        "player",
+        AGENTS,
+        "random",
+        cards,
+        CARD_LIST,
+        knowledge
+      ),
+      opponent1: getQuestion(
+        "opponent1",
+        AGENTS,
+        "smart",
+        cards,
+        CARD_LIST,
+        knowledge
+      ),
+      opponent2: getQuestion(
+        "opponent2",
+        AGENTS,
+        "smart",
+        cards,
+        CARD_LIST,
+        knowledge
+      ),
+    };
+    setQuestions(newQuestions);
+  }, [cards, knowledge, turn]);
+
   return (
     <div className="bg-white">
       {/* Toolbar with gray background */}
@@ -130,32 +171,112 @@ export default function Game() {
       {/* 3 column layout */}
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-3 gap-4 p-6 lg:px-8">
-          <OpponentDisplay
-            cards={cards.opponent1.cards}
-            suits={cards.opponent1.suits}
-            name="Opponent 1"
-            hide={hideOpponentCards}
-          />
-          <OpponentDisplay
-            cards={cards.opponent2.cards}
-            suits={cards.opponent2.suits}
-            name="Opponent 2"
-            hide={hideOpponentCards}
-          />
-          <PlayerDisplay
-            cards={cards.player.cards}
-            suits={cards.player.suits}
-          />
+          <div>
+            <OpponentDisplay
+              cards={cards.opponent1.cards}
+              suits={cards.opponent1.suits}
+              name="Opponent 1"
+              hide={hideOpponentCards}
+            />
+          </div>
+          <div>
+            <OpponentDisplay
+              cards={cards.opponent2.cards}
+              suits={cards.opponent2.suits}
+              name="Opponent 2"
+              hide={hideOpponentCards}
+            />
+          </div>
+          <div>
+            <PlayerDisplay
+              cards={cards.player.cards}
+              suits={cards.player.suits}
+            />
+          </div>
         </div>
 
-        <div>
-          <div className="bg-slate-100 flex flex-row items-center justify-between mx-auto max-w-7xl p-6 lg:px-8 rounded-md">
-            <ChoicePicker
-              turn={turn}
-              agents={AGENTS}
-              cards={cards}
-              askForCard={askForCard}
-            />
+        <div className="grid grid-cols-3 gap-4 p-6 lg:px-8">
+          <div>
+            <div className="text-slate-600 font-bold mb-2">Opponent 1</div>
+            <div className="bg-pink-100 p-4 rounded-md text-sm text-pink-800">
+              🧠 <strong className="text-pink-700">Choice:</strong> Ask{" "}
+              {questions?.["opponent1"][0]} for {questions?.["opponent1"][1].id}
+            </div>
+            {turn === "opponent1" && (
+              <div className="mt-4">
+                <button
+                  className="bg-pink-700 text-white px-4 py-2 rounded-md"
+                  onClick={() =>
+                    askForCard(
+                      "opponent1",
+                      questions?.["opponent1"][0],
+                      questions?.["opponent1"][1]
+                    )
+                  }
+                >
+                  Ask
+                </button>
+              </div>
+            )}
+          </div>
+          <div>
+            <div className="text-slate-600 font-bold mb-2">Opponent 2</div>
+            <div className="bg-pink-100 p-4 rounded-md text-sm text-pink-800">
+              🧠 <strong className="text-pink-700">Choice:</strong> Ask{" "}
+              {questions?.["opponent2"][0]} for {questions?.["opponent2"][1].id}
+            </div>
+            {turn === "opponent2" && (
+              <div className="mt-4">
+                <button
+                  className="bg-pink-700 text-white px-4 py-2 rounded-md"
+                  onClick={() =>
+                    askForCard(
+                      "opponent2",
+                      questions?.["opponent2"][0],
+                      questions?.["opponent2"][1]
+                    )
+                  }
+                >
+                  Ask
+                </button>
+              </div>
+            )}
+          </div>
+          <div>
+            <div className="text-slate-600 font-bold mb-2">You</div>
+            <div className="bg-pink-100 p-4 rounded-md text-sm text-pink-800">
+              🧠 <strong className="text-pink-700">Choice:</strong> Ask{" "}
+              {questions?.["player"][0]} for {questions?.["player"][1].id}
+            </div>
+            {turn === "player" && (
+              <div className="mt-4">
+                <button
+                  className="bg-pink-700 text-white px-4 py-2 rounded-md"
+                  onClick={() =>
+                    askForCard(
+                      "player",
+                      questions?.["player"][0],
+                      questions?.["player"][1]
+                    )
+                  }
+                >
+                  Ask
+                </button>
+              </div>
+            )}
+            {turn === "player" && (
+              <>
+                <div className="text-slate-600 mt-4">Manual selection</div>
+                <div className="bg-slate-100 flex flex-row items-center justify-between mx-auto max-w-7xl p-4 rounded-md mt-4">
+                  <ChoicePicker
+                    turn={turn}
+                    agents={AGENTS}
+                    cards={cards}
+                    askForCard={askForCard}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

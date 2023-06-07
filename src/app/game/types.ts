@@ -1,4 +1,5 @@
 export type AgentType = "player" | "opponent1" | "opponent2";
+export type StrategyType = "random" | "smart";
 
 export interface Card {
   id: string;
@@ -13,14 +14,10 @@ export type CardStateInterface = {
   };
 };
 
-export type SuitsStateInterface = {
-  [key in AgentType]: {
-    suits: string[];
-  };
+export type KnowledgeStateInterface = {
+  [key in AgentType]: {};
 };
 
-export type KnowledgeStateInterface = {
-  [key in AgentType]: {
-    knowledge: string[];
-  };
+export type QuestionStateInterface = {
+  [key in AgentType]: [AgentType, Card];
 };

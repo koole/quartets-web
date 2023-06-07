@@ -30,12 +30,6 @@ export default function ChoicePicker({
     <div className="flex gap-4">
       <div>
         <label className="block text-sm font-medium leading-6 text-gray-900">
-          Turn:
-        </label>
-        {turn}
-      </div>
-      <div>
-        <label className="block text-sm font-medium leading-6 text-gray-900">
           Ask agent:
         </label>
         <select
@@ -67,22 +61,18 @@ export default function ChoicePicker({
           {CARD_LIST.sort(
             (a, b) => a.color.localeCompare(b.color) || a.number - b.number
           ).map((c) => (
-            <option
-              key={c.id}
-              value={c.id}
-              disabled={cards[turn].cards.map((c) => c.id).includes(c.id)}
-            >
+            <option key={c.id} value={c.id}>
               {c.color} {c.number}
             </option>
           ))}
         </select>
       </div>
-      <div>
+      <div className="pt-0.5">
         <button
           onClick={submitChoice}
-          className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-8"
         >
-          Submit
+          Ask
         </button>
       </div>
     </div>

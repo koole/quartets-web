@@ -6,6 +6,7 @@ export default class GameEnvironment {
   agents: AgentType[] = ["player", "opponent1", "opponent2"];
   strategies: StrategyType[] = ["random", "smart"];
   state: {
+    autoPlaying: boolean;
     turn_count: number;
     turn: AgentType;
     wins: {
@@ -56,6 +57,7 @@ export default class GameEnvironment {
     const third = Math.floor(shuffledCards.length / 3);
 
     let newState = {
+      autoPlaying: false,
       turn_count: 0,
       player: {
         cards: shuffledCards.slice(0, third),
@@ -142,7 +144,7 @@ export default class GameEnvironment {
   askForCard(
     requestingAgent: AgentType,
     receivingAgent: AgentType,
-    card: Card
+    card: Card,
   ) {
     console.info(
       `${requestingAgent} asked ${receivingAgent} for ${card.number} ${card.color}`
@@ -206,6 +208,12 @@ export default class GameEnvironment {
     this.updateQuestionForAllAgents();
 
     this.callback();
+
+    if(this.state.turn !== "player" && this.state.autoPlaying === false) {
+      setTimeout(() => {
+        this.autoStep();
+      }, 1000);
+    }
   }
 
   changeStrategy(agent: AgentType, strategy: StrategyType) {
@@ -229,12 +237,23 @@ export default class GameEnvironment {
   autoStepDelay = 10;
 
   startAutoStep() {
+    this.state.autoPlaying = true;
+    this.callback();
     this.autoStepInterval = setInterval(() => {
       this.autoStep();
     }, this.autoStepDelay);
   }
 
   stopAutoStep() {
+    this.state.autoPlaying = false;
+    this.callback();
+
+    if(this.state.turn !== "player") {
+      setTimeout(() => {
+        this.autoStep();
+      }, 1000);
+    }
+
     clearInterval(this.autoStepInterval);
   }
 }

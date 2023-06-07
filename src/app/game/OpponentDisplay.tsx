@@ -15,14 +15,15 @@ export default function OpponentDisplay({
 }) {
   return (
     <div>
+      <div className="text-slate-600 my-2">Hand <span className="text-slate-400">({cards.length})</span></div>
       <div className="flex flex-col items-center justify-center bg-slate-100 rounded-md">
-        <div className="flex flex-row flex-wrap gap-2 min-h-16 p-2">
+        <div className="flex flex-row flex-wrap gap-2 h-32 p-2">
           {cards.map((card) => (
             <CardDisplay key={card.id} card={card} hide={hide} />
           ))}
         </div>
       </div>
-      <div className="text-slate-600 my-2">Suits</div>
+      <div className="text-slate-600 my-2">Quartets <span className="text-slate-400">({suits.length})</span></div>
       <div className="flex flex-col items-center justify-center bg-slate-100 rounded-md">
         <div className="flex flex-row flex-wrap gap-2 h-16 p-2">
           {suits.map((suit) => (

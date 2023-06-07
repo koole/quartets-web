@@ -112,16 +112,18 @@ export default function Game() {
   return (
     <div className="bg-white">
       {/* Toolbar with gray background */}
-      <div className="bg-gray-200 flex flex-row items-center justify-between mx-auto max-w-7xl p-6 lg:px-8 rounded-md">
-        <div>There are {NUM_COLORS} possible colors.</div>
-        <div className="flex flex-row items-center justify-center">
-          <input
-            type="checkbox"
-            className="form-checkbox h-5 w-5 text-gray-600"
-            checked={hideOpponentCards}
-            onChange={() => setHideOpponentCards(!hideOpponentCards)}
-          />
-          <div className="ml-2 text-gray-700">Hide opponent cards</div>
+      <div className="bg-slate-100">
+        <div className="flex flex-row items-center justify-between mx-auto max-w-7xl p-6 lg:px-8">
+          <div>There are {NUM_COLORS} possible colors.</div>
+          <div className="flex flex-row items-center justify-center">
+            <input
+              type="checkbox"
+              className="form-checkbox h-5 w-5 text-gray-600"
+              checked={hideOpponentCards}
+              onChange={() => setHideOpponentCards(!hideOpponentCards)}
+            />
+            <div className="ml-2 text-gray-700">Hide opponent cards</div>
+          </div>
         </div>
       </div>
 
@@ -147,7 +149,7 @@ export default function Game() {
         </div>
 
         <div>
-          <div className="bg-gray-200 flex flex-row items-center justify-between mx-auto max-w-7xl p-6 lg:px-8 rounded-md">
+          <div className="bg-slate-100 flex flex-row items-center justify-between mx-auto max-w-7xl p-6 lg:px-8 rounded-md">
             <ChoicePicker
               turn={turn}
               agents={AGENTS}

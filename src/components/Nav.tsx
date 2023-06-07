@@ -3,10 +3,11 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const navigation = [
-  { name: "Rules", href: "#" },
-  { name: "Epistemic Logic", href: "#" },
-  { name: "Results", href: "#" },
-  { name: "????", href: "#" },
+  { name: "Rules", href: "/rules" },
+  { name: "Model", href: "/model" },
+  { name: "Application", href: "/application" },
+  { name: "Experiment", href: "/experiment" },
+  { name: "Conclusion", href: "/conclusion" },
 ];
 
 export default function Navigation() {
@@ -19,7 +20,7 @@ export default function Navigation() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <a href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
             <img className="h-8 w-auto" src="/logo.svg" alt="" />
           </a>

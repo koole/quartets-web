@@ -35,7 +35,7 @@ export default function Navigation() {
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12">
+        <div className="hidden lg:flex lg:gap-x-12 items-center">
           {navigation.map((item) => (
             <a
               key={item.name}
@@ -45,6 +45,12 @@ export default function Navigation() {
               {item.name}
             </a>
           ))}
+          <a
+            href="/game"
+            className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Play game
+          </a>
         </div>
       </nav>
       <Dialog

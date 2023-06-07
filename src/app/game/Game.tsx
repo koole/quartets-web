@@ -49,9 +49,9 @@ export default function Game() {
           <div className="flex flex-row">
             <div className="mr-2 text-slate-700 font-bold">Wins:</div>
             <div className="flex flex-row items-center justify-center">
-              <div className="mr-2">Player: {gameState.wins.player}</div>
-              <div className="mr-2">Opponent 1: {gameState.wins.opponent1}</div>
-              <div className="mr-2">Opponent 2: {gameState.wins.opponent2}</div>
+              <div className="mr-2">You: {gameState.wins.player}</div>
+              <div className="mr-2">Abélard: {gameState.wins.opponent1}</div>
+              <div className="mr-2">Héloïse: {gameState.wins.opponent2}</div>
             </div>
           </div>
           <div>
@@ -75,22 +75,55 @@ export default function Game() {
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-3 gap-4 p-6 lg:px-8">
           <div>
+            <div className="flex items-center mb-2">
+              <img
+                className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"
+                src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&h=80&q=80"
+                alt=""
+              />
+              <div className="ml-2 mb-2">
+                <p className="text-slate-600 font-medium">Abélard</p>
+                <p className="text-sm text-gray-500">Agent</p>
+              </div>
+            </div>
             <OpponentDisplay
               cards={gameState.opponent1.cards}
               suits={gameState.opponent1.suits}
-              name="Opponent 1"
+              name="Abélard"
               hide={hideOpponentCards}
             />
           </div>
           <div>
+            <div className="flex items-center mb-2">
+              <img
+                className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"
+                src="https://images.unsplash.com/photo-1601266248790-e5764feb7652?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&h=80&q=80"
+                alt=""
+              />
+              <div className="ml-2 mb-2">
+                <p className="text-slate-600 font-medium">Héloïse</p>
+                <p className="text-sm text-gray-500">Agent</p>
+              </div>
+            </div>
             <OpponentDisplay
               cards={gameState.opponent2.cards}
               suits={gameState.opponent2.suits}
-              name="Opponent 2"
+              name="Héloïse"
               hide={hideOpponentCards}
             />
           </div>
           <div>
+            <div className="flex items-center mb-2">
+              <img
+                className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"
+                src="https://images.unsplash.com/photo-1516171376399-369bb30c382c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&h=80&q=80"
+                alt=""
+              />
+              <div className="ml-2 mb-2">
+                <p className="text-slate-600 font-medium">You</p>
+                <p className="text-sm text-gray-500">Human</p>
+              </div>
+            </div>
             <PlayerDisplay
               cards={gameState.player.cards}
               suits={gameState.player.suits}
@@ -100,7 +133,6 @@ export default function Game() {
 
         <div className="grid grid-cols-3 gap-4 p-6 lg:px-8">
           <div>
-            <div className="text-slate-600 font-bold mb-2">Opponent 1</div>
             <div className="mb-2">
               <div className="text-slate-600 mt-2">Strategy</div>
               <select
@@ -143,7 +175,6 @@ export default function Game() {
             )}
           </div>
           <div>
-            <div className="text-slate-600 font-bold mb-2">Opponent 2</div>
             <div className="mb-2">
               <div className="text-slate-600 mt-2">Strategy</div>
               <select
@@ -186,7 +217,6 @@ export default function Game() {
             )}
           </div>
           <div>
-            <div className="text-slate-600 font-bold mb-2">You</div>
             <div className="mb-2">
               <div className="text-slate-600 mt-2">Strategy</div>
               <select

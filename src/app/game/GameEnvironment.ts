@@ -8,6 +8,11 @@ export default class GameEnvironment {
   state: {
     turn_count: number;
     turn: AgentType;
+    wins: {
+      player: number;
+      opponent1: number;
+      opponent2: number;
+    };
     player: {
       cards: Card[];
       suits: string[];
@@ -35,15 +40,18 @@ export default class GameEnvironment {
 
   constructor() {
     this.state = this.createEnvironment({
-      wins: {
-        player: 0,
-        opponent1: 0,
-        opponent2: 0,
-      },
+      player: 0,
+      opponent1: 0,
+      opponent2: 0,
     });
+    this.updateQuestionForAllAgents();
   }
 
-  createEnvironment(prevState = {}) {
+  createEnvironment(wins: {
+    player: number;
+    opponent1: number;
+    opponent2: number;
+  }) {
     const shuffledCards = CARD_LIST.sort(() => 0.5 - Math.random());
     const third = Math.floor(shuffledCards.length / 3);
 
@@ -98,13 +106,10 @@ export default class GameEnvironment {
     });
 
     return {
-      ...prevState,
+      wins: wins,
       turn: this.agents[0],
       ...newState,
     };
-
-    // Update question for each agent
-    this.updateQuestionForAllAgents();
   }
 
   updateQuestion(currentAgent: AgentType) {
@@ -173,7 +178,23 @@ export default class GameEnvironment {
         ].cards.filter((c) => c.color !== color);
       }
 
-      this.state = newState;
+      // If no cards left in all players hands, game is over
+      if (
+        newState.player.cards.length === 0 &&
+        newState.opponent1.cards.length === 0 &&
+        newState.opponent2.cards.length === 0
+      ) {
+        console.info("Game over");
+        // Find agent with most suits
+        const winner = this.agents.reduce((a, b) =>
+          newState[a].suits.length > newState[b].suits.length ? a : b
+        );
+        console.info(`${winner} wins!`);
+        newState.wins[winner] += 1;
+        this.state = this.createEnvironment(newState.wins);
+      } else {
+        this.state = newState;
+      }
     } else {
       console.info(
         `${receivingAgent} did not have ${card.number} ${card.color}`
@@ -197,9 +218,23 @@ export default class GameEnvironment {
   autoStep() {
     // Auto step through the game
     this.askForCard(
-      this.state[this.state.turn].question.agent,
       this.state.turn,
+      this.state[this.state.turn].question.agent,
       this.state[this.state.turn].question.card
     );
+  }
+
+  // Functions to start and stop auto loop with a delay
+  autoStepInterval: any = null;
+  autoStepDelay = 10;
+
+  startAutoStep() {
+    this.autoStepInterval = setInterval(() => {
+      this.autoStep();
+    }, this.autoStepDelay);
+  }
+
+  stopAutoStep() {
+    clearInterval(this.autoStepInterval);
   }
 }

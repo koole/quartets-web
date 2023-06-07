@@ -26,9 +26,12 @@ export default function Game() {
   return (
     <div className="bg-white">
       {/* Toolbar with gray background */}
-      <div className="bg-slate-100">
+      <div className="bg-slate-300">
         <div className="flex flex-row items-center justify-between mx-auto max-w-7xl p-6 lg:px-8">
-          <div>There are {NUM_COLORS} possible colors.</div>
+          <div className="text-slate-700 font-bold">
+            There are {NUM_COLORS} possible colors. Each color has {NUM_NUMBERS}{" "}
+            numbers to collect.
+          </div>
           <div className="flex flex-row items-center justify-center">
             <input
               type="checkbox"
@@ -37,6 +40,33 @@ export default function Game() {
               onChange={() => setHideOpponentCards(!hideOpponentCards)}
             />
             <div className="ml-2 text-gray-700">Hide opponent cards</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-slate-100">
+        <div className="flex flex-row items-center justify-between mx-auto max-w-7xl p-6 lg:px-8">
+          <div className="flex flex-row">
+            <div className="mr-2 text-slate-700 font-bold">Wins:</div>
+            <div className="flex flex-row items-center justify-center">
+              <div className="mr-2">Player: {gameState.wins.player}</div>
+              <div className="mr-2">Opponent 1: {gameState.wins.opponent1}</div>
+              <div className="mr-2">Opponent 2: {gameState.wins.opponent2}</div>
+            </div>
+          </div>
+          <div>
+            <button
+              className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mr-2"
+              onClick={() => gameEnvironment.current.startAutoStep()}
+            >
+              Start autoplay
+            </button>
+            <button
+              className="bg-white hover:bg-white text-indigo-700 font-bold py-2 px-4 rounded border border-indigo-500"
+              onClick={() => gameEnvironment.current.stopAutoStep()}
+            >
+              Stop autoplay
+            </button>
           </div>
         </div>
       </div>

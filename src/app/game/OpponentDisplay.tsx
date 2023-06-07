@@ -18,7 +18,7 @@ export default function OpponentDisplay({
       
       <div className="text-slate-600 font-bold mb-2">{name}</div>
       <div className="flex flex-col items-center justify-center bg-slate-100 rounded-md">
-        <div className="flex flex-row flex-wrap gap-2 h-16 p-2">
+        <div className="flex flex-row flex-wrap gap-2 min-h-16 p-2">
           {cards.map((card) => (
             <CardDisplay key={card.id} card={card} hide={hide} />
           ))}

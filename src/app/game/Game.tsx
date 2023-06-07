@@ -42,6 +42,16 @@ export default function Game() {
 
   const [questions, setQuestions] = useState<QuestionStateInterface>();
 
+  const [agentStrategies, setAgentStrategies] = useState<{
+    player: StrategyType;
+    opponent1: StrategyType;
+    opponent2: StrategyType;
+  }>({
+    player: "smart",
+    opponent1: "random",
+    opponent2: "random",
+  });
+
   useEffect(() => {
     // Randomly distribute cards to 3 players
     const shuffledCards = CARD_LIST.sort(() => 0.5 - Math.random());
@@ -125,7 +135,7 @@ export default function Game() {
       player: getQuestion(
         "player",
         AGENTS,
-        "random",
+        agentStrategies.player,
         cards,
         CARD_LIST,
         knowledge
@@ -133,7 +143,7 @@ export default function Game() {
       opponent1: getQuestion(
         "opponent1",
         AGENTS,
-        "smart",
+        agentStrategies.opponent1,
         cards,
         CARD_LIST,
         knowledge
@@ -141,14 +151,24 @@ export default function Game() {
       opponent2: getQuestion(
         "opponent2",
         AGENTS,
-        "smart",
+        agentStrategies.opponent2,
         cards,
         CARD_LIST,
         knowledge
       ),
     };
     setQuestions(newQuestions);
-  }, [cards, knowledge, turn]);
+  }, [cards, knowledge, turn, agentStrategies]);
+
+  const updateSingleStrategy = (
+    agent: AgentType,
+    strategy: StrategyType
+  ): void => {
+    setAgentStrategies({
+      ...agentStrategies,
+      [agent]: strategy,
+    });
+  };
 
   return (
     <div className="bg-white">
@@ -198,6 +218,25 @@ export default function Game() {
         <div className="grid grid-cols-3 gap-4 p-6 lg:px-8">
           <div>
             <div className="text-slate-600 font-bold mb-2">Opponent 1</div>
+            <div className="mb-2">
+              <div className="text-slate-600 mt-2">Strategy</div>
+              <select
+                className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                value={agentStrategies.opponent1}
+                onChange={(e) =>
+                  updateSingleStrategy(
+                    "opponent1",
+                    e.target.value as StrategyType
+                  )
+                }
+              >
+                {STRATEGIES.map((strategy) => (
+                  <option key={strategy} value={strategy}>
+                    {strategy}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div className="bg-pink-100 p-4 rounded-md text-sm text-pink-800">
               🧠 <strong className="text-pink-700">Choice:</strong> Ask{" "}
               {questions?.["opponent1"][0]} for {questions?.["opponent1"][1].id}
@@ -221,6 +260,25 @@ export default function Game() {
           </div>
           <div>
             <div className="text-slate-600 font-bold mb-2">Opponent 2</div>
+            <div className="mb-2">
+              <div className="text-slate-600 mt-2">Strategy</div>
+              <select
+                className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                value={agentStrategies.opponent2}
+                onChange={(e) =>
+                  updateSingleStrategy(
+                    "opponent2",
+                    e.target.value as StrategyType
+                  )
+                }
+              >
+                {STRATEGIES.map((strategy) => (
+                  <option key={strategy} value={strategy}>
+                    {strategy}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div className="bg-pink-100 p-4 rounded-md text-sm text-pink-800">
               🧠 <strong className="text-pink-700">Choice:</strong> Ask{" "}
               {questions?.["opponent2"][0]} for {questions?.["opponent2"][1].id}
@@ -244,6 +302,25 @@ export default function Game() {
           </div>
           <div>
             <div className="text-slate-600 font-bold mb-2">You</div>
+            <div className="mb-2">
+              <div className="text-slate-600 mt-2">Strategy</div>
+              <select
+                className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                value={agentStrategies.player}
+                onChange={(e) =>
+                  updateSingleStrategy(
+                    "player",
+                    e.target.value as StrategyType
+                  )
+                }
+              >
+                {STRATEGIES.map((strategy) => (
+                  <option key={strategy} value={strategy}>
+                    {strategy}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div className="bg-pink-100 p-4 rounded-md text-sm text-pink-800">
               🧠 <strong className="text-pink-700">Choice:</strong> Ask{" "}
               {questions?.["player"][0]} for {questions?.["player"][1].id}

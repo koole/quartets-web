@@ -7,10 +7,10 @@ export const CARD_COLORS = [
   "yellow",
   "green",
   "blue",
-  "indigo",
   "purple",
   "pink",
-  "gray",
+  "slate",
+  "indigo",
 ];
 
 let CARD_LIST: Card[] = [];

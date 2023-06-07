@@ -1,174 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CARD_LIST, { CARD_COLORS, NUM_COLORS, NUM_NUMBERS } from "./cards";
-import {
-  AgentType,
-  Card,
-  CardStateInterface,
-  KnowledgeStateInterface,
-  QuestionStateInterface,
-  StrategyType,
-} from "./types";
+import { StrategyType } from "./types";
 import OpponentDisplay from "./OpponentDisplay";
 import PlayerDisplay from "./PlayerDisplay";
 import ChoicePicker from "./ChoicePicker";
-import getQuestion from "./strategies";
 
-const AGENTS: AgentType[] = ["player", "opponent1", "opponent2"];
-const STRATEGIES: StrategyType[] = ["random", "smart"];
+import GameEnvironment from "./GameEnvironment";
 
 export default function Game() {
-  const [turn, setTurn] = useState<AgentType>("player");
-  const [cards, setCards] = useState<CardStateInterface>({
-    player: {
-      cards: [],
-      suits: [],
-    },
-    opponent1: {
-      cards: [],
-      suits: [],
-    },
-    opponent2: {
-      cards: [],
-      suits: [],
-    },
-  });
-  const [hideOpponentCards, setHideOpponentCards] = useState<boolean>(true);
+  const gameEnvironment = useRef(new GameEnvironment());
 
-  const [knowledge, setKnowledge] = useState<KnowledgeStateInterface>({
-    player: {},
-    opponent1: {},
-    opponent2: {},
-  });
+  const [gameState, setGameState] = useState(gameEnvironment.current.state);
 
-  const [questions, setQuestions] = useState<QuestionStateInterface>();
-
-  const [agentStrategies, setAgentStrategies] = useState<{
-    player: StrategyType;
-    opponent1: StrategyType;
-    opponent2: StrategyType;
-  }>({
-    player: "smart",
-    opponent1: "random",
-    opponent2: "random",
-  });
-
+  // Add a callback using gameEnvironment.current.setGameStateCallback(). This returns a new state, which has to be passed to setGameState().
   useEffect(() => {
-    // Randomly distribute cards to 3 players
-    const shuffledCards = CARD_LIST.sort(() => 0.5 - Math.random());
-    const third = Math.floor(shuffledCards.length / 3);
+    function updateGameState(newState: any) {
+      setGameState((prevState) => ({ ...prevState, ...newState }));
+    }
 
-    let newCards: CardStateInterface = {
-      player: {
-        cards: shuffledCards.slice(0, third),
-        suits: [],
-      },
-      opponent1: {
-        cards: shuffledCards.slice(third, 2 * third),
-        suits: [],
-      },
-      opponent2: {
-        cards: shuffledCards.slice(2 * third),
-        suits: [],
-      },
-    };
-
-    // If any player has NUM_NUMBERS of the same color, remove all cards of that color from the current players hands, and add the color to the players suits
-    AGENTS.forEach((agent) => {
-      CARD_COLORS.forEach((color) => {
-        const cardsOfSameColor = newCards[agent].cards.filter(
-          (c) => c.color === color
-        );
-
-        if (cardsOfSameColor.length === NUM_NUMBERS) {
-          console.log(`${agent} has ${NUM_NUMBERS} ${color}s`);
-          newCards[agent].suits.push(color);
-          newCards[agent].cards = newCards[agent].cards.filter(
-            (c) => c.color !== color
-          );
-        }
-      });
-    });
-
-    setCards(newCards);
+    gameEnvironment.current.setGameStateCallback(updateGameState);
   }, []);
 
-  const askForCard = (
-    requestingAgent: AgentType,
-    receivingAgent: AgentType,
-    card: Card
-  ) => {
-    if (cards[receivingAgent].cards.includes(card)) {
-      const newCards = {
-        ...cards,
-        [receivingAgent]: {
-          cards: cards[receivingAgent].cards.filter((c) => c.id !== card.id),
-          suits: cards[receivingAgent].suits,
-        },
-        [requestingAgent]: {
-          cards: [...cards[requestingAgent].cards, card],
-          suits: cards[requestingAgent].suits,
-        },
-      };
-
-      // If the receiving agent has NUM_NUMBERS of the same color, remove all cards of that color from the requesting agents hand, and add the color to the receiving agents suits
-      const color = card.color;
-      const cardsOfSameColor = newCards[requestingAgent].cards.filter(
-        (c) => c.color === color
-      );
-
-      if (cardsOfSameColor.length === NUM_NUMBERS) {
-        newCards[requestingAgent].suits.push(color);
-        newCards[requestingAgent].cards = newCards[
-          requestingAgent
-        ].cards.filter((c) => c.color !== color);
-      }
-
-      setCards(newCards);
-    } else {
-      setTurn(receivingAgent);
-    }
-  };
-
-  useEffect(() => {
-    // For each agent, execute their strategy calculations
-    const newQuestions = {
-      player: getQuestion(
-        "player",
-        AGENTS,
-        agentStrategies.player,
-        cards,
-        CARD_LIST,
-        knowledge
-      ),
-      opponent1: getQuestion(
-        "opponent1",
-        AGENTS,
-        agentStrategies.opponent1,
-        cards,
-        CARD_LIST,
-        knowledge
-      ),
-      opponent2: getQuestion(
-        "opponent2",
-        AGENTS,
-        agentStrategies.opponent2,
-        cards,
-        CARD_LIST,
-        knowledge
-      ),
-    };
-    setQuestions(newQuestions);
-  }, [cards, knowledge, turn, agentStrategies]);
-
-  const updateSingleStrategy = (
-    agent: AgentType,
-    strategy: StrategyType
-  ): void => {
-    setAgentStrategies({
-      ...agentStrategies,
-      [agent]: strategy,
-    });
-  };
+  const [hideOpponentCards, setHideOpponentCards] = useState<boolean>(true);
 
   return (
     <div className="bg-white">
@@ -193,24 +46,24 @@ export default function Game() {
         <div className="grid grid-cols-3 gap-4 p-6 lg:px-8">
           <div>
             <OpponentDisplay
-              cards={cards.opponent1.cards}
-              suits={cards.opponent1.suits}
+              cards={gameState.opponent1.cards}
+              suits={gameState.opponent1.suits}
               name="Opponent 1"
               hide={hideOpponentCards}
             />
           </div>
           <div>
             <OpponentDisplay
-              cards={cards.opponent2.cards}
-              suits={cards.opponent2.suits}
+              cards={gameState.opponent2.cards}
+              suits={gameState.opponent2.suits}
               name="Opponent 2"
               hide={hideOpponentCards}
             />
           </div>
           <div>
             <PlayerDisplay
-              cards={cards.player.cards}
-              suits={cards.player.suits}
+              cards={gameState.player.cards}
+              suits={gameState.player.suits}
             />
           </div>
         </div>
@@ -222,15 +75,15 @@ export default function Game() {
               <div className="text-slate-600 mt-2">Strategy</div>
               <select
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                value={agentStrategies.opponent1}
+                value={gameState.opponent1.strategy}
                 onChange={(e) =>
-                  updateSingleStrategy(
+                  gameEnvironment.current.changeStrategy(
                     "opponent1",
                     e.target.value as StrategyType
                   )
                 }
               >
-                {STRATEGIES.map((strategy) => (
+                {gameEnvironment.current.strategies.map((strategy) => (
                   <option key={strategy} value={strategy}>
                     {strategy}
                   </option>
@@ -239,17 +92,18 @@ export default function Game() {
             </div>
             <div className="bg-pink-100 p-4 rounded-md text-sm text-pink-800">
               🧠 <strong className="text-pink-700">Choice:</strong> Ask{" "}
-              {questions?.["opponent1"][0]} for {questions?.["opponent1"][1].id}
+              {gameState.opponent1.question.agent} for{" "}
+              {gameState.opponent1.question.card?.id}
             </div>
-            {turn === "opponent1" && (
+            {gameState.turn === "opponent1" && (
               <div className="mt-4">
                 <button
                   className="bg-pink-700 text-white px-4 py-2 rounded-md"
                   onClick={() =>
-                    askForCard(
+                    gameEnvironment.current.askForCard(
                       "opponent1",
-                      questions?.["opponent1"][0],
-                      questions?.["opponent1"][1]
+                      gameState.opponent1.question.agent,
+                      gameState.opponent1.question.card
                     )
                   }
                 >
@@ -264,15 +118,15 @@ export default function Game() {
               <div className="text-slate-600 mt-2">Strategy</div>
               <select
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                value={agentStrategies.opponent2}
+                value={gameState.opponent2.strategy}
                 onChange={(e) =>
-                  updateSingleStrategy(
+                  gameEnvironment.current.changeStrategy(
                     "opponent2",
                     e.target.value as StrategyType
                   )
                 }
               >
-                {STRATEGIES.map((strategy) => (
+                {gameEnvironment.current.strategies.map((strategy) => (
                   <option key={strategy} value={strategy}>
                     {strategy}
                   </option>
@@ -281,17 +135,18 @@ export default function Game() {
             </div>
             <div className="bg-pink-100 p-4 rounded-md text-sm text-pink-800">
               🧠 <strong className="text-pink-700">Choice:</strong> Ask{" "}
-              {questions?.["opponent2"][0]} for {questions?.["opponent2"][1].id}
+              {gameState.opponent2.question.agent} for{" "}
+              {gameState.opponent2.question.card?.id}
             </div>
-            {turn === "opponent2" && (
+            {gameState.turn === "opponent2" && (
               <div className="mt-4">
                 <button
                   className="bg-pink-700 text-white px-4 py-2 rounded-md"
                   onClick={() =>
-                    askForCard(
+                    gameEnvironment.current.askForCard(
                       "opponent2",
-                      questions?.["opponent2"][0],
-                      questions?.["opponent2"][1]
+                      gameState.opponent2.question.agent,
+                      gameState.opponent2.question.card
                     )
                   }
                 >
@@ -306,15 +161,15 @@ export default function Game() {
               <div className="text-slate-600 mt-2">Strategy</div>
               <select
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                value={agentStrategies.player}
+                value={gameState.player.strategy}
                 onChange={(e) =>
-                  updateSingleStrategy(
+                  gameEnvironment.current.changeStrategy(
                     "player",
                     e.target.value as StrategyType
                   )
                 }
               >
-                {STRATEGIES.map((strategy) => (
+                {gameEnvironment.current.strategies.map((strategy) => (
                   <option key={strategy} value={strategy}>
                     {strategy}
                   </option>
@@ -323,17 +178,18 @@ export default function Game() {
             </div>
             <div className="bg-pink-100 p-4 rounded-md text-sm text-pink-800">
               🧠 <strong className="text-pink-700">Choice:</strong> Ask{" "}
-              {questions?.["player"][0]} for {questions?.["player"][1].id}
+              {gameState.player.question.agent} for{" "}
+              {gameState.player.question.card?.id}
             </div>
-            {turn === "player" && (
+            {gameState.turn === "player" && (
               <div className="mt-4">
                 <button
                   className="bg-pink-700 text-white px-4 py-2 rounded-md"
                   onClick={() =>
-                    askForCard(
+                    gameEnvironment.current.askForCard(
                       "player",
-                      questions?.["player"][0],
-                      questions?.["player"][1]
+                      gameState.player.question.agent,
+                      gameState.player.question.card
                     )
                   }
                 >
@@ -341,15 +197,16 @@ export default function Game() {
                 </button>
               </div>
             )}
-            {turn === "player" && (
+            {gameState.turn === "player" && (
               <>
                 <div className="text-slate-600 mt-4">Manual selection</div>
                 <div className="bg-slate-100 flex flex-row items-center justify-between mx-auto max-w-7xl p-4 rounded-md mt-4">
                   <ChoicePicker
-                    turn={turn}
-                    agents={AGENTS}
-                    cards={cards}
-                    askForCard={askForCard}
+                    turn={gameState.turn}
+                    agents={gameEnvironment.current.agents}
+                    askForCard={(p, a, c) => {
+                      gameEnvironment.current.askForCard(p, a, c);
+                    }}
                   />
                 </div>
               </>

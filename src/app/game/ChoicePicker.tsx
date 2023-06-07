@@ -5,12 +5,10 @@ import CARD_LIST from "./cards";
 export default function ChoicePicker({
   turn,
   agents,
-  cards,
   askForCard,
 }: {
   turn: AgentType;
   agents: AgentType[];
-  cards: CardStateInterface;
   askForCard: (
     requestingAgent: AgentType,
     receivingAgent: AgentType,

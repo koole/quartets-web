@@ -14,10 +14,4 @@ export type CardStateInterface = {
   };
 };
 
-export type KnowledgeStateInterface = {
-  [key in AgentType]: {};
-};
-
-export type QuestionStateInterface = {
-  [key in AgentType]: [AgentType, Card];
-};
+export type Knowledge = {}

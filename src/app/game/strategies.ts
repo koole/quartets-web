@@ -1,7 +1,8 @@
+import CARD_LIST from "./cards";
 import {
   AgentType,
   Card,
-  KnowledgeStateInterface,
+  Knowledge,
   CardStateInterface,
 } from "./types";
 
@@ -14,7 +15,7 @@ function getRandomQuestion(
   const randomAgent =
     otherAgents[Math.floor(Math.random() * otherAgents.length)];
 
-  const randomCard = cards[Math.floor(Math.random() * cards.length)];
+  const randomCard = CARD_LIST[Math.floor(Math.random() * cards.length)];
 
   return [randomAgent, randomCard];
 }
@@ -25,7 +26,7 @@ export default function getQuestion(
   strategy: string,
   cardState: CardStateInterface,
   cards: Card[],
-  knowledge: KnowledgeStateInterface
+  knowledge: Knowledge
 ): [AgentType, Card] {
   switch (strategy) {
     case "smart":

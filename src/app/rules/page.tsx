@@ -18,7 +18,7 @@ export default function Home() {
           To start the game, a player is randomly chosen to make the first move. They can ask another player for a specific card from a suite, provided that they already have a card from that suite in their hand. For example, if they have a card with the letter &quot;B&quot; on it, they can ask another player for the card &quot;3B.&quot;
           If the player being asked has the requested card, they must give it to the asking player, who then gets another turn to ask for a card. If the player being asked does not have the requested card, it becomes their turn to ask for a card.
           Whenever a player collects a full suite of four cards, known as a &quot;Quartet,&quot; they must place the suite face-up in front of them. The game continues until all the quartets have been formed. Once all the quartets have been created, the game ends, and the player with the most quartets is declared the winner.
-          It's important to note that Quartets has many variations to its rules, so the aforementioned rules are our interpretation of the game.
+          It&apos;s important to note that Quartets has many variations to its rules, so the aforementioned rules are our interpretation of the game.
           </p>
         </div>
       </div>

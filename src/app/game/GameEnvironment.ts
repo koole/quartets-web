@@ -99,6 +99,7 @@ export default class GameEnvironment {
         );
 
         if (cardsOfSameColor.length === NUM_NUMBERS) {
+          //@ts-ignore
           newState[agent].suits.push(color);
           newState[agent].cards = newState[agent].cards.filter(
             (c) => c.color !== color

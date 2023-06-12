@@ -4,7 +4,7 @@ import { AgentType, Card, Knowledge, StrategyType } from "./types";
 
 export default class GameEnvironment {
   agents: AgentType[] = ["player", "opponent1", "opponent2"];
-  strategies: StrategyType[] = ["random", "smart"];
+  strategies: StrategyType[] = ["random", "mostCards", "smart"];
   state: {
     autoPlaying: boolean;
     turn_count: number;

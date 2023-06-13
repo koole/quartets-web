@@ -320,6 +320,7 @@ export default function Game() {
                 <ChoicePicker
                   turn={gameState.turn}
                   agents={gameEnvironment.current.agents}
+                  allowedColors={gameState.player.cards.map((c) => c.color)}
                   askForCard={(p, a, c) => {
                     gameEnvironment.current.askForCard(p, a, c);
                   }}

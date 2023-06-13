@@ -6,6 +6,7 @@ export default function ChoicePicker({
   turn,
   agents,
   askForCard,
+  allowedColors
 }: {
   turn: AgentType;
   agents: AgentType[];
@@ -13,7 +14,8 @@ export default function ChoicePicker({
     requestingAgent: AgentType,
     receivingAgent: AgentType,
     card: Card
-  ) => void;
+    ) => void;
+  allowedColors: string[];
 }) {
   const [selectedAgent, setSelectedAgent] = useState<AgentType>(
     agents.filter((a) => a !== turn)[0]
@@ -59,7 +61,9 @@ export default function ChoicePicker({
           {CARD_LIST.sort(
             (a, b) => a.color.localeCompare(b.color) || a.number - b.number
           ).map((c) => (
-            <option key={c.id} value={c.id}>
+            <option key={c.id} value={c.id} disabled={
+              !allowedColors.includes(c.color) && allowedColors.length > 0
+            } >
               {c.color} {c.number}
             </option>
           ))}

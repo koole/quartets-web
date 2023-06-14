@@ -55,11 +55,11 @@ for (let player_i = 0; player_i < PLAYERS.length; player_i++) {
       );
       let player_3_hands: Hand[] = getPlayerHands(3, NEXT_NEXT_CARD_LIST);
       for (const player_3_hand of player_3_hands) {
-        let combination: Combination = {};
+        let combination: Partial<Combination> = {};
         combination[PLAYERS[(player_i + 1) % 3]] = player_1_hand;
         combination[PLAYERS[(player_i + 2) % 3]] = player_2_hand;
         combination[PLAYERS[(player_i + 3) % 3]] = player_3_hand;
-        COMBINATIONS.push(combination);
+        COMBINATIONS.push(combination as Combination);
       }
     }
   }

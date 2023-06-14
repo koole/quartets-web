@@ -17,13 +17,24 @@ export default function Home() {
             Application
           </h1>
           <p className="mt-6 text-xl leading-8">
-          For this project, an interactive web application was created using JavaScript to model a game of Quartets. 
-          This model includes the ability for a human player to play against two other AI opponents, or have three AI's play against each other. 
-          It is possible to change the strategies of the AI opponents if one wants to see how it feels to play against, or replicate the experiment with three AI's as done in the experiment section of this website.
+            For this project, an interactive web application was created using
+            JavaScript to model a game of Quartets. This model includes the
+            ability for a human player to play against two other AI opponents,
+            or have three AI's play against each other. It is possible to change
+            the strategies of the AI opponents if one wants to see how it feels
+            to play against, or replicate the experiment with three AI's as done
+            in the experiment section of this website.
           </p>
           <p className="mt-6">
-          This web application was built using Javascript without any additional dependencies. 
-          The full source code of the experiment can be found on GitHub at: LINK 
+            This web application was built using Javascript without any
+            additional dependencies. The full source code of the experiment can
+            be found on GitHub at:{" "}
+            <a
+              href="https://github.com/koole/quartets-web"
+              className="text-indigo-600 hover:text-indigo-500"
+            >
+              github.com/koole/quartets-web
+            </a>
           </p>
         </div>
       </div>

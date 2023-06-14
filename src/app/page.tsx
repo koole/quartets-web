@@ -6,6 +6,7 @@ import Navigation from '../components/Nav';
 import Game from './game/Game';
 import {
   ArrowRightCircleIcon,
+  ArrowRightIcon,
   PlayCircleIcon
 } from "@heroicons/react/20/solid";
 
@@ -35,6 +36,13 @@ export default function Home() {
               <span>
                 <strong className="font-semibold text-gray-900">Rules:</strong>{" "}
                 Describes the rules of the game and how those were adapted for our implementation of the game.
+                <a href="/rules" className="text-indigo-600 hover:text-indigo-500 flex">
+                  <ArrowRightIcon
+                    className="mt-1.5 h-4 w-4 flex-none text-indigo-600 mr-1"
+                    aria-hidden="true"
+                    />
+                  {" "}Read section
+                </a>
               </span>
             </li>
             <li className="flex gap-x-3">
@@ -45,6 +53,13 @@ export default function Home() {
               <span>
                 <strong className="font-semibold text-gray-900">Model:</strong>{" "}
                 Explains the way the model was created and displays a simple example of a game in terms of a Kripke model.
+                <a href="/model" className="text-indigo-600 hover:text-indigo-500 flex">
+                  <ArrowRightIcon
+                    className="mt-1.5 h-4 w-4 flex-none text-indigo-600 mr-1"
+                    aria-hidden="true"
+                    />
+                  {" "}Read section
+                </a>
               </span>
             </li>
             <li className="flex gap-x-3">
@@ -55,6 +70,13 @@ export default function Home() {
               <span>
                 <strong className="font-semibold text-gray-900">Application:</strong>{" "}
                 Shows details about the application and the way it was built.
+                <a href="/application" className="text-indigo-600 hover:text-indigo-500 flex">
+                  <ArrowRightIcon
+                    className="mt-1.5 h-4 w-4 flex-none text-indigo-600 mr-1"
+                    aria-hidden="true"
+                    />
+                  {" "}Read section
+                </a>
               </span>
             </li>
             <li className="flex gap-x-3">
@@ -66,6 +88,13 @@ export default function Home() {
                 <strong className="font-semibold text-gray-900">Experiment:</strong>{" "}
                 Here the research question is defined, together with the methods of the experiment and results
                 that were achieved.
+                <a href="/experiment" className="text-indigo-600 hover:text-indigo-500 flex">
+                  <ArrowRightIcon
+                    className="mt-1.5 h-4 w-4 flex-none text-indigo-600 mr-1"
+                    aria-hidden="true"
+                    />
+                  {" "}Read section
+                </a>
               </span>
             </li>
             <li className="flex gap-x-3">
@@ -76,6 +105,13 @@ export default function Home() {
               <span>
                 <strong className="font-semibold text-gray-900">Discussion:</strong>{" "}
                 This displays the discussion of the results of model and the experiment.
+                <a href="/discussion" className="text-indigo-600 hover:text-indigo-500 flex">
+                  <ArrowRightIcon
+                    className="mt-1.5 h-4 w-4 flex-none text-indigo-600 mr-1"
+                    aria-hidden="true"
+                    />
+                  {" "}Read section
+                </a>
               </span>
             </li>
             <li className="flex gap-x-3">
@@ -86,6 +122,13 @@ export default function Home() {
               <span>
                 <strong className="font-semibold text-gray-900">Play Game:</strong>{" "}
                 This is the implementation of the game which can be played.
+                <a href="/game" className="text-indigo-600 hover:text-indigo-500 flex">
+                  <ArrowRightIcon
+                    className="mt-1.5 h-4 w-4 flex-none text-indigo-600 mr-1"
+                    aria-hidden="true"
+                    />
+                  {" "}Play game
+                </a>
               </span>
             </li>
           </ul>

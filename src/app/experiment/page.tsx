@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <main className="">
       <Navigation />
-      <div className="bg-white px-6 py-32 lg:px-8">
+      <div className="bg-white px-6 py-32 lg:px-8 text-justify">
         <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
           <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Experiment
@@ -21,8 +21,22 @@ export default function Home() {
           </p>
           <div className="mt-10 max-w-2xl">
             <p>
-            In this experiment, all the agent strategies are are pitted against each other, as to answer the research question; which of the Kripke based model strategy performs best in the game of Quartets. 
-            We hypothesis that...            
+              In this experiment, all the agent strategies are compared to each other, in order to answer the following research question:
+              <br />
+              <span
+                className="special-text"
+                style={{
+                  display: 'block',
+                  textAlign: 'center',
+                  fontSize: '1.2rem',
+                  fontWeight: 'bold',
+                  marginTop: '1.5rem'
+                }}
+              >
+                Which of the Kripke based model strategy performs best in the game of Quartets?
+              </span>
+              <br />
+              We hypothesise that...
             </p>
 
             <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">

@@ -19,7 +19,7 @@ export default function Home() {
           <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Introduction
           </h1>
-          <p className="mt-6 text-xl leading-8">
+          <p className="mt-6 text-xl leading-8 text-justify">
           Quartets is a classic card game similar to the likes of Go Fish or Happy Families,
           where the ultimate objective is to collect as many full suites of four cards as possible. 
           This website is dedicated to describing Quartets in terms of modal epistemic logic using Kripke

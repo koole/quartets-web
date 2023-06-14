@@ -20,10 +20,11 @@ export default function Home() {
             Model
           </h1>
           <p className="mt-6 text-xl leading-8">
-            Aliquet nec orci mattis amet quisque ullamcorper neque, nibh sem. At
-            arcu, sit dui mi, nibh dui, diam eget aliquam. Quisque id at vitae
-            feugiat egestas ac. Diam nulla orci at in viverra scelerisque eget.
-            Eleifend egestas fringilla sapien.
+            The task of translating the game of Quartets to a Kripke model was extensive, as various states were
+            possible for each player in the game. With 24 cards present in the game, the number of 
+            combinations to be modelled increased significantly. Moreover, once a move is made throughout the game, the whole 
+            model had to be updated
+            
           </p>
           <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
             Common knowledge
@@ -41,8 +42,10 @@ export default function Home() {
                 aria-hidden="true"
               />
               <span>
-                <strong className="font-semibold text-gray-900">Rule 1.</strong>{" "}
-                Explain it here
+                <strong className="font-semibold text-gray-900"></strong>{" "}
+                In total, there are 24 cards which are divided into 6 different colours. For each colour, 
+                the cards are numbered from 0 to 3, and a player can have a quartet when all of those 4 numbers
+                of the same colour are collected.
               </span>
             </li>
             <li className="flex gap-x-3">
@@ -51,10 +54,31 @@ export default function Home() {
                 aria-hidden="true"
               />
               <span>
-                <strong className="font-semibold text-gray-900">
-                  More stuff
-                </strong>{" "}
-                Explain it here
+                <strong className="font-semibold text-gray-900"></strong>{" "}
+                It is common knowledge that when a card is not present in the player's own hand, then it 
+                means that one of the other players must have this card. 
+              </span>
+            </li>
+            <li className="flex gap-x-3">
+              <CheckCircleIcon
+                className="mt-1 h-5 w-5 flex-none text-indigo-600"
+                aria-hidden="true"
+              />
+              <span>
+                <strong className="font-semibold text-gray-900"></strong>{" "}
+                If a player does not place on the table four cards of the same colour, forming a quartet, then
+                it means that the specific player does not have a quartet in hand. 
+              </span>
+            </li>
+            <li className="flex gap-x-3">
+              <CheckCircleIcon
+                className="mt-1 h-5 w-5 flex-none text-indigo-600"
+                aria-hidden="true"
+              />
+              <span>
+                <strong className="font-semibold text-gray-900"></strong>{" "}
+                It is common knowledge that a player can only ask for a colour that is already present in the 
+                player's hand.
               </span>
             </li>
           </ul>
@@ -63,12 +87,7 @@ export default function Home() {
           </h2>
           <div className="mt-6 max-w-2xl">
             <p>
-              Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus
-              enim. Mattis mauris semper sed amet vitae sed turpis id. Id dolor
-              praesent donec est. Odio penatibus risus viverra tellus varius sit
-              neque erat velit. Faucibus commodo massa rhoncus, volutpat.
-              Dignissim sed eget risus enim. Mattis mauris semper sed amet vitae
-              sed turpis id.
+              In order to find the best strategy for the game of Quartets, we implemented the following ones:
             </p>
             <ul role="list" className="mt-8 max-w-xl space-y-8 text-gray-600">
               <li className="flex gap-x-3">
@@ -80,7 +99,9 @@ export default function Home() {
                   <strong className="font-semibold text-gray-900">
                     Random.
                   </strong>{" "}
-                  Just random
+                  The player can ask for a random card depending on the cards that are in its own hand. However,
+                  the random card that is selected still needs to follow the rules of the game. This means that 
+                  the colour needs to already be in the player's hand.
                 </span>
               </li>
               <li className="flex gap-x-3">

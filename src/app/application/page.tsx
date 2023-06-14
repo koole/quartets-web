@@ -21,12 +21,10 @@ export default function Home() {
           This model includes the ability for a human player to play against two other AI opponents, or have three AI's play against each other. 
           It is possible to change the strategies of the AI opponents if one wants to see how it feels to play against, or replicate the experiment with three AI's as done in the experiment section of this website.
           </p>
-
           <p className="mt-6 text-xl leading-8">
           This web application was built using Javascript without any additional dependencies. 
           The full source code of the experiment can be found on GitHub at: LINK 
           </p>
-
         </div>
       </div>
     </main>

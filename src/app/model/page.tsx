@@ -60,7 +60,7 @@ export default function Home() {
               />
               <span>
                 <strong className="font-semibold text-gray-900"></strong> It is
-                common knowledge that when a card is not present in the player's
+                common knowledge that when a card is not present in the player&apos;s
                 own hand, then it means that one of the other players must have
                 this card.
               </span>
@@ -85,7 +85,7 @@ export default function Home() {
               <span>
                 <strong className="font-semibold text-gray-900"></strong> It is
                 common knowledge that a player can only ask for a colour that is
-                already present in the player's hand.
+                already present in the player&apos;s hand.
               </span>
             </li>
           </ul>

@@ -1,41 +1,11 @@
 import CARD_LIST, { CARD_COLORS, NUM_NUMBERS } from "./cards";
 import getQuestion from "./strategies";
-import { AgentType, Card, Knowledge, StrategyType } from "./types";
+import { AgentType, Card, GameState, Knowledge, StrategyType } from "./types";
 
 export default class GameEnvironment {
   agents: AgentType[] = ["player", "opponent1", "opponent2"];
   strategies: StrategyType[] = ["random", "mostCards", "smart"];
-  state: {
-    autoPlaying: boolean;
-    turn_count: number;
-    turn: AgentType;
-    wins: {
-      player: number;
-      opponent1: number;
-      opponent2: number;
-    };
-    player: {
-      cards: Card[];
-      suits: string[];
-      knowledge: Knowledge;
-      strategy: string;
-      question: { agent: AgentType; card: Card };
-    };
-    opponent1: {
-      cards: Card[];
-      suits: string[];
-      knowledge: Knowledge;
-      strategy: string;
-      question: { agent: AgentType; card: Card };
-    };
-    opponent2: {
-      cards: Card[];
-      suits: string[];
-      knowledge: Knowledge;
-      strategy: string;
-      question: { agent: AgentType; card: Card };
-    };
-  };
+  state: GameState;
 
   stateCallback: (state: any) => void = (state) => console.log("Placeholder");
 

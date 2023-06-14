@@ -71,7 +71,7 @@ export default function Home() {
                     The player can ask for a random card depending on the cards
                     that are in its own hand. However, the random card that is
                     selected still needs to follow the rules of the game. This
-                    means that the colour needs to already be in the player's
+                    means that the colour needs to already be in the player&apos;s
                     hand.
                   </span>
                 </li>
@@ -103,7 +103,7 @@ export default function Home() {
                     secret from other agents. It does this by only asking for
                     cards colors it knows the other agents already know it has.
                     This way, the other agents gain no new knowledge about the
-                    agent's card colors.
+                    agent&apos;s card colors.
                   </span>
                 </li>
               </ul>

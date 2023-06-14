@@ -20,9 +20,9 @@ export default function Home() {
             For this project, an interactive web application was created using
             JavaScript to model a game of Quartets. This model includes the
             ability for a human player to play against two other AI opponents,
-            or have three AI's play against each other. It is possible to change
+            or have three AI&apos;s play against each other. It is possible to change
             the strategies of the AI opponents if one wants to see how it feels
-            to play against, or replicate the experiment with three AI's as done
+            to play against, or replicate the experiment with three AI&apos;s as done
             in the experiment section of this website.
           </p>
           <p className="mt-6">

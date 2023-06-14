@@ -7,7 +7,7 @@ const navigation = [
   { name: "Model", href: "/model" },
   { name: "Application", href: "/application" },
   { name: "Experiment", href: "/experiment" },
-  { name: "Conclusion", href: "/conclusion" },
+  { name: "Discussion", href: "/discussion" },
 ];
 
 export default function Navigation() {

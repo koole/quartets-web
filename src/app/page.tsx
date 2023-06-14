@@ -73,8 +73,8 @@ export default function Home() {
                 aria-hidden="true"
               />
               <span>
-                <strong className="font-semibold text-gray-900">Conclusion:</strong>{" "}
-                This displays the conclusions of the implementation and research.
+                <strong className="font-semibold text-gray-900">Discussion:</strong>{" "}
+                This displays the discussion of the results of model and the experiment.
               </span>
             </li>
             <li className="flex gap-x-3">

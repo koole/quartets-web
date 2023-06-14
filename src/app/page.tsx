@@ -25,6 +25,7 @@ export default function Home() {
           This website is dedicated to describing Quartets in terms of modal epistemic logic using Kripke
           models and offers a playable version of the game. This website is structured as
           follows:
+          </p>
           <ul role="list" className="mt-8 max-w-xl space-y-8 text-gray-600">
             <li className="flex gap-x-3">
               <ArrowRightCircleIcon
@@ -88,7 +89,6 @@ export default function Home() {
               </span>
             </li>
           </ul>
-          </p>
         </div>
       </div>
 

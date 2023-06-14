@@ -16,43 +16,44 @@ export default function Home() {
             Quartets is a dedicated deck card game consisting of 32 cards, divided into eight suites of four cards each.
             In the case of our implementation, we chose to use a simplified version of the game, with 6 different colours 
             for the cards, namely:
-            <ul className="list-disc list-inside">
+            <ul className="flex gap-3 my-3">
               <li>
-                <span className="inline-block w-4 h-4 mr-2 rounded" style={{ backgroundColor: 'red' }}></span>
-                red
+                <span className="inline-block w-4 h-4 mr-2 rounded bg-red-500"></span>
+                Red
               </li>
               <li>
-                <span className="inline-block w-4 h-4 mr-2 rounded" style={{ backgroundColor: 'yellow' }}></span>
-                yellow
+                <span className="inline-block w-4 h-4 mr-2 rounded bg-yellow-500"></span>
+                Yellow
               </li>
               <li>
-                <span className="inline-block w-4 h-4 mr-2 rounded" style={{ backgroundColor: 'green' }}></span>
-                green
+                <span className="inline-block w-4 h-4 mr-2 rounded bg-green-500"></span>
+                Green
               </li>
               <li>
-                <span className="inline-block w-4 h-4 mr-2 rounded" style={{ backgroundColor: 'blue' }}></span>
-                blue
+                <span className="inline-block w-4 h-4 mr-2 rounded bg-blue-500"></span>
+                Blue
               </li>
               <li>
-                <span className="inline-block w-4 h-4 mr-2 rounded" style={{ backgroundColor: 'purple' }}></span>
-                purple
+                <span className="inline-block w-4 h-4 mr-2 rounded bg-purple-500"></span>
+                Purple
               </li>
               <li>
-                <span className="inline-block w-4 h-4 mr-2 rounded" style={{ backgroundColor: 'pink' }}></span>
-                pink
+                <span className="inline-block w-4 h-4 mr-2 rounded bg-pink-500"></span>
+                Pink
               </li>
             </ul>
-
+          </p>
+          <p className="mt-6 text-justify">
             The game is played with three or more players, and the objective is to collect as many full suites of four cards
             as possible. In the current game, there are 3 players out of which two of them are the automated agents following
             a certain strategy. These strategies are further discussed on the Experiment page.
           </p>
-          <p className="mt-6 text-xl leading-8 text-justify">
+          <p className="mt-6 text-justify">
             At the beginning of the game, the deck of cards is shuffled, and each player is dealt an equal number of cards. 
             Players should keep their cards hidden from other players. To start the game, a player is randomly chosen to make the first move. 
             They can ask another player for a specific card from a suite, provided that they already have a card from that suite in their hand. 
           </p>
-          <p className="mt-6 text-xl leading-8 text-justify">
+          <p className="mt-6 text-justify">
             For example, if a player has a blue card in their hand with the number 1, then they can asl another player
             for the card blue 2.
             

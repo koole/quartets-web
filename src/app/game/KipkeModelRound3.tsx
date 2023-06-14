@@ -72,9 +72,9 @@ export default function KripkeModelRound3({}: {}) {
 
     dotPositions.forEach(({ x, y, combination }, i) => {
       ctx.beginPath();
-      ctx.fillStyle = "green";
-      ctx.strokeStyle = "green"
-      ctx.arc(x, y, dotRadius * 5, 0, 2 * Math.PI);
+      ctx.fillStyle = "#22c55d";
+      ctx.strokeStyle = "#22c55d"
+      ctx.arc(x, y, dotRadius * 7, 0, 2 * Math.PI);
       ctx.fill();
       ctx.stroke();
     });
@@ -97,7 +97,7 @@ export default function KripkeModelRound3({}: {}) {
       ctx.stroke();
     };
 
-    const PLAYER_COLORS = ["red", "green", "blue"];
+    const PLAYER_COLORS = ["#3c82f6", "#ef4444", "#22c55d"];
 
     // NEXT STATE: ALL PLAYERS HAVE LOOKED AT THEIR CARDS
     // opponent1: red1, blue1

@@ -57,7 +57,7 @@ export default function KripkeModelHidden({}: {}) {
       ctx.stroke();
     };
 
-    const PLAYER_COLORS = ["red", "green", "blue"];
+    const PLAYER_COLORS = ["#3c82f6", "#ef4444", "#22c55d"];
 
     // !INITIAL LINES: NOBODY LOOKED AT THEIR CARDS
     // For each player, draw a line between each combination where the hands contain the same two cards
@@ -87,9 +87,9 @@ export default function KripkeModelHidden({}: {}) {
         combination.player.includes("green-1") &&
         combination.player.includes("yellow-1")
       ) {
-        ctx.fillStyle = "green";
+        ctx.fillStyle = "#22c55d";
         ctx.strokeStyle = "white"
-        ctx.arc(x, y, dotRadius * 5, 0, 2 * Math.PI);
+        ctx.arc(x, y, dotRadius * 7, 0, 2 * Math.PI);
       } else {
         ctx.fillStyle = "black";
         ctx.strokeStyle = "black"

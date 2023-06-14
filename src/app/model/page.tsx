@@ -12,6 +12,7 @@ import KripkeModelStart from "../game/KipkeModelStart";
 import KripkeModelRound1 from "../game/KipkeModelRound1";
 import KripkeModelRound2 from "../game/KipkeModelRound2";
 import KripkeModelRound3 from "../game/KipkeModelRound3";
+import CardDisplay from "../game/CardDisplay";
 
 export default function Home() {
   return (
@@ -96,7 +97,52 @@ export default function Home() {
               Simplified model
             </h1>
             <p className="mt-6 text-xl leading-8">
-              Intro...
+              The true state, shown by the green dot <span className="inline-block w-3 h-3 bg-green-500 rounded-full"/> in each Kripke model,
+              is as follows:
+              <ul className="flex justify-around mt-6 mb-12">
+                <li>
+                  <strong>Player 1: </strong>
+                  <br />
+                  <div className="flex gap-3">
+                    <CardDisplay
+                      hide={false}
+                      card={{ color: "red", number: 0, id: "red-0" }}
+                    />
+                    <CardDisplay
+                      hide={false}
+                      card={{ color: "green", number: 0, id: "green-0" }}
+                    />
+                  </div>
+                </li>
+                <li>
+                  <strong>Player 2: </strong>
+                  <br />
+                  <div className="flex gap-3">
+                    <CardDisplay
+                      hide={false}
+                      card={{ color: "red", number: 1, id: "red-1" }}
+                    />
+                    <CardDisplay
+                      hide={false}
+                      card={{ color: "yellow", number: 0, id: "yellow-0" }}
+                    />
+                  </div>
+                </li>
+                <li>
+                  <strong>Player 3: </strong>
+                  <br />
+                  <div className="flex gap-3">
+                    <CardDisplay
+                      hide={false}
+                      card={{ color: "green", number: 1, id: "green-1" }}
+                    />
+                    <CardDisplay
+                      hide={false}
+                      card={{ color: "yellow", number: 1, id: "yellow-1" }}
+                    />
+                  </div>
+                </li>
+              </ul>
             </p>
             <h2 className="mt-2 text-2xl font-bold tracking-tight text-gray-900">
               Inital state

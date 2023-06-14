@@ -6,7 +6,7 @@ export default function ChoicePicker({
   turn,
   agents,
   askForCard,
-  allowedColors
+  allowedColors,
 }: {
   turn: AgentType;
   agents: AgentType[];
@@ -14,7 +14,7 @@ export default function ChoicePicker({
     requestingAgent: AgentType,
     receivingAgent: AgentType,
     card: Card
-    ) => void;
+  ) => void;
   allowedColors: string[];
 }) {
   const [selectedAgent, setSelectedAgent] = useState<AgentType>(
@@ -24,6 +24,19 @@ export default function ChoicePicker({
 
   const submitChoice = () => {
     askForCard(turn, selectedAgent, selectedCard);
+  };
+
+  const names: {
+    [key in AgentType]: string;
+  } = {
+    opponent1: "Abélard",
+    opponent2: "Héloïse",
+    player: "You",
+  };
+
+  // Function to convert first letter to uppercase
+  const capitalize = (s: string) => {
+    return s.charAt(0).toUpperCase() + s.slice(1);
   };
 
   return (
@@ -40,7 +53,7 @@ export default function ChoicePicker({
           {agents
             .filter((a) => a !== turn)
             .map((a) => (
-              <option key={a}>{a}</option>
+              <option key={a}>{names[a]}</option>
             ))}
         </select>
       </div>
@@ -61,10 +74,14 @@ export default function ChoicePicker({
           {CARD_LIST.sort(
             (a, b) => a.color.localeCompare(b.color) || a.number - b.number
           ).map((c) => (
-            <option key={c.id} value={c.id} disabled={
-              !allowedColors.includes(c.color) && allowedColors.length > 0
-            } >
-              {c.color} {c.number}
+            <option
+              key={c.id}
+              value={c.id}
+              disabled={
+                !allowedColors.includes(c.color) && allowedColors.length > 0
+              }
+            >
+              {capitalize(c.color)} {c.number}
             </option>
           ))}
         </select>

@@ -23,6 +23,12 @@ export default function ChoicePicker({
   const [selectedCard, setSelectedCard] = useState<Card>(CARD_LIST[0]);
 
   const submitChoice = () => {
+    console.log(selectedAgent)
+    const agentKey = agents.find((a) => names[a] === selectedAgent);
+    if (agentKey) {
+      console.log(agentKey)
+      askForCard(turn, agentKey, selectedCard);
+    } else
     askForCard(turn, selectedAgent, selectedCard);
   };
 

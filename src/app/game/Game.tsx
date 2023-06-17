@@ -97,12 +97,12 @@ export default function Game() {
         <div className="flex flex-row items-center justify-between mx-auto max-w-7xl p-6 lg:px-8">
           <div className="flex flex-row">
             <div className="mr-2 text-slate-700 font-bold">Turn:</div>
-            <div className="mr-6">{gameState.turn_count}</div>
+            <div className="mr-6 text-black">{gameState.turn_count}</div>
             <div className="mr-2 text-slate-700 font-bold">Wins:</div>
             <div className="flex flex-row items-center justify-center">
-              <div className="mr-2">You: {gameState.wins.player}</div>
-              <div className="mr-2">Abélard: {gameState.wins.opponent1}</div>
-              <div className="mr-2">Héloïse: {gameState.wins.opponent2}</div>
+              <div className="mr-2 text-black">You: {gameState.wins.player}</div>
+              <div className="mr-2 text-black">Abélard: {gameState.wins.opponent1}</div>
+              <div className="mr-2 text-black">Héloïse: {gameState.wins.opponent2}</div>
             </div>
           </div>
           <div>

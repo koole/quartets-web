@@ -13,22 +13,31 @@ export interface GameState {
   player: {
     cards: Card[];
     suits: string[];
-    knowledge: Knowledge;
     strategy: string;
+    common: {
+      cards: Card[];
+      suits: string[];
+    }
     question: { agent: AgentType; card: Card };
   };
   opponent1: {
     cards: Card[];
     suits: string[];
-    knowledge: Knowledge;
     strategy: string;
+    common: {
+      cards: Card[];
+      suits: string[];
+    }
     question: { agent: AgentType; card: Card };
   };
   opponent2: {
     cards: Card[];
     suits: string[];
-    knowledge: Knowledge;
     strategy: string;
+    common: {
+      cards: Card[];
+      suits: string[];
+    }
     question: { agent: AgentType; card: Card };
   };
 }
@@ -44,5 +53,3 @@ export type CardStateInterface = {
     suits: string[];
   };
 };
-
-export type Knowledge = {};

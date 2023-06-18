@@ -1,6 +1,6 @@
 import CARD_LIST, { CARD_COLORS, NUM_NUMBERS } from "./cards";
 import getQuestion from "./strategies";
-import { AgentType, Card, GameState, Knowledge, StrategyType } from "./types";
+import { AgentType, Card, GameState, StrategyType } from "./types";
 
 export default class GameEnvironment {
   agents: AgentType[] = ["player", "opponent1", "opponent2"];
@@ -34,6 +34,10 @@ export default class GameEnvironment {
         suits: [],
         knowledge: {},
         strategy: "random",
+        common: {
+          cards: [],
+          suits: ["red"],
+        },
         question: {
           agent: this.agents[1],
           card: CARD_LIST[0],
@@ -44,6 +48,10 @@ export default class GameEnvironment {
         suits: [],
         knowledge: {},
         strategy: "random",
+        common: {
+          cards: [],
+          suits: ["green"],
+        },
         question: {
           agent: this.agents[0],
           card: CARD_LIST[0],
@@ -54,6 +62,10 @@ export default class GameEnvironment {
         suits: [],
         knowledge: {},
         strategy: "random",
+        common: {
+          cards: [],
+          suits: ["blue"],
+        },
         question: {
           agent: this.agents[0],
           card: CARD_LIST[0],
@@ -91,8 +103,7 @@ export default class GameEnvironment {
       this.agents,
       this.state[currentAgent].strategy,
       this.state,
-      this.state[currentAgent].cards,
-      this.state[currentAgent].knowledge
+      this.state[currentAgent].cards
     );
 
     this.state[currentAgent].question = { agent, card };

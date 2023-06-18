@@ -1,8 +1,10 @@
 import CARD_LIST, { CARD_COLORS, NUM_NUMBERS } from "./cards";
+import { GameState } from "./types";
+
+
 import {
   AgentType,
   Card,
-  Knowledge,
   CardStateInterface,
 } from "./types";
 
@@ -86,17 +88,51 @@ function getMostCards(
   return [randomAgent, randomCard!];
 }
 
+// the guarded strategy, the agent will attempt to hide the colours it holds by not making it common knowledge.
+function guarded(
+  currentAgent: AgentType, 
+  agents: AgentType[], 
+  cards: Card[],
+  state: GameState
+  ): [AgentType, Card]{
+    console.log(currentAgent + " is guarding")
+
+    // attempt to find a card from advertised suits
+    let advertised_suits = state[currentAgent].common.suits;
+    for (let i = 0; i < advertised_suits.length; i++) {
+      for (let j = 0; j < cards.length; j++) {
+        if (advertised_suits[i] === cards[j].color) { // Check if the card color matches the advertised suit
+          const otherAgents = agents.filter((agent) => agent !== currentAgent);
+          const randomAgent = otherAgents[Math.floor(Math.random() * otherAgents.length)];
+    
+          // Ask for a suit and number that isn't guarded or held
+          const target_suit = CARD_LIST.filter((card) => card.color === cards[j].color);
+          let card = target_suit.find((card) => !cards.includes(card));
+    
+          if (card) {
+            console.log("Selected card:", card);
+            return [randomAgent, card];
+          }
+        }
+      }
+    }
+    
+    // defaults to random
+    console.log("default to random")
+    let [agent, card] = getRandomQuestion(currentAgent, agents, cards);
+    return [agent, card];
+  }
+
 export default function getQuestion(
   currentAgent: AgentType,
   agents: AgentType[],
   strategy: string,
-  cardState: CardStateInterface,
+  state: GameState,
   cards: Card[],
-  knowledge: Knowledge
 ): [AgentType, Card] {
   switch (strategy) {
     case "smart":
-      console.log("Not implemented yet")
+      return guarded(currentAgent, agents, cards, state)
     case "mostCards":
       return getMostCards(currentAgent, agents, cards);
     case "random":

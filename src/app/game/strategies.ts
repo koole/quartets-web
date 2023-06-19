@@ -12,7 +12,21 @@ function getRandomQuestion(
   const randomAgent =
     otherAgents[Math.floor(Math.random() * otherAgents.length)];
 
-  const randomCard = CARD_LIST[Math.floor(Math.random() * cards.length)];
+  // Only ask about colors that are held, or all colors if no cards are held
+  let allowed_to_ask = [];
+  if (cards.length > 0) {
+    const held_colors = cards.map((card) => card.color);
+    allowed_to_ask = CARD_LIST.filter((card) => held_colors.includes(card.color));
+  } else {
+    allowed_to_ask = CARD_LIST;
+  }
+
+  // Only ask about cards that are not already held
+  const held_ids = cards.map((card) => card.id);
+  const will_ask = allowed_to_ask.filter((card) => !held_ids.includes(card.id));
+
+  // Randomly select a card from the remaining cards
+  const randomCard = will_ask[Math.floor(Math.random() * will_ask.length)];
 
   return [randomAgent, randomCard];
 }

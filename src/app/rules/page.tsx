@@ -51,10 +51,10 @@ export default function Home() {
           <p className="mt-6 text-justify">
             At the beginning of the game, the deck of cards is shuffled, and each player is dealt an equal number of cards. 
             Players should keep their cards hidden from other players. To start the game, a player is randomly chosen to make the first move. 
-            They can ask another player for a specific card from a suite, provided that they already have a card from that suite in their hand. 
+            They can ask another player for a specific card from a suite, provided that they already have a card from that suite in their hand. Players can not ask for a card that they already have in their hand.
           </p>
           <p className="mt-6 text-justify">
-            For example, if a player has a blue card in their hand with the number 1, then they can asl another player
+            For example, if a player has a blue card in their hand with the number 1, then they can ask another player
             for the card blue 2.
             
             

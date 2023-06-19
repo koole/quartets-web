@@ -6,7 +6,7 @@ export default function ChoicePicker({
   turn,
   agents,
   askForCard,
-  allowedColors,
+  heldCards,
 }: {
   turn: AgentType;
   agents: AgentType[];
@@ -15,7 +15,7 @@ export default function ChoicePicker({
     receivingAgent: AgentType,
     card: Card
   ) => void;
-  allowedColors: string[];
+  heldCards: Card[];
 }) {
   const [selectedAgent, setSelectedAgent] = useState<AgentType>(
     agents.filter((a) => a !== turn)[0]
@@ -38,6 +38,23 @@ export default function ChoicePicker({
   const capitalize = (s: string) => {
     return s.charAt(0).toUpperCase() + s.slice(1);
   };
+
+  // Determine which cards are allowed to be asked for
+  let allowed_to_ask = [];
+  if (heldCards.length > 0) {
+    const held_colors = heldCards.map((card) => card.color);
+    allowed_to_ask = CARD_LIST.filter((card) =>
+      held_colors.includes(card.color)
+    );
+  } else {
+    allowed_to_ask = CARD_LIST;
+  }
+
+  // Only ask about heldCards that are not already held
+  const held_ids = heldCards.map((card) => card.id);
+  const will_ask = allowed_to_ask
+    .filter((card) => !held_ids.includes(card.id))
+    .map((card) => card.id);
 
   return (
     <div className="flex gap-4">
@@ -76,13 +93,7 @@ export default function ChoicePicker({
           {CARD_LIST.sort(
             (a, b) => a.color.localeCompare(b.color) || a.number - b.number
           ).map((c) => (
-            <option
-              key={c.id}
-              value={c.id}
-              disabled={
-                !allowedColors.includes(c.color) && allowedColors.length > 0
-              }
-            >
+            <option key={c.id} value={c.id} disabled={!will_ask.includes(c.id)}>
               {capitalize(c.color)} {c.number}
             </option>
           ))}

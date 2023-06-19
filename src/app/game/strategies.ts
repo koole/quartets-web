@@ -19,7 +19,11 @@ function getRandomQuestion(
     allowed_to_ask = CARD_LIST.filter((card) => held_colors.includes(card.color));
   } else {
     allowed_to_ask = CARD_LIST;
+    // TODO: Fix case where no cards are held, because agent will also ask about
+    // cards that are in suits. It does not filter these out yet, but it should know
+    // not to ask about them.
   }
+  
 
   // Only ask about cards that are not already held
   const held_ids = cards.map((card) => card.id);

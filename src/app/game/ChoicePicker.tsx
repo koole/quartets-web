@@ -23,12 +23,6 @@ export default function ChoicePicker({
   const [selectedCard, setSelectedCard] = useState<Card>(CARD_LIST[0]);
 
   const submitChoice = () => {
-    console.log(selectedAgent)
-    const agentKey = agents.find((a) => names[a] === selectedAgent);
-    if (agentKey) {
-      console.log(agentKey)
-      askForCard(turn, agentKey, selectedCard);
-    } else
     askForCard(turn, selectedAgent, selectedCard);
   };
 
@@ -59,7 +53,9 @@ export default function ChoicePicker({
           {agents
             .filter((a) => a !== turn)
             .map((a) => (
-              <option key={a}>{names[a]}</option>
+              <option key={a} value={a}>
+                {names[a]}
+              </option>
             ))}
         </select>
       </div>

@@ -23,9 +23,11 @@ export default class GameEnvironment {
     opponent1: number;
     opponent2: number;
   }) {
+    // Shuffle cards and deal to players
     const shuffledCards = CARD_LIST.sort(() => 0.5 - Math.random());
     const third = Math.floor(shuffledCards.length / 3);
 
+    // Create an initial starting state
     let newState = {
       autoPlaying: false,
       turn_count: 0,
@@ -36,7 +38,7 @@ export default class GameEnvironment {
         strategy: "random",
         common: {
           cards: [],
-          suits: ["red"],
+          suits: [],
         },
         question: {
           agent: this.agents[1],
@@ -50,7 +52,7 @@ export default class GameEnvironment {
         strategy: "random",
         common: {
           cards: [],
-          suits: ["green"],
+          suits: [],
         },
         question: {
           agent: this.agents[0],
@@ -64,7 +66,7 @@ export default class GameEnvironment {
         strategy: "random",
         common: {
           cards: [],
-          suits: ["blue"],
+          suits: [],
         },
         question: {
           agent: this.agents[0],
@@ -73,7 +75,8 @@ export default class GameEnvironment {
       },
     };
 
-    // If any player has NUM_NUMBERS of the same color, remove all cards of that color from the current players hands, and add the color to the players suits
+    // If any player has NUM_NUMBERS of the same color, remove all cards of that color
+    // from the current players hands, and add the color to the players suits
     this.agents.forEach((agent) => {
       CARD_COLORS.forEach((color) => {
         const cardsOfSameColor = newState[agent].cards.filter(
@@ -90,6 +93,8 @@ export default class GameEnvironment {
       });
     });
 
+    // TODO: Update knowledge for all agents about the suits of other agents
+
     return {
       wins: wins,
       turn: this.agents[0],
@@ -98,13 +103,7 @@ export default class GameEnvironment {
   }
 
   updateQuestion(currentAgent: AgentType) {
-    const [agent, card] = getQuestion(
-      currentAgent,
-      this.agents,
-      this.state[currentAgent].strategy,
-      this.state,
-      this.state[currentAgent].cards
-    );
+    const [agent, card] = getQuestion(currentAgent, this.agents, this.state);
 
     this.state[currentAgent].question = { agent, card };
   }
@@ -126,37 +125,53 @@ export default class GameEnvironment {
   askForCard(
     requestingAgent: AgentType,
     receivingAgent: AgentType,
-    card: Card,
+    card: Card
   ) {
+    // Requesting agent asks receiving agent for card
     console.info(
       `${requestingAgent} asked ${receivingAgent} for ${card.number} ${card.color}`
     );
+
     if (this.state[receivingAgent].cards.includes(card)) {
+      // Receiving agent has card
       console.info(`${receivingAgent} had ${card.number} ${card.color}`);
+
+      // Move card from receiving agent to requesting agent
       const newState = {
         ...this.state,
         [receivingAgent]: {
           ...this.state[receivingAgent],
+          // Remove card from receiving agents hand
           cards: this.state[receivingAgent].cards.filter(
             (c) => c.id !== card.id
           ),
-          suits: this.state[receivingAgent].suits,
         },
         [requestingAgent]: {
-          ...this.state[receivingAgent],
+          ...this.state[requestingAgent],
+          // Add card to requesting agents hand
           cards: [...this.state[requestingAgent].cards, card],
-          suits: this.state[requestingAgent].suits,
         },
       };
 
-      // If the receiving agent has NUM_NUMBERS of the same color, remove all cards of that color from the requesting agents hand, and add the color to the receiving agents suits
+      // Check for suits
+      // If the receiving agent has NUM_NUMBERS of the same color, remove all cards of
+      // that color from the requesting agents hand, and add the color to the receiving agents suits
+
+      // Count number of cards of the color of the card that was just received
       const color = card.color;
       const cardsOfSameColor = newState[requestingAgent].cards.filter(
         (c) => c.color === color
       );
 
+      // If the number of cards of the same color is NUM_NUMBERS...
       if (cardsOfSameColor.length === NUM_NUMBERS) {
+        console.info(
+          `${requestingAgent} has ${NUM_NUMBERS} ${color} cards, so ${color} is added to their suits`
+        );
+
+        // ...add the color to the suits of the receiving agent.
         newState[requestingAgent].suits.push(color);
+        // Remove all cards of the this color from the requesting agents hand
         newState[requestingAgent].cards = newState[
           requestingAgent
         ].cards.filter((c) => c.color !== color);
@@ -169,29 +184,40 @@ export default class GameEnvironment {
         newState.opponent2.cards.length === 0
       ) {
         console.info("Game over");
-        // Find agent with most suits
+
+        // Find agent with most suits and declare winner
         const winner = this.agents.reduce((a, b) =>
           newState[a].suits.length > newState[b].suits.length ? a : b
         );
         console.info(`${winner} wins!`);
         newState.wins[winner] += 1;
+
+        // Reset game, keeping track of wins
         this.state = this.createEnvironment(newState.wins);
       } else {
+        // If game is not over, update turn
         this.state = newState;
       }
     } else {
+      // Receiving agent does not have card, so turn goes to receiving agent
       console.info(
         `${receivingAgent} did not have ${card.number} ${card.color}`
       );
       console.info(`Turn goes to ${receivingAgent}`);
       this.state.turn = receivingAgent;
     }
+
     this.state.turn_count += 1;
+
+    // Update question for all agents, this shows in the pink box on the UI.
+    // This is done here, as agents can now update their questions based on the new state
+    // using their specific strategies.
     this.updateQuestionForAllAgents();
 
+    // Update UI
     this.callback();
 
-    if(this.state.turn !== "player" && this.state.autoPlaying === false) {
+    if (this.state.turn !== "player" && this.state.autoPlaying === false) {
       setTimeout(() => {
         this.autoStep();
       }, 1000);
@@ -230,7 +256,7 @@ export default class GameEnvironment {
     this.state.autoPlaying = false;
     this.callback();
 
-    if(this.state.turn !== "player") {
+    if (this.state.turn !== "player") {
       setTimeout(() => {
         this.autoStep();
       }, 1000);

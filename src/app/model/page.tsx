@@ -1,17 +1,15 @@
 "use client";
 
-import Image from "next/image";
 import Navigation from "../../components/Nav";
 import {
   CheckCircleIcon,
-  InformationCircleIcon,
 } from "@heroicons/react/20/solid";
 
-import KripkeModelHidden from "../game/KipkeModelHidden";
-import KripkeModelStart from "../game/KipkeModelStart";
-import KripkeModelRound1 from "../game/KipkeModelRound1";
-import KripkeModelRound2 from "../game/KipkeModelRound2";
-import KripkeModelRound3 from "../game/KipkeModelRound3";
+import KripkeModelHidden from "./KipkeModelHidden";
+import KripkeModelStart from "./KipkeModelStart";
+import KripkeModelRound1 from "./KipkeModelRound1";
+import KripkeModelRound2 from "./KipkeModelRound2";
+import KripkeModelRound3 from "./KipkeModelRound3";
 import CardDisplay from "../game/CardDisplay";
 
 export default function Home() {

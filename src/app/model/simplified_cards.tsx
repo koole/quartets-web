@@ -1,5 +1,5 @@
-import { CARD_COLORS } from "./cards";
-import { Card } from "./types";
+import { CARD_COLORS } from "../game/cards";
+import { Card } from "../game/types";
 
 const SIMPLIFIED_NUM_COLORS = 3;
 const SIMPLIFIED_NUM_NUMBERS = 2;

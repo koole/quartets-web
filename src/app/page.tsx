@@ -1,9 +1,5 @@
-"use client";
-
-import Image from 'next/image'
 import Header from '../components/Header'
 import Navigation from '../components/Nav';
-import Game from './game/Game';
 import {
   ArrowRightCircleIcon,
   ArrowRightIcon,

@@ -161,6 +161,7 @@ export default function Home() {
             <br />
             <div>
               <ul className="flex justify-around mt-6 mb-12 rounded-md bg-slate-100 py-12">
+              <b>True state</b>
                 <li>
                   <strong>Player 1: </strong>
                   <br />
@@ -217,6 +218,7 @@ export default function Home() {
             <br />
             <div>
               <ul className="flex justify-around mt-6 mb-12 rounded-md bg-slate-100 py-12">
+              <b>True state</b>
                 <li>
                   <strong>Player 1: </strong>
                   <br />
@@ -345,6 +347,7 @@ export default function Home() {
             <br />
             <div>
               <ul className="flex justify-around mt-6 mb-12 rounded-md bg-slate-100 py-12">
+              <b>True state</b>
                 <li>
                   <strong>Player 1: </strong>
                   <br />
@@ -482,6 +485,7 @@ export default function Home() {
             having a Green Suite. This results in the true state: <br />
             <div>
               <ul className="flex justify-around mt-6 mb-12 rounded-md bg-slate-100 py-12">
+              <b>True state</b>
                 <li>
                   <strong>Player 1: </strong>
                   <br />

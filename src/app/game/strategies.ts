@@ -149,6 +149,12 @@ export default function getQuestion(
   const cards = state[currentAgent].cards;
   const strategy = state[currentAgent].strategy;
 
+  console.warn("-o-")
+  console.warn(state)
+  console.warn("Current agent:", currentAgent);
+  console.warn("Strategy:", strategy);
+  console.warn("-x-")
+
   switch (strategy) {
     case "smart":
       return guarded(currentAgent, agents, cards, state);

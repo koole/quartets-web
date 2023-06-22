@@ -50,8 +50,10 @@ const agentSentences = [
   "Agent is analyzing the game from multiple angles",
 ];
 
+const env = new GameEnvironment();
+
 export default function Game() {
-  const gameEnvironment = useRef(new GameEnvironment());
+  const gameEnvironment = useRef(env);
 
   const [gameState, setGameState] = useState(gameEnvironment.current.state);
   const [agentSentence, setAgentSentence] = useState<string>(
@@ -76,14 +78,32 @@ export default function Game() {
 
   const tailwind_heatmap = [
     "bg-red-500",
+    "bg-red-500",
+    "bg-red-400",
     "bg-red-400",
     "bg-red-300",
+    "bg-red-300",
+    "bg-red-200",
     "bg-red-200",
     "bg-red-100",
+    "bg-red-100",
+    "bg-green-100",
+    "bg-green-100",
+    "bg-green-100",
     "bg-green-100",
     "bg-green-200",
+    "bg-green-200",
+    "bg-green-200",
+    "bg-green-300",
     "bg-green-300",
     "bg-green-400",
+    "bg-green-400",
+    "bg-green-400",
+    "bg-green-500",
+    "bg-green-500",
+    "bg-green-500",
+    "bg-green-500",
+    "bg-green-500",
     "bg-green-500",
   ];
 
@@ -209,7 +229,7 @@ export default function Game() {
         <div className="grid grid-cols-3 gap-4 p-6 lg:px-8">
           <div>
             <div className="mb-2">
-              <div className="text-slate-600 mt-2">Strategy</div>
+              <div className="text-slate-600 mt-2">Strategy: {gameState.opponent1.strategy}</div>
               <select
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 value={gameState.opponent1.strategy}
@@ -261,7 +281,7 @@ export default function Game() {
           </div>
           <div>
             <div className="mb-2">
-              <div className="text-slate-600 mt-2">Strategy</div>
+              <div className="text-slate-600 mt-2">Strategy: {gameState.opponent2.strategy}</div>
               <select
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 value={gameState.opponent2.strategy}
@@ -313,7 +333,7 @@ export default function Game() {
           </div>
           <div>
             <div className="mb-2">
-              <div className="text-slate-600 mt-2">Strategy</div>
+              <div className="text-slate-600 mt-2">Strategy: {gameState.player.strategy}</div>
               <select
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 value={gameState.player.strategy}
@@ -425,8 +445,8 @@ export default function Game() {
                     // Calculate index based on percentage
                     let color = "gray-100";
                     if (percentage !== null) {
-                      const index = Math.floor(
-                        percentage / tailwind_heatmap.length
+                      const index = Math.round(
+                        (percentage / 100) * (tailwind_heatmap.length - 1)
                       );
                       // Get the color from the array
                       color = tailwind_heatmap[index];

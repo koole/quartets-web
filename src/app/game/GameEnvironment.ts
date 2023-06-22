@@ -22,6 +22,13 @@ export default class GameEnvironment {
       opponent1: 0,
       opponent2: 0,
     });
+
+    if (this.state.turn !== "player") {
+      setTimeout(() => {
+        this.autoStep();
+      }, 1000);
+    }
+
     this.updateQuestionForAllAgents();
   }
 
@@ -123,13 +130,13 @@ export default class GameEnvironment {
     // Create an initial starting state
     let newState = {
       autoPlaying: this.state?.autoPlaying || false,
-      turn: this.agents[0], // Always give the first turn to the player
+      turn: this.agents[Math.floor(Math.random() * 3)],
       turn_count: 0,
       results: this.state?.results || results,
       player: {
         cards: shuffledCards.slice(0, third),
         suits: [],
-        strategy: this.state?.player?.strategy || "random",
+        strategy: this.state?.player.strategy || "random",
         question: {
           agent: this.agents[1],
           card: CARD_LIST[0],
@@ -138,7 +145,7 @@ export default class GameEnvironment {
       opponent1: {
         cards: shuffledCards.slice(third, 2 * third),
         suits: [],
-        strategy: this.state?.opponent1?.strategy || "random",
+        strategy: this.state?.opponent1.strategy || "random",
         question: {
           agent: this.agents[0],
           card: CARD_LIST[0],
@@ -147,7 +154,7 @@ export default class GameEnvironment {
       opponent2: {
         cards: shuffledCards.slice(2 * third),
         suits: [],
-        strategy: this.state?.opponent2?.strategy || "random",
+        strategy: this.state?.opponent2.strategy || "random",
         question: {
           agent: this.agents[0],
           card: CARD_LIST[0],

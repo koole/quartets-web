@@ -17,6 +17,8 @@ export interface GameState {
     common: {
       cards: Card[];
       suits: string[];
+      ncards: Card[];
+      nsuits: string[];
     }
     question: { agent: AgentType; card: Card };
   };
@@ -27,6 +29,8 @@ export interface GameState {
     common: {
       cards: Card[];
       suits: string[];
+      ncards: Card[];
+      nsuits: string[];
     }
     question: { agent: AgentType; card: Card };
   };
@@ -37,6 +41,8 @@ export interface GameState {
     common: {
       cards: Card[];
       suits: string[];
+      ncards: Card[];
+      nsuits: string[];
     }
     question: { agent: AgentType; card: Card };
   };

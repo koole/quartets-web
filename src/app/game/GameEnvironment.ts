@@ -39,6 +39,8 @@ export default class GameEnvironment {
         common: {
           cards: [],
           suits: [],
+          ncards: [],
+          nsuits: []
         },
         question: {
           agent: this.agents[1],
@@ -53,6 +55,8 @@ export default class GameEnvironment {
         common: {
           cards: [],
           suits: [],
+          ncards: [],
+          nsuits: []
         },
         question: {
           agent: this.agents[0],
@@ -67,6 +71,8 @@ export default class GameEnvironment {
         common: {
           cards: [],
           suits: [],
+          ncards: [],
+          nsuits: []
         },
         question: {
           agent: this.agents[0],

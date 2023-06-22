@@ -1,3 +1,4 @@
+import { HandThumbDownIcon } from "@heroicons/react/24/outline";
 import CARD_LIST, { CARD_COLORS, NUM_NUMBERS } from "./cards";
 import getQuestion from "./strategies";
 import { AgentType, Card, GameState, StrategyType } from "./types";
@@ -39,8 +40,6 @@ export default class GameEnvironment {
         question: {
           agent: this.agents[1],
           card: CARD_LIST[0],
-          not_cards: [],
-          not_suits: []
         },
       },
       opponent1: {
@@ -50,8 +49,6 @@ export default class GameEnvironment {
         question: {
           agent: this.agents[0],
           card: CARD_LIST[0],
-          not_cards: [],
-          not_suits: []
         },
       },
       opponent2: {
@@ -61,22 +58,26 @@ export default class GameEnvironment {
         question: {
           agent: this.agents[0],
           card: CARD_LIST[0],
-          not_cards: [],
-          not_suits: []
         },
       },
       common: {
         player: {
           cards: [],
           suits: [],
+          not_cards: [],
+          not_suits: []
         },
         opponent1: {
           cards: [],
           suits: [],
+          not_cards: [],
+          not_suits: []
         },
         opponent2: {
           cards: [],
           suits: [],
+          not_cards: [],
+          not_suits: []
         },
       },
     };
@@ -141,6 +142,11 @@ export default class GameEnvironment {
       // Receiving agent has card
       console.info(`${receivingAgent} had ${card.number} ${card.color}`);
 
+      // annoucement of cards and suits
+      console.log(`ANNOUCEMENT: Suit ${card.color} and Card ${card.id}`)
+      this.state.common[requestingAgent].suits.push(card.color)
+      this.state.common[requestingAgent].cards.push(card)
+
       // Move card from receiving agent to requesting agent
       const newState = {
         ...this.state,
@@ -155,6 +161,23 @@ export default class GameEnvironment {
           ...this.state[requestingAgent],
           // Add card to requesting agents hand
           cards: [...this.state[requestingAgent].cards, card],
+        },
+
+        // for updating the common knowledge
+        common:{
+          ...this.state.common,
+          // remove the suit from target agent common knowledge
+          [receivingAgent]: {
+            suits: this.state.common[receivingAgent].suits.filter(color => {
+              return this.state.common[receivingAgent].suits.findIndex(
+                (suit) => suit !== color
+              )
+            }),
+            // remove the card from target agent common knowledge
+            cards: this.state.common[receivingAgent].cards.filter(
+              (c) => c.id !== card.id
+            ),
+          },
         },
       };
 
@@ -178,6 +201,14 @@ export default class GameEnvironment {
         newState[requestingAgent].suits.push(color);
         // Remove all cards of the this color from the requesting agents hand
         newState[requestingAgent].cards = newState[
+          requestingAgent
+        ].cards.filter((c) => c.color !== color);
+
+        // remove the cards and suits from the common knowledge
+        newState.common[requestingAgent].suits = newState[
+          requestingAgent
+        ].suits.filter((s) => s !== color);
+        newState.common[requestingAgent].cards = newState[
           requestingAgent
         ].cards.filter((c) => c.color !== color);
       }

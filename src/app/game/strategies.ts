@@ -128,6 +128,7 @@ function guarded(
 
         if (card) {
           console.log("Selected card:", card);
+          console.log(`${currentAgent} advertises ${state.common[currentAgent].suits}`)
           return [randomAgent, card];
         }
       }

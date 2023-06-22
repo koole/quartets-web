@@ -14,8 +14,8 @@ export interface GameState {
     [key in AgentType]: {
       cards: Card[];
       suits: string[];
-      not_cards: [],
-      not_suits: []
+      not_cards: string[],
+      not_suits: string[]
     };
   };
   player: {

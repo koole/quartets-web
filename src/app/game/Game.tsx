@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import CARD_LIST, { CARD_COLORS, NUM_COLORS, NUM_NUMBERS } from "./cards";
-import { StrategyType } from "./types";
+import { StrategyComboType, StrategyType } from "./types";
 import OpponentDisplay from "./OpponentDisplay";
 import PlayerDisplay from "./PlayerDisplay";
 import ChoicePicker from "./ChoicePicker";
@@ -72,6 +72,21 @@ export default function Game() {
 
   const [hideOpponentCards, setHideOpponentCards] = useState<boolean>(true);
 
+  // Create array with colors for heatmap, ordered by color, from red to gray to green
+
+  const tailwind_heatmap = [
+    "bg-red-500",
+    "bg-red-400",
+    "bg-red-300",
+    "bg-red-200",
+    "bg-red-100",
+    "bg-green-100",
+    "bg-green-200",
+    "bg-green-300",
+    "bg-green-400",
+    "bg-green-500",
+  ];
+
   return (
     <div className="bg-white">
       {/* Toolbar with gray background */}
@@ -100,9 +115,15 @@ export default function Game() {
             <div className="mr-6 text-black">{gameState.turn_count}</div>
             <div className="mr-2 text-slate-700 font-bold">Wins:</div>
             <div className="flex flex-row items-center justify-center">
-              <div className="mr-2 text-black">You: {gameState.wins.player}</div>
-              <div className="mr-2 text-black">Abélard: {gameState.wins.opponent1}</div>
-              <div className="mr-2 text-black">Héloïse: {gameState.wins.opponent2}</div>
+              <div className="mr-2 text-black">
+                You: {gameState.wins.player}
+              </div>
+              <div className="mr-2 text-black">
+                Abélard: {gameState.wins.opponent1}
+              </div>
+              <div className="mr-2 text-black">
+                Héloïse: {gameState.wins.opponent2}
+              </div>
             </div>
           </div>
           <div>
@@ -315,20 +336,115 @@ export default function Game() {
               {gameState.player.question.agent} for{" "}
               {gameState.player.question.card?.id}
             </div>
-            {gameState.turn === "player" && (
-              <div className="bg-slate-100 flex flex-row items-center justify-between mx-auto max-w-7xl p-4 rounded-md mt-2">
-                <ChoicePicker
-                  turn={gameState.turn}
-                  agents={gameEnvironment.current.agents}
-                  heldCards={gameState.player.cards}
-                  askForCard={(p, a, c) => {
-                    gameEnvironment.current.askForCard(p, a, c);
-                  }}
-                />
-              </div>
-            )}
+            <div
+              className={`bg-slate-100 flex flex-row items-center justify-between mx-auto max-w-7xl p-4 rounded-md mt-2 ${
+                gameState.turn !== "player"
+                  ? "opacity-20 pointer-events-none"
+                  : ""
+              }`}
+            >
+              <ChoicePicker
+                turn={gameState.turn}
+                agents={gameEnvironment.current.agents}
+                heldCards={gameState.player.cards}
+                askForCard={(p, a, c) => {
+                  gameEnvironment.current.askForCard(p, a, c);
+                }}
+              />
+            </div>
           </div>
         </div>
+      </div>
+
+      <div className="mt-8 mx-auto max-w-7xl p-6">
+        <div className="text-slate-600 mt-2">Results</div>
+        <table className="min-w-full divide-y divide-gray-300">
+          <thead>
+            <tr>
+              <th
+                scope="col"
+                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+              >
+                Strategy
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Random & Random
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Random & Most Cards
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Random & Smart
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Most Cards & Most Cards
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Most Cards & Smart
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Smart & Smart
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {gameEnvironment.current.strategies.map((strategy) => (
+              <tr key={strategy}>
+                <td className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                  {strategy}
+                </td>
+                {/* Loop over object keys of strategy */}
+                {Object.entries(gameState.results[strategy]).map(
+                  ([key, value]) => {
+                    let percentage: number | null =
+                      Math.round(
+                        (value.wins / (value.wins + value.losses)) * 100
+                      ) || 0;
+                    if (value.wins === 0 && value.losses === 0) {
+                      percentage = null;
+                    }
+                    // Get the color for the bar based on the percentage from tailwind_heatmap array
+                    // Calculate index based on percentage
+                    let color = "gray-100";
+                    if (percentage !== null) {
+                      const index = Math.floor(
+                        percentage / tailwind_heatmap.length
+                      );
+                      // Get the color from the array
+                      color = tailwind_heatmap[index];
+                    }
+                    return (
+                      <td
+                        className={`px-3 py-3.5 text-left text-sm font-semibold text-gray-900 ${color}`}
+                        key={`${strategy}-${key}`}
+                      >
+                        {percentage === null ? "-" : `${percentage}%`}
+                      </td>
+                    );
+                  }
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

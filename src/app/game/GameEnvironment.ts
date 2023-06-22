@@ -298,10 +298,10 @@ export default class GameEnvironment {
         ].cards.filter((c) => c.color !== color);
 
         // remove the cards and suits from the common knowledge
-        newState.common[requestingAgent].suits = newState[
+        newState.common[requestingAgent].suits = newState.common[
           requestingAgent
         ].suits.filter((s) => s !== color);
-        newState.common[requestingAgent].cards = newState[
+        newState.common[requestingAgent].cards = newState.common[
           requestingAgent
         ].cards.filter((c) => c.color !== color);
       }

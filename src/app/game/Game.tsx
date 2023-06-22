@@ -86,7 +86,7 @@ export default function Game() {
     "bg-red-200",
     "bg-red-200",
     "bg-red-100",
-    "bg-red-100",
+    "bg-yellow-100",
     "bg-green-100",
     "bg-green-100",
     "bg-green-100",

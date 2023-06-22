@@ -325,9 +325,7 @@ export default class GameEnvironment {
         const winner = this.agents.reduce((a, b) =>
           newState[a].suits.length > newState[b].suits.length ? a : b
         );
-        console.warn(`${winner} wins!`);
-        console.warn(newState);
-        console.warn("----")
+
         console.info(`${winner} wins!`);
         newState.wins[winner] += 1;
 

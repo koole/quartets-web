@@ -1,7 +1,13 @@
 import { HandThumbDownIcon } from "@heroicons/react/24/outline";
 import CARD_LIST, { CARD_COLORS, NUM_NUMBERS } from "./cards";
 import getQuestion from "./strategies";
-import { AgentType, Card, GameState, StrategyType } from "./types";
+import {
+  AgentType,
+  Card,
+  GameState,
+  StrategyComboType,
+  StrategyType,
+} from "./types";
 
 export default class GameEnvironment {
   agents: AgentType[] = ["player", "opponent1", "opponent2"];
@@ -28,11 +34,98 @@ export default class GameEnvironment {
     const shuffledCards = CARD_LIST.sort(() => 0.5 - Math.random());
     const third = Math.floor(shuffledCards.length / 3);
 
+    // Load results from local storage
+    let results = JSON.parse(localStorage.getItem("results") || "null");
+    // If there are no results, create an empty object
+    if (!results) {
+      results = {
+        random: {
+          "random-random": {
+            wins: 0,
+            losses: 0,
+          },
+          "random-mostCards": {
+            wins: 0,
+            losses: 0,
+          },
+          "random-smart": {
+            wins: 0,
+            losses: 0,
+          },
+          "mostCards-mostCards": {
+            wins: 0,
+            losses: 0,
+          },
+          "mostCards-smart": {
+            wins: 0,
+            losses: 0,
+          },
+          "smart-smart": {
+            wins: 0,
+            losses: 0,
+          },
+        },
+        mostCards: {
+          "random-random": {
+            wins: 0,
+            losses: 0,
+          },
+          "random-mostCards": {
+            wins: 0,
+            losses: 0,
+          },
+          "random-smart": {
+            wins: 0,
+            losses: 0,
+          },
+          "mostCards-mostCards": {
+            wins: 0,
+            losses: 0,
+          },
+          "mostCards-smart": {
+            wins: 0,
+            losses: 0,
+          },
+          "smart-smart": {
+            wins: 0,
+            losses: 0,
+          },
+        },
+        smart: {
+          "random-random": {
+            wins: 0,
+            losses: 0,
+          },
+          "random-mostCards": {
+            wins: 0,
+            losses: 0,
+          },
+          "random-smart": {
+            wins: 0,
+            losses: 0,
+          },
+          "mostCards-mostCards": {
+            wins: 0,
+            losses: 0,
+          },
+          "mostCards-smart": {
+            wins: 0,
+            losses: 0,
+          },
+          "smart-smart": {
+            wins: 0,
+            losses: 0,
+          },
+        },
+      };
+    }
+
     // Create an initial starting state
     let newState = {
       autoPlaying: this.state?.autoPlaying || false,
       turn: this.agents[0], // Always give the first turn to the player
       turn_count: 0,
+      results: this.state?.results || results,
       player: {
         cards: shuffledCards.slice(0, third),
         suits: [],
@@ -54,7 +147,7 @@ export default class GameEnvironment {
       opponent2: {
         cards: shuffledCards.slice(2 * third),
         suits: [],
-        strategy: this.state?.opponent1?.strategy || "random",
+        strategy: this.state?.opponent2?.strategy || "random",
         question: {
           agent: this.agents[0],
           card: CARD_LIST[0],
@@ -225,8 +318,48 @@ export default class GameEnvironment {
         const winner = this.agents.reduce((a, b) =>
           newState[a].suits.length > newState[b].suits.length ? a : b
         );
+        console.warn(`${winner} wins!`);
+        console.warn(newState);
+        console.warn("----")
         console.info(`${winner} wins!`);
         newState.wins[winner] += 1;
+
+        // Update results for all agents
+        this.agents.forEach((agent) => {
+          const resultsObject =
+            newState.results[newState[agent].strategy as StrategyType];
+          // Get the strategies of the other two agents
+          const otherAgents = this.agents.filter((a) => a !== agent);
+          // Get the strategy of the agent that won
+          const strategy1 = newState[otherAgents[0]].strategy as StrategyType;
+          const strategy2 = newState[otherAgents[1]].strategy as StrategyType;
+          const strategyCombo =
+            `${strategy1}-${strategy2}` as StrategyComboType;
+          const strategyCombo2 =
+            `${strategy2}-${strategy1}` as StrategyComboType;
+
+          // If strategyCombo key exists
+          if (resultsObject[strategyCombo]) {
+            if (agent === winner) {
+              resultsObject[strategyCombo].wins += 1;
+            } else {
+              resultsObject[strategyCombo].losses += 1;
+            }
+          }
+          if (
+            strategyCombo !== strategyCombo2 &&
+            resultsObject[strategyCombo2]
+          ) {
+            if (agent === winner) {
+              resultsObject[strategyCombo2].wins += 1;
+            } else {
+              resultsObject[strategyCombo2].losses += 1;
+            }
+          }
+        });
+
+        // Store results in local storage
+        localStorage.setItem("results", JSON.stringify(newState.results));
 
         // Reset game, keeping track of wins
         this.state = this.createEnvironment(newState.wins);

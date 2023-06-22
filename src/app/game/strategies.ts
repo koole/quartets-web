@@ -111,7 +111,7 @@ function guarded(
   console.log(currentAgent + " is guarding");
 
   // attempt to find a card from advertised suits
-  let advertised_suits = state[currentAgent].common.suits;
+  let advertised_suits = state.common[currentAgent].suits;
   for (let i = 0; i < advertised_suits.length; i++) {
     for (let j = 0; j < cards.length; j++) {
       if (advertised_suits[i] === cards[j].color) {

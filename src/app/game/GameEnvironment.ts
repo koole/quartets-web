@@ -29,54 +29,54 @@ export default class GameEnvironment {
 
     // Create an initial starting state
     let newState = {
-      autoPlaying: false,
+      autoPlaying: this.state?.autoPlaying || false,
+      turn: this.agents[0], // Always give the first turn to the player
       turn_count: 0,
       player: {
         cards: shuffledCards.slice(0, third),
         suits: [],
-        knowledge: {},
-        strategy: "random",
-        common: {
-          cards: [],
-          suits: [],
-          ncards: [],
-          nsuits: []
-        },
+        strategy: this.state?.player?.strategy || "random",
         question: {
           agent: this.agents[1],
           card: CARD_LIST[0],
+          not_cards: [],
+          not_suits: []
         },
       },
       opponent1: {
         cards: shuffledCards.slice(third, 2 * third),
         suits: [],
-        knowledge: {},
-        strategy: "random",
-        common: {
-          cards: [],
-          suits: [],
-          ncards: [],
-          nsuits: []
-        },
+        strategy: this.state?.opponent1?.strategy || "random",
         question: {
           agent: this.agents[0],
           card: CARD_LIST[0],
+          not_cards: [],
+          not_suits: []
         },
       },
       opponent2: {
         cards: shuffledCards.slice(2 * third),
         suits: [],
-        knowledge: {},
-        strategy: "random",
-        common: {
-          cards: [],
-          suits: [],
-          ncards: [],
-          nsuits: []
-        },
+        strategy: this.state?.opponent1?.strategy || "random",
         question: {
           agent: this.agents[0],
           card: CARD_LIST[0],
+          not_cards: [],
+          not_suits: []
+        },
+      },
+      common: {
+        player: {
+          cards: [],
+          suits: [],
+        },
+        opponent1: {
+          cards: [],
+          suits: [],
+        },
+        opponent2: {
+          cards: [],
+          suits: [],
         },
       },
     };
@@ -102,9 +102,8 @@ export default class GameEnvironment {
     // TODO: Update knowledge for all agents about the suits of other agents
 
     return {
-      wins: wins,
-      turn: this.agents[0],
       ...newState,
+      wins: wins,
     };
   }
 

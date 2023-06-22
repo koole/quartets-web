@@ -10,40 +10,30 @@ export interface GameState {
     opponent1: number;
     opponent2: number;
   };
+  common: {
+    [key in AgentType]: {
+      cards: Card[];
+      suits: string[];
+      not_cards: [],
+      not_suits: []
+    };
+  };
   player: {
     cards: Card[];
     suits: string[];
     strategy: string;
-    common: {
-      cards: Card[];
-      suits: string[];
-      ncards: Card[];
-      nsuits: string[];
-    }
     question: { agent: AgentType; card: Card };
   };
   opponent1: {
     cards: Card[];
     suits: string[];
     strategy: string;
-    common: {
-      cards: Card[];
-      suits: string[];
-      ncards: Card[];
-      nsuits: string[];
-    }
     question: { agent: AgentType; card: Card };
   };
   opponent2: {
     cards: Card[];
     suits: string[];
     strategy: string;
-    common: {
-      cards: Card[];
-      suits: string[];
-      ncards: Card[];
-      nsuits: string[];
-    }
     question: { agent: AgentType; card: Card };
   };
 }

@@ -103,33 +103,44 @@ function getMostCards(
 
 // the guarded strategy, the agent will attempt to hide the colours it holds by not making it common knowledge.
 function guarded(
-  currentAgent: AgentType,
+  active_agent: AgentType,
   agents: AgentType[],
   cards: Card[],
   state: GameState
 ): [AgentType, Card] {
-  console.log(currentAgent + " is guarding");
+  console.log(active_agent + " is guarding");
 
   // attempt to find a card from advertised suits
-  let advertised_suits = state.common[currentAgent].suits;
+  let advertised_suits = state.common[active_agent].suits;
   for (let i = 0; i < advertised_suits.length; i++) {
     for (let j = 0; j < cards.length; j++) {
       if (advertised_suits[i] === cards[j].color) {
         // Check if the card color matches the advertised suit
-        const otherAgents = agents.filter((agent) => agent !== currentAgent);
-        const randomAgent =
-          otherAgents[Math.floor(Math.random() * otherAgents.length)];
+        const otherAgents = agents.filter((agent) => agent !== active_agent);
+        let index = Math.floor(Math.random() * otherAgents.length)
+        const randomAgent = otherAgents[index];
 
-        // Ask for a suit and number that isn't guarded or held
-        const target_suit = CARD_LIST.filter(
-          (card) => card.color === cards[j].color
+        // Ask for a suit and number that isn't guarded or held, or is known not to be in the hand of the target
+        let target_suit = CARD_LIST.filter(
+          (card) => card.color === cards[j].color && !state.common[randomAgent].not_cards.includes(card.id)
         );
         let card = target_suit.find((card) => !cards.includes(card));
 
+        // check the other agent
+        if(!card){
+          index = index === 0 ? 1 : 0;
+          let target = otherAgents[index];
+
+          target_suit = CARD_LIST.filter(
+            (card) => card.color === cards[j].color && !state.common[target].not_cards.includes(card.id)
+          );
+          card = target_suit.find((card) => !cards.includes(card));
+        }
+
         if (card) {
           console.log("Selected card:", card);
-          console.log(`${currentAgent} advertises ${state.common[currentAgent].suits}`)
-          console.log(`${currentAgent} advertises neg ${state.common[currentAgent].not_suits}`)
+          console.log(`${active_agent} advertises ${state.common[active_agent].suits}`)
+          console.log(`${active_agent} advertises neg ${state.common[active_agent].not_suits}`)
           return [randomAgent, card];
         }
       }
@@ -138,7 +149,7 @@ function guarded(
 
   // defaults to random
   console.log("default to random");
-  let [agent, card] = getRandomQuestion(currentAgent, agents, cards);
+  let [agent, card] = getRandomQuestion(active_agent, agents, cards);
   return [agent, card];
 }
 

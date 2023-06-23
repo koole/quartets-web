@@ -34,9 +34,9 @@ export type GameState = {
   };
   common: {
     [key in AgentType]: {
-      cards: Card[];
+      cards: string[];
       suits: string[];
-      not_cards: Card[];
+      not_cards: string[];
       not_suits: string[];
     };
   };

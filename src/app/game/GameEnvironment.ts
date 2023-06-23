@@ -10,7 +10,7 @@ import {
 } from "./types";
 
 export default class GameEnvironment {
-  agents: AgentType[] = ["player", "opponent1", "opponent2"];
+  agents: AgentType[] = ["player", "abelard", "heloise"];
   strategies: StrategyType[] = ["random", "mostCards", "smart"];
   state: GameState;
 
@@ -19,8 +19,8 @@ export default class GameEnvironment {
   constructor() {
     this.state = this.createEnvironment({
       player: 0,
-      opponent1: 0,
-      opponent2: 0,
+      abelard: 0,
+      heloise: 0,
     });
 
     if (this.state.turn !== "player") {
@@ -34,8 +34,8 @@ export default class GameEnvironment {
 
   createEnvironment(wins: {
     player: number;
-    opponent1: number;
-    opponent2: number;
+    abelard: number;
+    heloise: number;
   }) {
     // Shuffle cards and deal to players
     const shuffledCards = CARD_LIST.sort(() => 0.5 - Math.random());
@@ -142,19 +142,19 @@ export default class GameEnvironment {
           card: CARD_LIST[0],
         },
       },
-      opponent1: {
+      abelard: {
         cards: shuffledCards.slice(third, 2 * third),
         suits: [],
-        strategy: this.state?.opponent1.strategy || "random",
+        strategy: this.state?.abelard.strategy || "random",
         question: {
           agent: this.agents[0],
           card: CARD_LIST[0],
         },
       },
-      opponent2: {
+      heloise: {
         cards: shuffledCards.slice(2 * third),
         suits: [],
-        strategy: this.state?.opponent2.strategy || "random",
+        strategy: this.state?.heloise.strategy || "random",
         question: {
           agent: this.agents[0],
           card: CARD_LIST[0],
@@ -167,13 +167,13 @@ export default class GameEnvironment {
           not_cards: [],
           not_suits: []
         },
-        opponent1: {
+        abelard: {
           cards: [],
           suits: [],
           not_cards: [],
           not_suits: []
         },
-        opponent2: {
+        heloise: {
           cards: [],
           suits: [],
           not_cards: [],
@@ -295,15 +295,15 @@ export default class GameEnvironment {
 
         // no one has this suit in their hand anymore
         newState.common.player.not_suits.push(color)
-        newState.common.opponent1.not_suits.push(color)
-        newState.common.opponent2.not_suits.push(color)
+        newState.common.abelard.not_suits.push(color)
+        newState.common.heloise.not_suits.push(color)
       }
 
       // If no cards left in all players hands, game is over
       if (
         newState.player.cards.length === 0 &&
-        newState.opponent1.cards.length === 0 &&
-        newState.opponent2.cards.length === 0
+        newState.abelard.cards.length === 0 &&
+        newState.heloise.cards.length === 0
       ) {
         console.info("Game over");
 

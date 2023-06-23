@@ -80,10 +80,10 @@ export default function KripkeModelHidden({}: {}) {
     dotPositions.forEach(({ x, y, combination }, i) => {
       ctx.beginPath();
       if (
-        combination.opponent1.includes("red-0") &&
-        combination.opponent1.includes("green-0") &&
-        combination.opponent2.includes("red-1") &&
-        combination.opponent2.includes("yellow-0") &&
+        combination.abelard.includes("red-0") &&
+        combination.abelard.includes("green-0") &&
+        combination.heloise.includes("red-1") &&
+        combination.heloise.includes("yellow-0") &&
         combination.player.includes("green-1") &&
         combination.player.includes("yellow-1")
       ) {

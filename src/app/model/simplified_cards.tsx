@@ -20,9 +20,9 @@ for (let i = 0; i < SIMPLIFIED_NUM_COLORS; i++) {
 
 // Calculate all possible combinations where the cards are divided into three hands.
 type Hand = Card["id"][];
-const PLAYERS: ("opponent1" | "opponent2" | "player")[] = [
-  "opponent1",
-  "opponent2",
+const PLAYERS: ("abelard" | "heloise" | "player")[] = [
+  "abelard",
+  "heloise",
   "player",
 ];
 type Combination = {

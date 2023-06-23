@@ -28,19 +28,19 @@ export default function KripkeModelRound2({}: {}) {
 
     const filtered_combinations = COMBINATIONS.filter((combination) => {
       return (
-        ((combination.opponent1.includes("red-0") &&
-          combination.opponent1.includes("green-0")) ||
-          (combination.opponent2.includes("red-1") &&
-            combination.opponent2.includes("yellow-0")) ||
+        ((combination.abelard.includes("red-0") &&
+          combination.abelard.includes("green-0")) ||
+          (combination.heloise.includes("red-1") &&
+            combination.heloise.includes("yellow-0")) ||
           (combination.player.includes("green-1") &&
             combination.player.includes("yellow-1"))) &&
         // Round 1
-        !combination.opponent2.includes("green-1") &&
+        !combination.heloise.includes("green-1") &&
         combination.player.includes("green-1") &&
-        combination.opponent1.includes("green-0") &&
+        combination.abelard.includes("green-0") &&
         // Round 2
-        !combination.opponent1.includes("yellow-1") &&
-        combination.opponent2.includes("yellow-0") &&
+        !combination.abelard.includes("yellow-1") &&
+        combination.heloise.includes("yellow-0") &&
         combination.player.includes("yellow-1")
       );
     });
@@ -76,8 +76,8 @@ export default function KripkeModelRound2({}: {}) {
 
     // NEXT STATE: ALL PLAYERS HAVE LOOKED AT THEIR CARDS
     const knownCards = {
-      opponent1: ["red-0", "green-0"],
-      opponent2: ["red-1", "yellow-0"],
+      abelard: ["red-0", "green-0"],
+      heloise: ["red-1", "yellow-0"],
       player: ["green-1", "yellow-1"],
     };
     PLAYERS.forEach((player, player_i) => {
@@ -101,10 +101,10 @@ export default function KripkeModelRound2({}: {}) {
     dotPositions.forEach(({ x, y, combination }, i) => {
       ctx.beginPath();
       if (
-        combination.opponent1.includes("red-0") &&
-        combination.opponent1.includes("green-0") &&
-        combination.opponent2.includes("red-1") &&
-        combination.opponent2.includes("yellow-0") &&
+        combination.abelard.includes("red-0") &&
+        combination.abelard.includes("green-0") &&
+        combination.heloise.includes("red-1") &&
+        combination.heloise.includes("yellow-0") &&
         combination.player.includes("green-1") &&
         combination.player.includes("yellow-1")
       ) {

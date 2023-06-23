@@ -1,4 +1,4 @@
-export type AgentType = "player" | "opponent1" | "opponent2";
+export type AgentType = "player" | "abelard" | "heloise";
 export type StrategyType = "random" | "mostCards" | "smart";
 export type StrategyComboType =
   | "random-random"
@@ -21,8 +21,8 @@ export type GameState = {
   turn: AgentType;
   wins: {
     player: number;
-    opponent1: number;
-    opponent2: number;
+    abelard: number;
+    heloise: number;
   };
   results: {
     [key in StrategyType]: {

@@ -29,8 +29,8 @@ export default function ChoicePicker({
   const names: {
     [key in AgentType]: string;
   } = {
-    opponent1: "Abélard",
-    opponent2: "Héloïse",
+    abelard: "Abélard",
+    heloise: "Héloïse",
     player: "You",
   };
 

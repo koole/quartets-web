@@ -29,31 +29,31 @@ export default function KripkeModelRound3({}: {}) {
     let filtered_combinations = [
       ...COMBINATIONS,
       {
-        opponent1: ["red-0"],
-        opponent2: ["red-1", "yellow-0"],
+        abelard: ["red-0"],
+        heloise: ["red-1", "yellow-0"],
         player: ["yellow-1"],
       },
     ];
 
     filtered_combinations = filtered_combinations.filter((combination) => {
       return (
-        (combination.opponent1.includes("red-0") ||
-          (combination.opponent2.includes("red-1") &&
-            combination.opponent2.includes("yellow-0")) ||
+        (combination.abelard.includes("red-0") ||
+          (combination.heloise.includes("red-1") &&
+            combination.heloise.includes("yellow-0")) ||
           combination.player.includes("yellow-1")) &&
         // Round 1
-        // !combination.opponent2.includes("green-1") &&
+        // !combination.heloise.includes("green-1") &&
         // combination.player.includes("green-1") &&
-        // combination.opponent1.includes("green-0") &&
+        // combination.abelard.includes("green-0") &&
         // Round 2
-        !combination.opponent1.includes("yellow-1") &&
-        combination.opponent2.includes("yellow-0") &&
+        !combination.abelard.includes("yellow-1") &&
+        combination.heloise.includes("yellow-0") &&
         combination.player.includes("yellow-1") &&
         // Round 3
-        !combination.opponent1.includes("green-0") &&
-        !combination.opponent1.includes("green-1") &&
-        !combination.opponent2.includes("green-0") &&
-        !combination.opponent2.includes("green-1") &&
+        !combination.abelard.includes("green-0") &&
+        !combination.abelard.includes("green-1") &&
+        !combination.heloise.includes("green-0") &&
+        !combination.heloise.includes("green-1") &&
         !combination.player.includes("green-0") &&
         !combination.player.includes("green-1")
       );
@@ -100,12 +100,12 @@ export default function KripkeModelRound3({}: {}) {
     const PLAYER_COLORS = ["#3c82f6", "#ef4444", "#22c55d"];
 
     // NEXT STATE: ALL PLAYERS HAVE LOOKED AT THEIR CARDS
-    // opponent1: red1, blue1
-    // opponent2: red2, yellow1
+    // abelard: red1, blue1
+    // heloise: red2, yellow1
     // player: blue2, yellow2
     const knownCards = {
-      opponent1: ["red-0", "green-0"],
-      opponent2: ["red-1", "yellow-0"],
+      abelard: ["red-0", "green-0"],
+      heloise: ["red-1", "yellow-0"],
       player: ["green-1", "yellow-1"],
     };
     PLAYERS.forEach((player, player_i) => {

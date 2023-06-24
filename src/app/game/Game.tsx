@@ -6,17 +6,29 @@ import { StrategyComboType, StrategyType } from "./types";
 import OpponentDisplay from "./OpponentDisplay";
 import PlayerDisplay from "./PlayerDisplay";
 import ChoicePicker from "./ChoicePicker";
+import { FixedSizeList, FixedSizeList as List } from "react-window";
 
 import GameEnvironment from "./GameEnvironment";
 
 import { tailwind_heatmap } from "@/heatmap";
 import { agentSentences } from "@/sentences";
 import CardDisplay from "./CardDisplay";
+import CommonKnowledgeDisplay from "./CommonKnowledgeDisplay";
 
 const cleanName = {
   player: "you",
   abelard: "Abélard",
   heloise: "Héloïse",
+};
+
+const logColors = {
+  turn: "text-blue-600 bg-blue-100",
+  question: "text-slate-600 bg-slate-100",
+  "answer-pos": "text-green-600 bg-green-100",
+  "answer-neg": "text-red-600 bg-red-100",
+  suit: "text-green-600 bg-green-100",
+  "game-over": "text-gold-600 bg-gold-100 font-bold",
+  knowledge: "text-pink-600 bg-pink-100",
 };
 
 const env = new GameEnvironment();
@@ -214,7 +226,7 @@ export default function Game() {
               {gameState.abelard.question.card?.id}
             </div>
             {gameState.turn === "abelard" && (
-              <div className="flex items-center">
+              <div className="flex items-center h-32 overflow-hidden">
                 <div role="status">
                   <svg
                     aria-hidden="true"
@@ -271,7 +283,7 @@ export default function Game() {
               {gameState.heloise.question.card?.id}
             </div>
             {gameState.turn === "heloise" && (
-              <div className="flex items-center">
+              <div className="flex items-center h-32 overflow-hidden">
                 <div role="status">
                   <svg
                     aria-hidden="true"
@@ -347,7 +359,7 @@ export default function Game() {
             ) : (
               <>
                 {gameState.turn === "player" && (
-                  <div className="flex items-center">
+                  <div className="flex items-center h-32">
                     <div role="status">
                       <svg
                         aria-hidden="true"
@@ -384,6 +396,65 @@ export default function Game() {
               </>
             )}
           </div>
+        </div>
+      </div>
+
+      <div>
+        <div className="my-8 mx-auto max-w-7xl p-6">
+          <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
+            Common Knowledge
+          </h2>
+          <p className="text-gray-700 py-4">
+            The following information is common knowledge to all players.
+          </p>
+          {/* 3 Columns */}
+          <div className="grid grid-cols-3 gap-4 mt-6">
+            <div>
+              <h3 className="text-slate-600 font-medium">Abélard</h3>
+              <CommonKnowledgeDisplay knowledge={gameState.common.abelard} />
+            </div>
+            <div>
+              <h3 className="text-slate-600 font-medium">Héloïse</h3>
+              <CommonKnowledgeDisplay knowledge={gameState.common.heloise} />
+            </div>
+            <div>
+              <h3 className="text-slate-600 font-medium">You</h3>
+              <CommonKnowledgeDisplay knowledge={gameState.common.player} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="my-8 mx-auto max-w-7xl p-6">
+        <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
+          Logbook (last 1000 items)
+        </h2>
+        <div className="bg-slate-100 rounded-md overflow-hidden mt-6">
+          <FixedSizeList
+            height={400}
+            width="100%"
+            itemSize={40}
+            itemCount={gameState.log.length}
+          >
+            {({ index, style }) => {
+              const item = gameState.log[gameState.log.length - 1 - index];
+              return (
+                <div
+                  style={style}
+                  className={`px-4 flex items-center ${logColors[item.type]}`}
+                >
+                  <div>
+                    {item.type === "knowledge" ? (
+                      <strong>🧠 Knowledge update: </strong>
+                    ) : (
+                      ""
+                    )}
+                    {item.text}
+                  </div>
+                </div>
+              );
+            }}
+          </FixedSizeList>
         </div>
       </div>
 

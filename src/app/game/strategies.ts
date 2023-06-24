@@ -6,7 +6,8 @@ import { AgentType, Card } from "./types";
 function getRandomQuestion(
   currentAgent: AgentType,
   agents: AgentType[],
-  cards: Card[]
+  cards: Card[],
+  state: GameState
 ): [AgentType, Card] {
   const otherAgents = agents.filter((agent) => agent !== currentAgent);
   const randomAgent =
@@ -16,14 +17,18 @@ function getRandomQuestion(
   let allowed_to_ask = [];
   if (cards.length > 0) {
     const held_colors = cards.map((card) => card.color);
-    allowed_to_ask = CARD_LIST.filter((card) => held_colors.includes(card.color));
+    allowed_to_ask = CARD_LIST.filter((card) =>
+      held_colors.includes(card.color)
+    );
   } else {
-    allowed_to_ask = CARD_LIST;
-    // TODO: Fix case where no cards are held, because agent will also ask about
-    // cards that are in suits. It does not filter these out yet, but it should know
-    // not to ask about them.
+    // Find all colors that are in suits of all agents
+    const all_suits = agents.map((agent) => state[agent].suits).flat();
+    // Get all cards that are not in suits
+    const not_suits = CARD_LIST.filter(
+      (card) => !all_suits.includes(card.color)
+    );
+    allowed_to_ask = not_suits;
   }
-  
 
   // Only ask about cards that are not already held
   const held_ids = cards.map((card) => card.id);
@@ -82,16 +87,26 @@ function getMostCards(
           opponentWithColor = opponent;
           colorMatch = color;
 
-          console.log("From CK, the common color " + colorMatch + " was found at " + opponentWithColor)
+          console.log(
+            "From CK, the common color " +
+              colorMatch +
+              " was found at " +
+              opponentWithColor
+          );
           break;
         }
       }
-      
+
       if (matchFound) {
         break;
       }
     }
-    console.log("From CK, the common color " + colorMatch + " was found at " + opponentWithColor)
+    console.log(
+      "From CK, the common color " +
+        colorMatch +
+        " was found at " +
+        opponentWithColor
+    );
     //Look if number is present in CK
     if (opponentWithColor && colorMatch !== null) {
       const opponentCards = state.common[opponentWithColor].cards;
@@ -100,18 +115,27 @@ function getMostCards(
         if (element.includes(colorMatch)) {
           matchedElement = element;
 
-          const foundCard = CARD_LIST.find((card) => card.id === matchedElement);
-          if (foundCard){
-            console.log("From CK we ask " + opponentWithColor + " for " + foundCard)
-            return [opponentWithColor, foundCard]
+          const foundCard = CARD_LIST.find(
+            (card) => card.id === matchedElement
+          );
+          if (foundCard) {
+            console.log(
+              "From CK we ask " + opponentWithColor + " for " + foundCard
+            );
+            return [opponentWithColor, foundCard];
           }
         }
         //Otherwise select a random number to ask
         else {
-          const card = getRandomNumberOfColor(cards, colorMatch)
-          if (card){
-            console.log("From CK, but random nr we ask " + opponentWithColor + " for " + card)
-            return [opponentWithColor, card]
+          const card = getRandomNumberOfColor(cards, colorMatch);
+          if (card) {
+            console.log(
+              "From CK, but random nr we ask " +
+                opponentWithColor +
+                " for " +
+                card
+            );
+            return [opponentWithColor, card];
           }
         }
       }
@@ -120,32 +144,34 @@ function getMostCards(
     // Means that no CK matches the cards that we have in hand
     else {
       // Get color with highest number of cards and randomly ask an agent
-      const [firstColor, firstCount] = colorCountsArray[0]; 
-      const randomCard = getRandomNumberOfColor(cards, firstColor)
+      const [firstColor, firstCount] = colorCountsArray[0];
+      const randomCard = getRandomNumberOfColor(cards, firstColor);
 
       // Randomly select an agent
       const otherAgents = agents.filter((agent) => agent !== currentAgent);
       const randomAgent =
         otherAgents[Math.floor(Math.random() * otherAgents.length)];
 
-        console.log(
-          currentAgent +
-            " takes " +
-            (randomCard ? randomCard.color : "no card") +
-            " from " +
-            randomAgent
-        );
-        if (randomCard) 
-          return [randomAgent, randomCard]
+      console.log(
+        currentAgent +
+          " takes " +
+          (randomCard ? randomCard.color : "no card") +
+          " from " +
+          randomAgent
+      );
+      if (randomCard) return [randomAgent, randomCard];
     }
   }
   console.log(cards.length);
   // If the current player has no cards, select a random card from all available cards
-  let [agent, card] = getRandomQuestion(currentAgent, agents, cards);
-  return [agent, card]
+  let [agent, card] = getRandomQuestion(currentAgent, agents, cards, state);
+  return [agent, card];
 }
 
-function getRandomNumberOfColor(cards: Card[], colorMatch: string | null): Card | null {
+function getRandomNumberOfColor(
+  cards: Card[],
+  colorMatch: string | null
+): Card | null {
   // Collect numbers present in the most common color
   const numbersInMostCommonColor: Set<number> = new Set();
   cards.forEach((card) => {
@@ -157,8 +183,7 @@ function getRandomNumberOfColor(cards: Card[], colorMatch: string | null): Card 
   // Filter cards by the most common color and exclude numbers present in that color
   const cardsWithMostCommonColor = CARD_LIST.filter(
     (card) =>
-      card.color === colorMatch &&
-      !numbersInMostCommonColor.has(card.number)
+      card.color === colorMatch && !numbersInMostCommonColor.has(card.number)
   );
 
   // Randomly select a card from the filtered cards
@@ -167,9 +192,8 @@ function getRandomNumberOfColor(cards: Card[], colorMatch: string | null): Card 
       cardsWithMostCommonColor[
         Math.floor(Math.random() * cardsWithMostCommonColor.length)
       ];
-    return randomCard
-  }
-  else return null
+    return randomCard;
+  } else return null;
 }
 
 // the guarded strategy, the agent will attempt to hide the colours it holds by not making it common knowledge.
@@ -188,30 +212,38 @@ function guarded(
       if (advertised_suits[i] === cards[j].color) {
         // Check if the card color matches the advertised suit
         const otherAgents = agents.filter((agent) => agent !== active_agent);
-        let index = Math.floor(Math.random() * otherAgents.length)
+        let index = Math.floor(Math.random() * otherAgents.length);
         const randomAgent = otherAgents[index];
 
         // Ask for a suit and number that isn't guarded or held, or is known not to be in the hand of the target
         let target_suit = CARD_LIST.filter(
-          (card) => card.color === cards[j].color && !state.common[randomAgent].not_cards.includes(card.id)
+          (card) =>
+            card.color === cards[j].color &&
+            !state.common[randomAgent].not_cards.includes(card.id)
         );
         let card = target_suit.find((card) => !cards.includes(card));
 
         // check the other agent
-        if(!card){
+        if (!card) {
           index = index === 0 ? 1 : 0;
           let target = otherAgents[index];
 
           target_suit = CARD_LIST.filter(
-            (card) => card.color === cards[j].color && !state.common[target].not_cards.includes(card.id)
+            (card) =>
+              card.color === cards[j].color &&
+              !state.common[target].not_cards.includes(card.id)
           );
           card = target_suit.find((card) => !cards.includes(card));
         }
 
         if (card) {
           console.log("Selected card:", card);
-          console.log(`${active_agent} advertises ${state.common[active_agent].suits}`)
-          console.log(`${active_agent} advertises neg ${state.common[active_agent].not_suits}`)
+          console.log(
+            `${active_agent} advertises ${state.common[active_agent].suits}`
+          );
+          console.log(
+            `${active_agent} advertises neg ${state.common[active_agent].not_suits}`
+          );
           return [randomAgent, card];
         }
       }
@@ -239,30 +271,38 @@ function combined(
       if (advertised_suits[i] === cards[j].color) {
         // Check if the card color matches the advertised suit
         const otherAgents = agents.filter((agent) => agent !== active_agent);
-        let index = Math.floor(Math.random() * otherAgents.length)
+        let index = Math.floor(Math.random() * otherAgents.length);
         const randomAgent = otherAgents[index];
 
         // Ask for a suit and number that isn't guarded or held, or is known not to be in the hand of the target
         let target_suit = CARD_LIST.filter(
-          (card) => card.color === cards[j].color && !state.common[randomAgent].not_cards.includes(card.id)
+          (card) =>
+            card.color === cards[j].color &&
+            !state.common[randomAgent].not_cards.includes(card.id)
         );
         let card = target_suit.find((card) => !cards.includes(card));
 
         // check the other agent
-        if(!card){
+        if (!card) {
           index = index === 0 ? 1 : 0;
           let target = otherAgents[index];
 
           target_suit = CARD_LIST.filter(
-            (card) => card.color === cards[j].color && !state.common[target].not_cards.includes(card.id)
+            (card) =>
+              card.color === cards[j].color &&
+              !state.common[target].not_cards.includes(card.id)
           );
           card = target_suit.find((card) => !cards.includes(card));
         }
 
         if (card) {
           console.log("Selected card:", card);
-          console.log(`${active_agent} advertises ${state.common[active_agent].suits}`)
-          console.log(`${active_agent} advertises neg ${state.common[active_agent].not_suits}`)
+          console.log(
+            `${active_agent} advertises ${state.common[active_agent].suits}`
+          );
+          console.log(
+            `${active_agent} advertises neg ${state.common[active_agent].not_suits}`
+          );
           return [randomAgent, card];
         }
       }
@@ -293,6 +333,6 @@ export default function getQuestion(
       return combined(currentAgent, agents, cards, state);
     case "random":
     default:
-      return getRandomQuestion(currentAgent, agents, cards);
+      return getRandomQuestion(currentAgent, agents, cards, state);
   }
 }

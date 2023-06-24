@@ -12,6 +12,10 @@ export type StrategyComboType =
   | "secondOrder-combined"
   | "combined-combined";
 
+export type LogEntry = {
+  type: "turn" | "question" | "answer-pos" | "answer-neg" | "suit" | "game-over" | "knowledge";
+  text: string;
+};
 
 export type GameState = {
   [key in AgentType]: {
@@ -25,6 +29,7 @@ export type GameState = {
   turn_count: number;
   turn: AgentType;
   speed: number;
+  log: LogEntry[];
   wins: {
     player: number;
     abelard: number;

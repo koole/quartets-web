@@ -4,6 +4,7 @@ import CARD_LIST, { CARD_COLORS, NUM_NUMBERS } from "./cards";
 import emptyResults from "./emptyResults";
 import getQuestion from "./strategies";
 import {
+  LogEntry,
   AgentType,
   Card,
   GameState,
@@ -30,7 +31,7 @@ export default class GameEnvironment {
   ];
   state: GameState;
 
-  stateCallback: (state: any) => void = (state) => console.log("Placeholder");
+  stateCallback: (state: any) => void = (state) => console.log();
 
   constructor() {
     this.agents = shuffleArray(["player", "abelard", "heloise"]);
@@ -77,6 +78,7 @@ export default class GameEnvironment {
       turn_count: 0,
       results: this.state?.results || results,
       speed: this.state?.speed || 1000,
+      log: this.state?.log || [],
       player: {
         cards: hands[0],
         suits: [],
@@ -140,8 +142,18 @@ export default class GameEnvironment {
           newState[agent].cards = newState[agent].cards.filter(
             (c) => c.color !== color
           );
+
+          newState.log.push({
+            type: "suit",
+            text: `${agent} has ${NUM_NUMBERS} ${color} cards, so ${color} is added to their suits`,
+          });
         }
       });
+    });
+
+    newState.log.push({
+      type: "turn",
+      text: `Turn goes to ${newState.turn}`,
     });
 
     // TODO: Update knowledge for all agents about the suits of other agents
@@ -177,15 +189,26 @@ export default class GameEnvironment {
     });
   }
 
+  addToLog(type: LogEntry["type"], text: LogEntry["text"]) {
+    this.state.log.push({
+      type,
+      text,
+    });
+    if (this.state.log.length > 1000) {
+      this.state.log.shift();
+    }
+  }
+
   askForCard(active_agent: AgentType, target_agent: AgentType, card: Card) {
-    // Requesting agent asks receiving agent for card
-    console.info(
-      `${active_agent} asked ${target_agent} for ${card.number} ${card.color}`
+    this.addToLog(
+      "question",
+      `${active_agent} asked ${target_agent} for ${card.id}`
     );
 
     if (this.state[target_agent].cards.includes(card)) {
-      // Receiving agent has card
-      console.info(`${target_agent} had ${card.number} ${card.color}`);
+      this.addToLog("answer-pos", `${target_agent} had ${card.id}`);
+
+      this.addToLog("turn", `Turn stays with ${active_agent}`);
 
       // Makes a positive annoucement of a card into common knowledge.
       this.positive_annoucement(card, active_agent, target_agent);
@@ -217,7 +240,8 @@ export default class GameEnvironment {
 
       // If the number of cards of the same color is NUM_NUMBERS...
       if (cardsOfSameColor.length === NUM_NUMBERS) {
-        console.info(
+        this.addToLog(
+          "suit",
           `${active_agent} has ${NUM_NUMBERS} ${color} cards, so ${color} is added to their suits`
         );
 
@@ -255,7 +279,8 @@ export default class GameEnvironment {
           newState[a].suits.length > newState[b].suits.length ? a : b
         );
 
-        console.info(`${winner} wins!`);
+        this.addToLog("game-over", `${winner} wins!`);
+
         newState.wins[winner] += 1;
 
         // Update results for all agents
@@ -303,13 +328,13 @@ export default class GameEnvironment {
         this.state = newState;
       }
     } else {
-      // Receiving agent does not have card, so turn goes to receiving agent
-      console.info(`${target_agent} did not have ${card.number} ${card.color}`);
+      this.addToLog("answer-neg", `${target_agent} did not have ${card.id}`);
 
       // add the card to negation common knowledge
       this.negative_annoucement(card, active_agent, target_agent);
 
-      console.info(`Turn goes to ${target_agent}`);
+      this.addToLog("turn", `Turn goes to ${target_agent}`);
+
       this.state.turn = target_agent;
     }
 
@@ -372,17 +397,45 @@ export default class GameEnvironment {
 
   // adds the card suit and id to the common knowledge
   positive_annoucement(card: Card, active: AgentType, target: AgentType) {
-    console.log(`POSITIVE ANNOUCEMENT: ${card.id}`);
+    this.addToLog(
+      "knowledge",
+      `Card ${card.id} is in ${active}'s hand, and thus also holds a card of suit ${card.color}`
+    );
 
     // add the color and id to the active agent
     this.state.common[active].suits.push(card.color);
     this.state.common[active].cards.push(card.id);
 
+    // Remove the card from the not_cards array
+    this.state.common[active].not_cards = this.state.common[
+      active
+    ].not_cards.filter((id) => id !== card.id);
+
     // remove the suit colour from the target agent
     const suitsArray = this.state.common[target].suits;
     const suitsIndex = suitsArray.indexOf(card.color);
+
+    const suitWasKnown =
+      suitsArray.filter((suit) => suit === card.color).length > 0;
+
     if (suitsIndex !== -1) {
-      suitsArray.splice(suitsIndex, 1);
+      this.state.common[target].suits.splice(suitsIndex, 1);
+    }
+
+    if (suitWasKnown) {
+      if (suitsArray.filter((suit) => suit === card.color).length === 0) {
+        this.addToLog(
+          "knowledge",
+          `It is now unknown if ${target} has any ${card.color} cards`
+        );
+      } else {
+        this.addToLog(
+          "knowledge",
+          `${target} still has at least ${
+            suitsArray.filter((suit) => suit === card.color).length
+          } ${card.color} cards`
+        );
+      }
     }
 
     // remove the card id from the target agent
@@ -403,11 +456,23 @@ export default class GameEnvironment {
     if (not_cardsIndex !== -1) {
       cardsArray.splice(not_cardsIndex, 1);
     }
+
+    // We now have common knowledge that the other agents do not have this card.
+    // Add the card to all other agents negation common knowledge
+    const otherAgents = this.agents.filter((agent) => agent !== active);
+    otherAgents.forEach((agent) => {
+      if (!this.state.common[agent].not_cards.includes(card.id)) {
+        this.state.common[agent].not_cards.push(card.id);
+        this.addToLog("knowledge", `Card ${card.id} is not in ${agent}'s hand`);
+      }
+    });
   }
 
   // adds the card suit and id to negation common knowledge
   negative_annoucement(card: Card, active: AgentType, target: AgentType) {
-    console.log(`NEGATIVE ANNOUCEMENT: ${card.id}`);
+    // The agent asked for this card, so it is not in their hand already
+    this.addToLog("knowledge", `Card ${card.id} is not in ${active}'s hand`);
+    this.state.common[active].not_cards.push(card.id);
 
     // the active agent is asking for a card, so they hold atleast one of a suit if they hold cards at all
     if (this.state[active].cards.length) {
@@ -415,11 +480,30 @@ export default class GameEnvironment {
       const colorToAdd = card.color;
 
       if (!suitsArray.includes(colorToAdd)) {
+        this.addToLog(
+          "knowledge",
+          `${active} holds a card of suit ${colorToAdd}`
+        );
+
         suitsArray.push(colorToAdd);
       }
     }
 
     // the target agent doesn't hold the card, so its added to the negation common knowledge
-    this.state.common[target].not_cards.push(card.id);
+    // Check if this id is already in the negation common knowledge
+    if (!this.state.common[target].not_cards.includes(card.id)) {
+      this.addToLog("knowledge", `Card ${card.id} is not in ${target}'s hand`);
+      this.state.common[target].not_cards.push(card.id);
+    }
+
+    // Both agents don't hold the card, so the third agent must hold it
+    const otherAgent = this.agents.filter(
+      (agent) => agent !== active && agent !== target
+    )[0];
+
+    if (!this.state.common[otherAgent].cards.includes(card.id)) {
+      this.addToLog("knowledge", `Card ${card.id} is ${otherAgent}'s hand`);
+      this.state.common[otherAgent].cards.push(card.id);
+    }
   }
 }

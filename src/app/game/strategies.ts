@@ -38,17 +38,14 @@ function getRandomQuestion(
 function getMostCards(
   currentAgent: AgentType,
   agents: AgentType[],
-  cards: Card[]
+  cards: Card[],
+  state: GameState
 ): [AgentType, Card] {
   const colorCounts: Map<string, number> = new Map();
   const numberSet: Set<number> = new Set();
-  let randomCard: Card | undefined;
+  const opponents = agents.filter((agent) => agent !== currentAgent);
 
-  if (cards.length === 0) {
-    console.log(cards.length);
-    // If the current player has no cards, select a random card from all available cards
-    randomCard = CARD_LIST[Math.floor(Math.random() * CARD_LIST.length)];
-  } else {
+  if (cards.length !== 0) {
     // Count the occurrences of each color and collect numbers in the hand
     cards.forEach((card) => {
       const color = card.color;
@@ -58,47 +55,120 @@ function getMostCards(
       numberSet.add(number);
     });
 
-    // Find the color with the highest count
-    let mostCommonColor: string | undefined;
-    let highestCount = 0;
+    // Convert colorCounts Map to an array of key-value pairs
+    const colorCountsArray = Array.from(colorCounts);
 
-    colorCounts.forEach((count, color) => {
-      if (count > highestCount) {
-        highestCount = count;
-        mostCommonColor = color;
+    // Sort the array based on the occurrence count in descending order
+    colorCountsArray.sort((a, b) => b[1] - a[1]);
+
+    // colorCountsArray now contains colors ordered from highest occurrence to lowest
+    console.log("Cards of " + currentAgent + " are " + colorCountsArray);
+
+    let matchFound = false;
+    let opponentWithColor = null;
+    let colorMatch: string | null = null;
+    let matchedElement: string | null = null;
+
+    // Loop through the colors in the hand of the current player
+    for (const [color, count] of colorCountsArray) {
+      // Loop through each opponent
+      for (const opponent of opponents) {
+        // Look into the CK of one opponent
+        const opponentColors = state.common[opponent].suits;
+        // If one of the colors from the hand is present in the CK about the other players then remember this
+        if (opponentColors && opponentColors.includes(color)) {
+          matchFound = true;
+          opponentWithColor = opponent;
+          colorMatch = color;
+
+          console.log("From CK, the common color " + colorMatch + " was found at " + opponentWithColor)
+          break;
+        }
       }
-    });
-
-    // Collect numbers present in the most common color
-    const numbersInMostCommonColor: Set<number> = new Set();
-    cards.forEach((card) => {
-      if (card.color === mostCommonColor) {
-        numbersInMostCommonColor.add(card.number);
+      
+      if (matchFound) {
+        break;
       }
-    });
+    }
+    console.log("From CK, the common color " + colorMatch + " was found at " + opponentWithColor)
+    //Look if number is present in CK
+    if (opponentWithColor && colorMatch !== null) {
+      const opponentCards = state.common[opponentWithColor].cards;
 
-    // Filter cards by the most common color and exclude numbers present in that color
-    const cardsWithMostCommonColor = CARD_LIST.filter(
-      (card) =>
-        card.color === mostCommonColor &&
-        !numbersInMostCommonColor.has(card.number)
-    );
+      for (const element of opponentCards) {
+        if (element.includes(colorMatch)) {
+          matchedElement = element;
 
-    // Randomly select a card from the filtered cards
-    if (cardsWithMostCommonColor.length > 0) {
-      randomCard =
-        cardsWithMostCommonColor[
-          Math.floor(Math.random() * cardsWithMostCommonColor.length)
-        ];
+          const foundCard = CARD_LIST.find((card) => card.id === matchedElement);
+          if (foundCard){
+            console.log("From CK we ask " + opponentWithColor + " for " + foundCard)
+            return [opponentWithColor, foundCard]
+          }
+        }
+        //Otherwise select a random number to ask
+        else {
+          const card = getRandomNumberOfColor(cards, colorMatch)
+          if (card){
+            console.log("From CK, but random nr we ask " + opponentWithColor + " for " + card)
+            return [opponentWithColor, card]
+          }
+        }
+      }
+    }
+
+    // Means that no CK matches the cards that we have in hand
+    else {
+      // Get color with highest number of cards and randomly ask an agent
+      const [firstColor, firstCount] = colorCountsArray[0]; 
+      const randomCard = getRandomNumberOfColor(cards, firstColor)
+
+      // Randomly select an agent
+      const otherAgents = agents.filter((agent) => agent !== currentAgent);
+      const randomAgent =
+        otherAgents[Math.floor(Math.random() * otherAgents.length)];
+
+        console.log(
+          currentAgent +
+            " takes " +
+            (randomCard ? randomCard.color : "no card") +
+            " from " +
+            randomAgent
+        );
+        if (randomCard) 
+          return [randomAgent, randomCard]
     }
   }
+  console.log(cards.length);
+  // If the current player has no cards, select a random card from all available cards
+  let [agent, card] = getRandomQuestion(currentAgent, agents, cards);
+  return [agent, card]
+}
 
-  // Randomly select an agent
-  const otherAgents = agents.filter((agent) => agent !== currentAgent);
-  const randomAgent =
-    otherAgents[Math.floor(Math.random() * otherAgents.length)];
+function getRandomNumberOfColor(cards: Card[], colorMatch: string | null): Card | null {
+  // Collect numbers present in the most common color
+  const numbersInMostCommonColor: Set<number> = new Set();
+  cards.forEach((card) => {
+    if (card.color === colorMatch) {
+      numbersInMostCommonColor.add(card.number);
+    }
+  });
 
-  return [randomAgent, randomCard!];
+  // Filter cards by the most common color and exclude numbers present in that color
+  const cardsWithMostCommonColor = CARD_LIST.filter(
+    (card) =>
+      card.color === colorMatch &&
+      !numbersInMostCommonColor.has(card.number)
+  );
+
+  // Randomly select a card from the filtered cards
+  if (cardsWithMostCommonColor.length > 0) {
+    let randomCard =
+      cardsWithMostCommonColor[
+        Math.floor(Math.random() * cardsWithMostCommonColor.length)
+      ];
+    return randomCard
+  }
+  else return null
 }
 
 // the guarded strategy, the agent will attempt to hide the colours it holds by not making it common knowledge.
@@ -165,7 +235,10 @@ export default function getQuestion(
     case "smart":
       return guarded(currentAgent, agents, cards, state);
     case "mostCards":
-      return getMostCards(currentAgent, agents, cards);
+      // return getMostCards(currentAgent, agents, cards, state);
+      const mostCardsResult = getMostCards(currentAgent, agents, cards, state);
+      console.log("Most cards result:", mostCardsResult);
+      return mostCardsResult;
     case "random":
     default:
       return getRandomQuestion(currentAgent, agents, cards);

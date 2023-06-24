@@ -1,8 +1,6 @@
 import Navigation from "../../components/Nav";
 import {
   CheckCircleIcon,
-  XCircleIcon,
-  XMarkIcon
 } from "@heroicons/react/20/solid";
 
 export default function Home() {
@@ -70,7 +68,8 @@ export default function Home() {
               hand.
             </li>
             <li className="my-2">
-              If a player has no more cards, they can ask for any card they want.
+              If a player has no more cards, they can ask for any card they
+              want.
             </li>
             <li className="my-2">
               If the player being asked has the requested card, they must give
@@ -109,8 +108,8 @@ export default function Home() {
           </p>
           <div className="mt-6 max-w-2xl">
             <p>
-              All agents start out with a number of prerequisite knowledge about the
-              game:
+              All agents start out with a number of prerequisite knowledge about
+              the game:
             </p>
           </div>
           <ul role="list" className="mt-8 max-w-xl space-y-8 text-gray-600">
@@ -134,9 +133,9 @@ export default function Home() {
               />
               <span>
                 <strong className="font-semibold text-gray-900"></strong> It is
-                common knowledge that when a card is not present in the player&apos;s
-                own hand, then it means that one of the other players must have
-                this card.
+                common knowledge that when a card is not present in the
+                player&apos;s own hand, then it means that one of the other
+                players must have this card.
               </span>
             </li>
             <li className="flex gap-x-3">

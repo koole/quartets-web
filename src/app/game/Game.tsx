@@ -7,48 +7,8 @@ import ChoicePicker from "./ChoicePicker";
 
 import GameEnvironment from "./GameEnvironment";
 
-const agentSentences = [
-  "Agent is making a strategic move",
-  "Agent is thinking hard",
-  "Agent looks to be deliberating his moves well",
-  "Agent is calculating the best approach",
-  "Agent is analyzing the situation",
-  "Agent is considering all possible options",
-  "Agent is evaluating the next move",
-  "Agent is formulating a plan",
-  "Agent is strategizing its next move",
-  "Agent is pondering its options",
-  "Agent is weighing the pros and cons",
-  "Agent is deep in thought",
-  "Agent is assessing the risks",
-  "Agent is plotting its strategy",
-  "Agent is anticipating the opponent's moves",
-  "Agent is surveying the game board",
-  "Agent is contemplating its next step",
-  "Agent is mulling over the possibilities",
-  "Agent is examining different scenarios",
-  "Agent is devising a tactical maneuver",
-  "Agent is analyzing the battlefield",
-  "Agent is strategizing its approach",
-  "Agent is carefully considering its options",
-  "Agent is calculating the optimal move",
-  "Agent is weighing the consequences",
-  "Agent is contemplating its next move",
-  "Agent is studying the opponent's strategy",
-  "Agent is formulating a master plan",
-  "Agent is searching for weaknesses",
-  "Agent is brainstorming tactics",
-  "Agent is envisioning different outcomes",
-  "Agent is adjusting its strategy",
-  "Agent is evaluating the potential risks",
-  "Agent is simulating possible moves",
-  "Agent is anticipating the opponent's reactions",
-  "Agent is fine-tuning its plan",
-  "Agent is focusing on long-term strategy",
-  "Agent is exploring alternative approaches",
-  "Agent is considering unconventional tactics",
-  "Agent is analyzing the game from multiple angles",
-];
+import { tailwind_heatmap } from "@/heatmap";
+import { agentSentences } from "@/sentences";
 
 const env = new GameEnvironment();
 
@@ -75,37 +35,6 @@ export default function Game() {
   const [hideOpponentCards, setHideOpponentCards] = useState<boolean>(true);
 
   // Create array with colors for heatmap, ordered by color, from red to gray to green
-
-  const tailwind_heatmap = [
-    "bg-red-500",
-    "bg-red-500",
-    "bg-red-400",
-    "bg-red-400",
-    "bg-red-300",
-    "bg-red-300",
-    "bg-red-200",
-    "bg-red-200",
-    "bg-red-100",
-    "bg-yellow-100",
-    "bg-green-100",
-    "bg-green-100",
-    "bg-green-100",
-    "bg-green-100",
-    "bg-green-200",
-    "bg-green-200",
-    "bg-green-200",
-    "bg-green-300",
-    "bg-green-300",
-    "bg-green-400",
-    "bg-green-400",
-    "bg-green-400",
-    "bg-green-500",
-    "bg-green-500",
-    "bg-green-500",
-    "bg-green-500",
-    "bg-green-500",
-    "bg-green-500",
-  ];
 
   return (
     <div className="bg-white">

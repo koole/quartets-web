@@ -9,7 +9,7 @@ const navigation = [
   { name: "Model", href: "/model" },
   { name: "Application", href: "/application" },
   { name: "Experiment", href: "/experiment" },
-  { name: "Discussion", href: "/discussion" },
+  { name: "Results & Discussion", href: "/discussion" },
 ];
 
 export default function Navigation() {

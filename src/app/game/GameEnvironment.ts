@@ -1,4 +1,5 @@
-import { HandThumbDownIcon } from "@heroicons/react/24/outline";
+"use client";
+
 import CARD_LIST, { CARD_COLORS, NUM_NUMBERS } from "./cards";
 import getQuestion from "./strategies";
 import {
@@ -9,8 +10,17 @@ import {
   StrategyType,
 } from "./types";
 
+export function shuffleArray(arr: any[]) {
+  let array = [...arr];
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 export default class GameEnvironment {
-  agents: AgentType[] = ["player", "abelard", "heloise"];
+  agents: AgentType[] = shuffleArray(["player", "abelard", "heloise"]);
   strategies: StrategyType[] = ["random", "mostCards", "smart"];
   state: GameState;
 
@@ -38,8 +48,13 @@ export default class GameEnvironment {
     heloise: number;
   }) {
     // Shuffle cards and deal to players
-    const shuffledCards = CARD_LIST.sort(() => 0.5 - Math.random());
+    const shuffledCards = shuffleArray(CARD_LIST);
     const third = Math.floor(shuffledCards.length / 3);
+    let hands = shuffleArray([
+      shuffledCards.slice(0, third),
+      shuffledCards.slice(third, 2 * third),
+      shuffledCards.slice(2 * third),
+    ]);
 
     // Load results from local storage
     let results = JSON.parse(localStorage.getItem("results") || "null");
@@ -134,7 +149,7 @@ export default class GameEnvironment {
       turn_count: 0,
       results: this.state?.results || results,
       player: {
-        cards: shuffledCards.slice(0, third),
+        cards: hands[0],
         suits: [],
         strategy: this.state?.player.strategy || "random",
         question: {
@@ -143,7 +158,7 @@ export default class GameEnvironment {
         },
       },
       abelard: {
-        cards: shuffledCards.slice(third, 2 * third),
+        cards: hands[1],
         suits: [],
         strategy: this.state?.abelard.strategy || "random",
         question: {
@@ -152,7 +167,7 @@ export default class GameEnvironment {
         },
       },
       heloise: {
-        cards: shuffledCards.slice(2 * third),
+        cards: hands[2],
         suits: [],
         strategy: this.state?.heloise.strategy || "random",
         question: {
@@ -398,7 +413,7 @@ export default class GameEnvironment {
 
   // Functions to start and stop auto loop with a delay
   autoStepInterval: any = null;
-  autoStepDelay = 10;
+  autoStepDelay = 3;
 
   startAutoStep() {
     this.state.autoPlaying = true;

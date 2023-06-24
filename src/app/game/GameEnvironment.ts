@@ -1,6 +1,7 @@
 "use client";
 
 import CARD_LIST, { CARD_COLORS, NUM_NUMBERS } from "./cards";
+import emptyResults from "./emptyResults";
 import getQuestion from "./strategies";
 import {
   AgentType,
@@ -21,7 +22,12 @@ export function shuffleArray(arr: any[]) {
 
 export default class GameEnvironment {
   agents: AgentType[] = shuffleArray(["player", "abelard", "heloise"]);
-  strategies: StrategyType[] = ["random", "firstOrder", "secondOrder", "combined"];
+  strategies: StrategyType[] = [
+    "random",
+    "firstOrder",
+    "secondOrder",
+    "combined",
+  ];
   state: GameState;
 
   stateCallback: (state: any) => void = (state) => console.log("Placeholder");
@@ -61,176 +67,7 @@ export default class GameEnvironment {
     let results = JSON.parse(localStorage.getItem("results") || "null");
     // If there are no results, create an empty object
     if (!results) {
-      results = {
-        random: {
-          "random-random": {
-            wins: 0,
-            losses: 0,
-          },
-          "random-firstOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "random-secondOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "random-combined": {
-            wins: 0,
-            losses: 0,
-          },
-          "firstOrder-firstOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "firstOrder-secondOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "firstOrder-combined": {
-            wins: 0,
-            losses: 0,
-          },
-          "secondOrder-secondOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "secondOrder-combined": {
-            wins: 0,
-            losses: 0,
-          },
-          "combined-combined": {
-            wins: 0,
-            losses: 0,
-          },
-        },
-        firstOrder: {
-          "random-random": {
-            wins: 0,
-            losses: 0,
-          },
-          "random-firstOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "random-secondOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "random-combined": {
-            wins: 0,
-            losses: 0,
-          },
-          "firstOrder-firstOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "firstOrder-secondOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "firstOrder-combined": {
-            wins: 0,
-            losses: 0,
-          },
-          "secondOrder-secondOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "secondOrder-combined": {
-            wins: 0,
-            losses: 0,
-          },
-          "combined-combined": {
-            wins: 0,
-            losses: 0,
-          },
-        },
-        secondOrder: {
-          "random-random": {
-            wins: 0,
-            losses: 0,
-          },
-          "random-firstOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "random-secondOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "random-combined": {
-            wins: 0,
-            losses: 0,
-          },
-          "firstOrder-firstOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "firstOrder-secondOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "firstOrder-combined": {
-            wins: 0,
-            losses: 0,
-          },
-          "secondOrder-secondOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "secondOrder-combined": {
-            wins: 0,
-            losses: 0,
-          },
-          "combined-combined": {
-            wins: 0,
-            losses: 0,
-          },
-        },
-        combined: {
-          "random-random": {
-            wins: 0,
-            losses: 0,
-          },
-          "random-firstOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "random-secondOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "random-combined": {
-            wins: 0,
-            losses: 0,
-          },
-          "firstOrder-firstOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "firstOrder-secondOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "firstOrder-combined": {
-            wins: 0,
-            losses: 0,
-          },
-          "secondOrder-secondOrder": {
-            wins: 0,
-            losses: 0,
-          },
-          "secondOrder-combined": {
-            wins: 0,
-            losses: 0,
-          },
-          "combined-combined": {
-            wins: 0,
-            losses: 0,
-          },
-        },
-      };
+      results = emptyResults;
     }
 
     // Create an initial starting state

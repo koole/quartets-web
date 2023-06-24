@@ -33,7 +33,11 @@ export default function Home() {
                 game of Quartets?
               </span>
               <br />
-              In our hypothesis, we propose that the random strategy will exhibit the poorest performance and achieve the lowest win percentage among all the strategies under examination. Additionally, we anticipate that STRAT3 will outperform STRAT2 in terms of overall effectiveness and win rates.
+              In our hypothesis, we propose that the random strategy will
+              exhibit the poorest performance and achieve the lowest win
+              percentage among all the strategies under examination.
+              Additionally, we anticipate that STRAT3 will outperform STRAT2 in
+              terms of overall effectiveness and win rates.
             </p>
 
             <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
@@ -43,7 +47,7 @@ export default function Home() {
               For this experiment, instead of including the player, three agents
               are used. Each agent is assigned a strategy such that all
               combinations of strategies are pitted against each other. This
-              experiment is run for 10,000 episodes per strategy combination,
+              experiment is run for 1.000 episodes per strategy combination,
               and the total win rate is tallied up.
             </p>
 
@@ -66,10 +70,11 @@ export default function Home() {
                       Random.
                     </strong>{" "}
                     The player can ask for a random card depending on the cards
-                    that are in its own hand. However, the random card that is
-                    selected still needs to follow the rules of the game. This
-                    means that the colour needs to already be in the player&apos;s
-                    hand.
+                    that are in its own hand. The random card that is
+                    selected still needs follows the rules of the game. This
+                    means that the colour needs to already be in the
+                    player&apos;s hand. It will also not ask for a card that it
+                    already has, but uses no knowledge about the other agents.
                   </span>
                 </li>
                 <li className="flex gap-x-3">
@@ -79,7 +84,7 @@ export default function Home() {
                   />
                   <span>
                     <strong className="font-semibold text-gray-900">
-                      Most Cards (1st Order)
+                      First Order
                     </strong>{" "}
                     Asks another player for a card they currently have most
                     cards of. If we have knowledge about another agent having a
@@ -94,13 +99,30 @@ export default function Home() {
                   />
                   <span>
                     <strong className="font-semibold text-gray-900">
-                      Guarded (2nd Order)
+                      Second Order
                     </strong>{" "}
                     The agent attempts to keep knowledge about their cards
                     secret from other agents. It does this by only asking for
                     cards colors it knows the other agents already know it has.
                     This way, the other agents gain no new knowledge about the
                     agent&apos;s card colors.
+                  </span>
+                </li>
+                <li className="flex gap-x-3">
+                  <CheckCircleIcon
+                    className="mt-1 h-5 w-5 flex-none text-indigo-600"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    <strong className="font-semibold text-gray-900">
+                      Combined
+                    </strong>{" "}
+                    The agent combines the first and second order strategies.
+                    This means that the agent will ask for a card that it knows
+                    the other agents know it has, and if it does not have any of
+                    those cards, it will fall back to the first order strategy
+                    and ask for a card that it knows the other agents have the
+                    most of.
                   </span>
                 </li>
               </ul>
@@ -110,14 +132,27 @@ export default function Home() {
               Results
             </h2>
             <p className="mt-6">
-              The data presented in the table confirms our hypothesis that the random strategy would yield the poorest performance. In all cases, the random strategy exhibited lower performance compared to STRAT2, STRAT3, and STRAT4. The highest win percentage achieved by the random strategy was only 25% when pitted against the random/STRAT3 combination.
+              The data presented in the table confirms our hypothesis that the
+              random strategy would yield the poorest performance. In all cases,
+              the random strategy exhibited lower performance compared to
+              STRAT2, STRAT3, and STRAT4. The highest win percentage achieved by
+              the random strategy was only 25% when pitted against the
+              random/STRAT3 combination.
             </p>
             <p>
-              Contrary to our initial expectations, STRAT2 consistently outperformed STRAT3 in most cases. The lowest win percentage for STRAT2 was only 36% against two STRAT3 agents, while its highest win percentage reached 66% against two random strategies. On the other hand, STRAT3 displayed mixed results overall. It performed poorly against the random strategy and another STRAT3 combination with a win percentage of 30%, as well as against two STRAT2 strategies with a win percentage of 25%. However, its best performance was observed against two random strategies, achieving a 49% win percentage, and a random/STRAT3 combination with a win percentage of 39%.
+              Contrary to our initial expectations, STRAT2 consistently
+              outperformed STRAT3 in most cases. The lowest win percentage for
+              STRAT2 was only 36% against two STRAT3 agents, while its highest
+              win percentage reached 66% against two random strategies. On the
+              other hand, STRAT3 displayed mixed results overall. It performed
+              poorly against the random strategy and another STRAT3 combination
+              with a win percentage of 30%, as well as against two STRAT2
+              strategies with a win percentage of 25%. However, its best
+              performance was observed against two random strategies, achieving
+              a 49% win percentage, and a random/STRAT3 combination with a win
+              percentage of 39%.
             </p>
-            <p>
-              STRAT4...
-            </p>
+            <p>STRAT4...</p>
           </div>
         </div>
       </div>

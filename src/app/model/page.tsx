@@ -32,8 +32,10 @@ export default function Home() {
             to be modelled increased significantly. Moreover, once a move is
             made throughout the game, the whole model had to be updated
           </p>
-          <h2>Formal Model</h2>
-          <p>This project uses the following definitions in reference to the set of <strong>m</strong> agents <strong>A = &langle; a<sub>1</sub>, a<sub>2</sub>, ..., a<sub>m</sub> &rangle;</strong> and the set of propositional atoms <strong>P</strong>. The Kripke model <strong>M</strong> for quartets consists of the tuple &langle; <strong>S</strong>, <strong>&pi;</strong>, <strong>R<sub>1</sub></strong>, ..., <strong>R<sub>m</sub></strong> &rangle; where:</p>
+          <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
+            Formal Model
+          </h2>
+          <p>This project uses the following definitions in reference to the set of <strong>m</strong> agents <strong>A = &lang; a<sub>1</sub>, a<sub>2</sub>, ..., a<sub>m</sub> &rang;</strong> and the set of propositional atoms <strong>P</strong>. The Kripke model <strong>M</strong> for quartets consists of the tuple &lang; <strong>S</strong>, <strong>&pi;</strong>, <strong>R<sub>1</sub></strong>, ..., <strong>R<sub>m</sub></strong> &rang; where:</p>
 
           <ul>
             <li><strong>Set of States (S):</strong> The set <strong>S</strong> represents all possible states of the system. In this case, each state <em>s</em> represents a particular configuration of cards in each agent's hand.</li>

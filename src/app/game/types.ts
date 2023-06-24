@@ -1,15 +1,15 @@
 export type AgentType = "player" | "abelard" | "heloise";
-export type StrategyType = "random" | "mostCards" | "smart" | "combined";
+export type StrategyType = "random" | "firstOrder" | "secondOrder" | "combined";
 export type StrategyComboType =
   | "random-random"
-  | "random-mostCards"
-  | "random-smart"
+  | "random-firstOrder"
+  | "random-secondOrder"
   | "random-combined"
-  | "mostCards-mostCards"
-  | "mostCards-smart"
-  | "mostCards-combined"
-  | "smart-smart"
-  | "smart-combined"
+  | "firstOrder-firstOrder"
+  | "firstOrder-secondOrder"
+  | "firstOrder-combined"
+  | "secondOrder-secondOrder"
+  | "secondOrder-combined"
   | "combined-combined";
 
 

@@ -230,7 +230,7 @@ function combined(
   cards: Card[],
   state: GameState
 ): [AgentType, Card] {
-  console.log(active_agent + " is guarding, falling back to mostCards");
+  console.log(active_agent + " is guarding, falling back to firstOrder");
 
   // attempt to find a card from advertised suits
   let advertised_suits = state.common[active_agent].suits;
@@ -284,9 +284,9 @@ export default function getQuestion(
   const strategy = state[currentAgent].strategy;
 
   switch (strategy) {
-    case "smart":
+    case "secondOrder":
       return guarded(currentAgent, agents, cards, state);
-    case "mostCards":
+    case "firstOrder":
       // return getMostCards(currentAgent, agents, cards, state);
       return getMostCards(currentAgent, agents, cards, state);
     case "combined":

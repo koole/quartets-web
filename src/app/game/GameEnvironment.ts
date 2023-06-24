@@ -472,7 +472,9 @@ export default class GameEnvironment {
   negative_annoucement(card: Card, active: AgentType, target: AgentType) {
     // The agent asked for this card, so it is not in their hand already
     this.addToLog("knowledge", `Card ${card.id} is not in ${active}'s hand`);
-    this.state.common[active].not_cards.push(card.id);
+    if (!this.state.common[active].not_cards.includes(card.id)) {
+      this.state.common[active].not_cards.push(card.id);
+    }
 
     // the active agent is asking for a card, so they hold atleast one of a suit if they hold cards at all
     if (this.state[active].cards.length) {

@@ -10,7 +10,6 @@ export default function CommonKnowledgeDisplay({
 }: {
   knowledge: GameState["common"]["player"];
 }) {
-  console.log(suits);
   return (
     <div>
       <div className="text-slate-600 my-2">Has cards</div>

@@ -43,9 +43,17 @@ export default function Home() {
             <li><strong>Accessibility Relations (R<sub>1</sub>, R<sub>2</sub>, ..., R<sub>m</sub>):</strong> The accessibility relations R<sub>i</sub> &sube; S &times; S represent the relations between different states in the model. These relations define the transitions or possible state changes within the system.</li>
           </ul>
           <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
-            Common knowledge
+            Common Knowledge
           </h2>
-          <div className="mt-6 max-w-2xl">
+          <p>In practice, this means that at the start of the game, all states in the set S are possible before the agents look at their cards. Once an agent looks at their cards, the state space collapses somewhat, as states in which an agent doesn't hold their cards aren't accessible anymore. At this point, the gameplay can begin, and the idea of common knowledge is introduced. Once an agent asks for a card, two important pieces of information become apparent:
+          </p>
+          <p>
+          First, let's say Agent 1 asks Agent 2 for Green 4. This means that Agent 1 is holding at least one green card. It thus becomes common knowledge that Agent 1 is holding green: <strong>C1<sub>G</sub></strong>.
+          </p>
+          <p>
+          Second, if Agent 2 does have Green 4 and hands it over to Agent 1 it then becomes common knowledge that Agent 1 is holding Green 4: <strong>C(1<sub>G</sub> ∧ 1<sub>G4</sub>)</strong> However, if Agent 2 does not have Green 4, then it becomes common knowledge that Agent 2 does not hold this card: <strong>C(1<sub>G</sub> ∧ ¬2<sub>G4</sub>)</strong>
+          </p>
+          {/* <div className="mt-6 max-w-2xl">
             <p>
               All agents start out with the following common knowledge about the
               game:
@@ -100,7 +108,7 @@ export default function Home() {
                 already present in the player&apos;s hand.
               </span>
             </li>
-          </ul>
+          </ul> */}
           <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
             <h1 className="mt-24 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Simplified model

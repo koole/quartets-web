@@ -177,7 +177,7 @@ export default function Home() {
             <h2 className="mt-24 border-t border-gray-300 pt-24 text-2xl font-bold tracking-tight text-gray-900">
               Looking at cards
             </h2>
-            Players have seen their own cards, but not the other players' cards.
+            Players have seen their own cards, but not the other players&apos; cards.
             <br />
             In this scenario, we have the following true state:
             <br />

@@ -110,11 +110,10 @@ export default function Home() {
               Results
             </h2>
             <p className="mt-6">
-              For this experiment, instead of including the player, three agents
-              are used. Each agent is assigned a strategy such that all
-              combinations of strategies are pitted against each other. This
-              experiment is run for 10,000 episodes per strategy combination,
-              and the total win rate is tallied up.
+            The data presented in the table confirms our hypothesis that the random strategy would yield the poorest performance. In all cases, the random strategy exhibited lower performance compared to STRAT2, STRAT3, and STRAT4. The highest win percentage achieved by the random strategy was only 25% when pitted against the random/STRAT3 combination.
+            </p>
+            <p>
+            Contrary to our initial expectations, STRAT2 consistently outperformed STRAT3 in most cases. The lowest win percentage for STRAT2 was only 36% against two STRAT3 agents, while its highest win percentage reached 66% against two random strategies. On the other hand, STRAT3 displayed mixed results overall. It performed poorly against the random strategy and another STRAT3 combination with a win percentage of 30%, as well as against two STRAT2 strategies with a win percentage of 25%. However, its best performance was observed against two random strategies, achieving a 49% win percentage, and a random/STRAT3 combination with a win percentage of 39%.
             </p>
           </div>
         </div>

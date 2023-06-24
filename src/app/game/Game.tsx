@@ -313,11 +313,11 @@ export default function Game() {
 
       <div className="my-8 mx-auto max-w-7xl p-6 mb-32">
         <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
-          Real-time results
+          Your results
         </h2>
         <p className="text-gray-700 py-4">
           Results show how a strategy performs when playing against each
-          combination of opponent strategies.
+          combination of opponent strategies. Results are stored in your browser.
         </p>
         <table className="min-w-full divide-y divide-gray-300">
           <thead>

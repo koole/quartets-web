@@ -76,6 +76,7 @@ export default class GameEnvironment {
       turn: this.agents[Math.floor(Math.random() * 3)],
       turn_count: 0,
       results: this.state?.results || results,
+      speed: this.state?.speed || 1000,
       player: {
         cards: hands[0],
         suits: [],
@@ -155,6 +156,11 @@ export default class GameEnvironment {
     const [agent, card] = getQuestion(currentAgent, this.agents, this.state);
 
     this.state[currentAgent].question = { agent, card };
+  }
+
+  setGameSpeed(speed: number) {
+    this.state.speed = speed;
+    this.callback();
   }
 
   callback() {
@@ -342,14 +348,13 @@ export default class GameEnvironment {
 
   // Functions to start and stop auto loop with a delay
   autoStepInterval: any = null;
-  autoStepDelay = 3;
 
   startAutoStep() {
     this.state.autoPlaying = true;
     this.callback();
     this.autoStepInterval = setInterval(() => {
       this.autoStep();
-    }, this.autoStepDelay);
+    }, this.state.speed);
   }
 
   stopAutoStep() {

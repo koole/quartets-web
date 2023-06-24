@@ -24,6 +24,7 @@ export type GameState = {
   autoPlaying: boolean;
   turn_count: number;
   turn: AgentType;
+  speed: number;
   wins: {
     player: number;
     abelard: number;

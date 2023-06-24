@@ -4,8 +4,11 @@ import Navigation from "../../components/Nav";
 import {
   CheckCircleIcon,
   XCircleIcon,
-  XMarkIcon
+  XMarkIcon,
 } from "@heroicons/react/20/solid";
+
+import "katex/dist/katex.min.css";
+import Latex from "react-latex-next";
 
 import KripkeModelHidden from "./KipkeModelHidden";
 import KripkeModelStart from "./KipkeModelStart";
@@ -35,37 +38,89 @@ export default function Home() {
           <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
             Formal Model
           </h2>
-          <p>This project uses the following definitions in reference to the set of <strong>m</strong> agents <strong>A = &lang; a<sub>1</sub>, a<sub>2</sub>, ..., a<sub>m</sub> &rang;</strong> and the set of propositional atoms <strong>P</strong>. The Kripke model <strong>M</strong> for quartets consists of the tuple &lang; <strong>S</strong>, <strong>&pi;</strong>, <strong>R<sub>1</sub></strong>, ..., <strong>R<sub>m</sub></strong> &rang; where:</p>
+          <p>
+            This project uses the following definitions in reference to the set
+            of <Latex>$m$</Latex> agents{" "}
+            <Latex>$A = \langle a_1, a_2, ..., a_m \rangle$</Latex> and the set
+            of propositional atoms <Latex>$P$</Latex>. The Kripke model{" "}
+            <Latex>$M$</Latex> for quartets consists of the tuple
+            <Latex>$\langle S, \pi, R_1, ..., R_m \rangle$</Latex> where:
+          </p>
 
           <ul>
-            <li><strong>Set of States (S):</strong> The set <strong>S</strong> represents all possible states of the system. In this case, each state <em>s</em> represents a particular configuration of cards in each agent's hand.</li>
-            <li><strong>Truth Assignment Function (&pi;):</strong> The function &pi;: S &rarr; (P &rarr; {[<strong>t,</strong>, <strong>f</strong>]}) assigns truth values to propositional atoms for each state.</li>
-            <li><strong>Accessibility Relations (R<sub>1</sub>, R<sub>2</sub>, ..., R<sub>m</sub>):</strong> The accessibility relations R<sub>i</sub> &sube; S &times; S represent the relations between different states in the model. These relations define the transitions or possible state changes within the system.</li>
+            <li>
+              <strong>
+                Set of States (<Latex>$S$</Latex>):
+              </strong>{" "}
+              The set <Latex>$S$</Latex> represents all possible states of the
+              system. In this case, each state <em>s</em> represents a
+              particular configuration of cards in each agent's hand.
+            </li>
+            <li>
+              <strong>
+                Truth Assignment Function (<Latex>$\pi$</Latex>):
+              </strong>{" "}
+              The function <Latex>$\pi \rarr (P \rarr t, f)$</Latex> assigns
+              truth values to propositional atoms for each state.
+            </li>
+            <li>
+              <strong>
+                Accessibility Relations (<Latex>$R_1, R_2, ..., R_m$</Latex>):
+              </strong>{" "}
+              The accessibility relations{" "}
+              <Latex>$R_i \subseteq S \times S$</Latex> represent the relations
+              between different states in the model. These relations define the
+              transitions or possible state changes within the system.
+            </li>
           </ul>
           <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
             Common Knowledge
           </h2>
-          <p>In practice, this means that at the start of the game, all states in the set S are possible before the agents look at their cards. Once an agent looks at their cards, the state space collapses somewhat, as states in which an agent doesn't hold their cards aren't accessible anymore. At this point, the gameplay can begin, and the idea of common knowledge is introduced. Once an agent asks for a card, two important pieces of information become apparent:
+          <p>
+            In practice, this means that at the start of the game, all states in
+            the set S are possible before the agents look at their cards. Once
+            an agent looks at their cards, the state space collapses somewhat,
+            as states in which an agent doesn't hold their cards aren't
+            accessible anymore. At this point, the gameplay can begin, and the
+            idea of common knowledge is introduced. Once an agent asks for a
+            card, two important pieces of information become apparent:
           </p>
           <p>
-          First, let's say Agent 1 asks Agent 2 for Green 4. This means that Agent 1 is holding at least one green card. It thus becomes common knowledge that Agent 1 is holding green: <strong>C1<sub>G</sub></strong>.
+            First, let's say Agent 1 asks Agent 2 for Green 4. This means that
+            Agent 1 is holding at least one green card. It thus becomes common
+            knowledge that Agent 1 is holding green:{" "}
+            <Latex>
+              $C1_G$
+            </Latex>
+            .
           </p>
           <p>
-          Second, if Agent 2 does have Green 4 and hands it over to Agent 1 it then becomes common knowledge that Agent 1 is holding Green 4: <strong>C(1<sub>G</sub> ∧ 1<sub>G4</sub>)</strong> However, if Agent 2 does not have Green 4, then it becomes common knowledge that Agent 2 does not hold this card: <strong>C(1<sub>G</sub> ∧ ¬2<sub>G4</sub>)</strong>
+            Second, if Agent 2 does have Green 4 and hands it over to Agent 1 it
+            then becomes common knowledge that Agent 1 is holding Green 4:{" "}
+            <Latex>
+              {"$C(1_G \\land 1_{G4})$"}
+            </Latex>{" "}
+            However, if Agent 2 does not have Green 4, then it becomes common
+            knowledge that Agent 2 does not hold this card:{" "}
+            <Latex>
+              {"$C(1_G \\land \\neg 2_{G4})$"}
+            </Latex>.
           </p>
           <p>
-          Obviously, this is a very complicated affair with all cards in play, so below a simplified model is outlined and worked through. 
+            Obviously, this is a very complicated affair with all cards in play,
+            so below a simplified model is outlined and worked through.
           </p>
           <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
             <h1 className="mt-24 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Simplified model
             </h1>
             <p className="mt-6 text-xl leading-8">
-              In order to be able to represent the knowledge in the game and the possible states, we make use of a
-              simplified model.
+              In order to be able to represent the knowledge in the game and the
+              possible states, we make use of a simplified model.
               <br />
-              The true state, shown by the green dot <span className="inline-block w-3 h-3 bg-green-500 rounded-full" /> in each Kripke model,
-              is as follows:
+              The true state, shown by the green dot{" "}
+              <span className="inline-block w-3 h-3 bg-green-500 rounded-full" />{" "}
+              in each Kripke model, is as follows:
               <ul className="flex justify-around mt-6 mb-12">
                 <li>
                   <strong>Player 1: </strong>
@@ -114,8 +169,9 @@ export default function Home() {
             <h2 className="mt-2 text-2xl font-bold tracking-tight text-gray-900">
               Inital state
             </h2>
-            This represents the start of the game, when the cards have just been dealt between the three players.
-            Nobody has seen their cards, so anything is possible.
+            This represents the start of the game, when the cards have just been
+            dealt between the three players. Nobody has seen their cards, so
+            anything is possible.
             <KripkeModelHidden />
             <h2 className="mt-24 border-t border-gray-300 pt-24 text-2xl font-bold tracking-tight text-gray-900">
               Looking at cards
@@ -178,8 +234,8 @@ export default function Home() {
             <h2 className="mt-24 border-t border-gray-300 pt-24 text-2xl font-bold tracking-tight text-gray-900">
               Round 1
             </h2>
-            Once the game starts, it is Player 1 who can ask for the first card. Player 1 decides to ask Player 2
-            for Green 1.
+            Once the game starts, it is Player 1 who can ask for the first card.
+            Player 1 decides to ask Player 2 for Green 1.
             <br />
             <div>
               <ul className="flex justify-around mt-6 mb-12 rounded-md bg-slate-100 py-12">
@@ -228,8 +284,9 @@ export default function Home() {
                 </li>
               </ul>
             </div>
-            As we can see above in the true state, Player 2 does not have the card Green 1. Because of this, there is certain common
-            knowledge in the game, as follows:
+            As we can see above in the true state, Player 2 does not have the
+            card Green 1. Because of this, there is certain common knowledge in
+            the game, as follows:
             <br />
             <ul role="list" className="mt-8 max-w-xl space-y-2 text-gray-600">
               <li className="flex gap-x-3">
@@ -265,7 +322,7 @@ export default function Home() {
                   <div className="flex gap-3">
                     <CardDisplay
                       hide={true}
-                      card={{ color: 'red', number: 0, id: 'red-0' }}
+                      card={{ color: "red", number: 0, id: "red-0" }}
                     />
                     <CardDisplay
                       hide={false}
@@ -277,8 +334,15 @@ export default function Home() {
                   <strong>Player 2: </strong>
                   <br />
                   <div className="flex gap-3">
-                    <div className="card-display-container" style={{ position: 'relative' }}>
-                      <CardDisplay x={true} hide={false} card={{ color: 'green', number: 1, id: 'red-0' }} />
+                    <div
+                      className="card-display-container"
+                      style={{ position: "relative" }}
+                    >
+                      <CardDisplay
+                        x={true}
+                        hide={false}
+                        card={{ color: "green", number: 1, id: "red-0" }}
+                      />
                     </div>
                     <CardDisplay
                       hide={true}
@@ -302,13 +366,12 @@ export default function Home() {
                 </li>
               </ul>
             </div>
-
             <KripkeModelRound1 />
             <h2 className="mt-24 border-t border-gray-300 pt-24 text-2xl font-bold tracking-tight text-gray-900">
               Round 2
             </h2>
-            As Player 1 did not get a card in Round 1, this round it is the turn of Player 2. Player 2 decides to ask
-            Player 1 for Yellow 1.
+            As Player 1 did not get a card in Round 1, this round it is the turn
+            of Player 2. Player 2 decides to ask Player 1 for Yellow 1.
             <br />
             <div>
               <ul className="flex justify-around mt-6 mb-12 rounded-md bg-slate-100 py-12">
@@ -357,8 +420,9 @@ export default function Home() {
                 </li>
               </ul>
             </div>
-            As we can see above in the true state, Player 1 does not have the card Yelllow 1. Because of this, the common
-            knowledge gets updated with the following:
+            As we can see above in the true state, Player 1 does not have the
+            card Yelllow 1. Because of this, the common knowledge gets updated
+            with the following:
             <br />
             <ul role="list" className="mt-8 max-w-xl space-y-2 text-gray-600">
               <li className="flex gap-x-3">
@@ -396,8 +460,15 @@ export default function Home() {
                   <strong>Player 1: </strong>
                   <br />
                   <div className="flex gap-3">
-                    <div className="card-display-container" style={{ position: 'relative' }}>
-                      <CardDisplay x={true} hide={false} card={{ color: 'yellow', number: 1, id: 'yellow-1' }} />
+                    <div
+                      className="card-display-container"
+                      style={{ position: "relative" }}
+                    >
+                      <CardDisplay
+                        x={true}
+                        hide={false}
+                        card={{ color: "yellow", number: 1, id: "yellow-1" }}
+                      />
                     </div>
                     <CardDisplay
                       hide={false}
@@ -410,8 +481,15 @@ export default function Home() {
                   <strong>Player 2: </strong>
                   <br />
                   <div className="flex gap-3">
-                    <div className="card-display-container" style={{ position: 'relative' }}>
-                      <CardDisplay x={true} hide={false} card={{ color: 'green', number: 1, id: 'red-0' }} />
+                    <div
+                      className="card-display-container"
+                      style={{ position: "relative" }}
+                    >
+                      <CardDisplay
+                        x={true}
+                        hide={false}
+                        card={{ color: "green", number: 1, id: "red-0" }}
+                      />
                     </div>
                     <CardDisplay
                       hide={false}
@@ -445,9 +523,10 @@ export default function Home() {
             <h2 className="mt-24 border-t border-gray-300 pt-24 text-2xl font-bold tracking-tight text-gray-900">
               Round 3
             </h2>
-            Player 2 was not successful, so now the turn goes back to Player 1. Player 1 now asks Player 3 for
-            Green 1. As Player 3 has Green 1 in its hand, Player 1 receives the card, resulting in Player 1
-            having a Green Suite. This results in the true state: <br />
+            Player 2 was not successful, so now the turn goes back to Player 1.
+            Player 1 now asks Player 3 for Green 1. As Player 3 has Green 1 in
+            its hand, Player 1 receives the card, resulting in Player 1 having a
+            Green Suite. This results in the true state: <br />
             <div>
               <ul className="flex justify-around mt-6 mb-12 rounded-md bg-slate-100 py-12">
                 <b>True state</b>
@@ -519,8 +598,15 @@ export default function Home() {
                   <strong>Player 1: </strong>
                   <br />
                   <div className="flex gap-3">
-                    <div className="card-display-container" style={{ position: 'relative' }}>
-                      <CardDisplay x={true} hide={false} card={{ color: 'yellow', number: 1, id: 'yellow-1' }} />
+                    <div
+                      className="card-display-container"
+                      style={{ position: "relative" }}
+                    >
+                      <CardDisplay
+                        x={true}
+                        hide={false}
+                        card={{ color: "yellow", number: 1, id: "yellow-1" }}
+                      />
                     </div>
                     <SuitDisplay key="green" suit="green" />
                     <EmptyCard key="red" suit="red" />
@@ -560,10 +646,11 @@ export default function Home() {
             <h2 className="mt-24 border-t border-gray-300 pt-24 text-2xl font-bold tracking-tight text-gray-900">
               Round 4
             </h2>
-            In the previous round, Player 1 was able to get the requested card, meaning that Player 1 can choose
-            another card. Therefore, Player 1 asks Player 2 for Red 1. This results in Player 1 receiving the card
-            Red 1, completing the Red suite. This results in the situation: <br />
-
+            In the previous round, Player 1 was able to get the requested card,
+            meaning that Player 1 can choose another card. Therefore, Player 1
+            asks Player 2 for Red 1. This results in Player 1 receiving the card
+            Red 1, completing the Red suite. This results in the situation:{" "}
+            <br />
             <div>
               <ul className="flex justify-around mt-6 mb-12 rounded-md bg-slate-100 py-12">
                 <li>
@@ -597,7 +684,8 @@ export default function Home() {
               </ul>
             </div>
             <br />
-            As Player 1 already has 2 out of 3 suites, the game is finished, and Player 1 is the winner.
+            As Player 1 already has 2 out of 3 suites, the game is finished, and
+            Player 1 is the winner.
             <KripkeModelRound3 />
           </div>
         </div>

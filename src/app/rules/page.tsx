@@ -1,4 +1,9 @@
 import Navigation from "../../components/Nav";
+import {
+  CheckCircleIcon,
+  XCircleIcon,
+  XMarkIcon
+} from "@heroicons/react/20/solid";
 
 export default function Home() {
   return (
@@ -102,6 +107,62 @@ export default function Home() {
             variations to its rules, so the aforementioned rules are our
             interpretation of the game.
           </p>
+          <div className="mt-6 max-w-2xl">
+            <p>
+              All agents start out with a number of prerequisite knowledge about the
+              game:
+            </p>
+          </div>
+          <ul role="list" className="mt-8 max-w-xl space-y-8 text-gray-600">
+            <li className="flex gap-x-3">
+              <CheckCircleIcon
+                className="mt-1 h-5 w-5 flex-none text-indigo-600"
+                aria-hidden="true"
+              />
+              <span>
+                <strong className="font-semibold text-gray-900"></strong> In
+                total, there are 24 cards which are divided into 6 different
+                colours. For each colour, the cards are numbered from 0 to 3,
+                and a player can have a quartet when all of those 4 numbers of
+                the same colour are collected.
+              </span>
+            </li>
+            <li className="flex gap-x-3">
+              <CheckCircleIcon
+                className="mt-1 h-5 w-5 flex-none text-indigo-600"
+                aria-hidden="true"
+              />
+              <span>
+                <strong className="font-semibold text-gray-900"></strong> It is
+                common knowledge that when a card is not present in the player&apos;s
+                own hand, then it means that one of the other players must have
+                this card.
+              </span>
+            </li>
+            <li className="flex gap-x-3">
+              <CheckCircleIcon
+                className="mt-1 h-5 w-5 flex-none text-indigo-600"
+                aria-hidden="true"
+              />
+              <span>
+                <strong className="font-semibold text-gray-900"></strong> If a
+                player does not place on the table four cards of the same
+                colour, forming a quartet, then it means that the specific
+                player does not have a quartet in hand.
+              </span>
+            </li>
+            <li className="flex gap-x-3">
+              <CheckCircleIcon
+                className="mt-1 h-5 w-5 flex-none text-indigo-600"
+                aria-hidden="true"
+              />
+              <span>
+                <strong className="font-semibold text-gray-900"></strong> It is
+                common knowledge that a player can only ask for a colour that is
+                already present in the player&apos;s hand.
+              </span>
+            </li>
+          </ul>
         </div>
       </div>
     </main>

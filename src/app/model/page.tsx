@@ -39,7 +39,7 @@ export default function Home() {
 
           <ul>
             <li><strong>Set of States (S):</strong> The set <strong>S</strong> represents all possible states of the system. In this case, each state <em>s</em> represents a particular configuration of cards in each agent's hand.</li>
-            <li><strong>Truth Assignment Function (&pi;):</strong> The function &pi;: S &rarr; (P &rarr; {<strong>t</strong>, <strong>f</strong>}) assigns truth values to propositional atoms for each state.</li>
+            <li><strong>Truth Assignment Function (&pi;):</strong> The function &pi;: S &rarr; (P &rarr; {[<strong>t,</strong>, <strong>f</strong>]}) assigns truth values to propositional atoms for each state.</li>
             <li><strong>Accessibility Relations (R<sub>1</sub>, R<sub>2</sub>, ..., R<sub>m</sub>):</strong> The accessibility relations R<sub>i</sub> &sube; S &times; S represent the relations between different states in the model. These relations define the transitions or possible state changes within the system.</li>
           </ul>
           <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
@@ -56,62 +56,6 @@ export default function Home() {
           <p>
           Obviously, this is a very complicated affair with all cards in play, so below a simplified model is outlined and worked through. 
           </p>
-          {/* <div className="mt-6 max-w-2xl">
-            <p>
-              All agents start out with the following common knowledge about the
-              game:
-            </p>
-          </div>
-          <ul role="list" className="mt-8 max-w-xl space-y-8 text-gray-600">
-            <li className="flex gap-x-3">
-              <CheckCircleIcon
-                className="mt-1 h-5 w-5 flex-none text-indigo-600"
-                aria-hidden="true"
-              />
-              <span>
-                <strong className="font-semibold text-gray-900"></strong> In
-                total, there are 24 cards which are divided into 6 different
-                colours. For each colour, the cards are numbered from 0 to 3,
-                and a player can have a quartet when all of those 4 numbers of
-                the same colour are collected.
-              </span>
-            </li>
-            <li className="flex gap-x-3">
-              <CheckCircleIcon
-                className="mt-1 h-5 w-5 flex-none text-indigo-600"
-                aria-hidden="true"
-              />
-              <span>
-                <strong className="font-semibold text-gray-900"></strong> It is
-                common knowledge that when a card is not present in the player&apos;s
-                own hand, then it means that one of the other players must have
-                this card.
-              </span>
-            </li>
-            <li className="flex gap-x-3">
-              <CheckCircleIcon
-                className="mt-1 h-5 w-5 flex-none text-indigo-600"
-                aria-hidden="true"
-              />
-              <span>
-                <strong className="font-semibold text-gray-900"></strong> If a
-                player does not place on the table four cards of the same
-                colour, forming a quartet, then it means that the specific
-                player does not have a quartet in hand.
-              </span>
-            </li>
-            <li className="flex gap-x-3">
-              <CheckCircleIcon
-                className="mt-1 h-5 w-5 flex-none text-indigo-600"
-                aria-hidden="true"
-              />
-              <span>
-                <strong className="font-semibold text-gray-900"></strong> It is
-                common knowledge that a player can only ask for a colour that is
-                already present in the player&apos;s hand.
-              </span>
-            </li>
-          </ul> */}
           <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
             <h1 className="mt-24 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Simplified model

@@ -53,6 +53,9 @@ export default function Home() {
           <p>
           Second, if Agent 2 does have Green 4 and hands it over to Agent 1 it then becomes common knowledge that Agent 1 is holding Green 4: <strong>C(1<sub>G</sub> ∧ 1<sub>G4</sub>)</strong> However, if Agent 2 does not have Green 4, then it becomes common knowledge that Agent 2 does not hold this card: <strong>C(1<sub>G</sub> ∧ ¬2<sub>G4</sub>)</strong>
           </p>
+          <p>
+          Obviously, this is a very complicated affair with all cards in play, so below a simplified model is outlined and worked through. 
+          </p>
           {/* <div className="mt-6 max-w-2xl">
             <p>
               All agents start out with the following common knowledge about the

@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Navigation from "../../components/Nav";
 import { tailwind_heatmap } from "@/heatmap";
 
@@ -301,6 +302,7 @@ export default function Home() {
           <p>place holder</p>
         </div>
       </div>
+      <Footer />
     </main>
   );
 }

@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Navigation from "../../components/Nav";
 import {
   CheckCircleIcon,
@@ -164,6 +165,7 @@ export default function Home() {
           </ul>
         </div>
       </div>
+      <Footer />
     </main>
   );
 }

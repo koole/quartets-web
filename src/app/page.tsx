@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer';
 import Header from '../components/Header'
 import Navigation from '../components/Nav';
 import {
@@ -130,7 +131,7 @@ export default function Home() {
           </ul>
         </div>
       </div>
-
+      <Footer />
     </main>
   )
 }

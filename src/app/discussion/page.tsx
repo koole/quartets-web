@@ -14,13 +14,16 @@ export default function Home() {
             Results
           </h1>
           <p className="mt-6">
-            The table data validates our hypothesis that the random strategy would demonstrate the weakest performance. Across all scenarios, the random strategy consistently performed worse when compared to the firstOrder, secondOrder, and Combined strategies. The random strategy achieved its highest win percentages of only 25% when facing the random/secondOrder and random/Combined combinations.
+            The table data validates our hypothesis that the random strategy would demonstrate the weakest performance. Across all scenarios, the random strategy consistently performed worse when compared to the firstOrder, secondOrder, and Combined strategies. The random strategy achieved its highest win percentages of only 25% when facing the random/secondOrder and random/Combined combinations. On average, the random strategy achieved a win percentage of 24% across all combinations.
           </p>
           <p>
-            Contrary to our initial expectations, the firstOrder strategy consistently outperformed the secondOrder strategy in most cases. The lowest win percentage for firstOrder was only 36% when facing two secondOrder agents, while its highest win percentage reached 66% against two random strategies. On the other hand, secondOrder exhibited mixed results overall. It performed poorly against the random/firstOrder combination, achieving a win percentage of 30%, as well as against two firstOrder strategies with a win percentage of 25%. However, its best performance was observed against two random strategies, achieving a win percentage of 49%, and against a random/combined combination with a win percentage of 48%.
+            Contrary to our initial expectations, the firstOrder strategy consistently outperformed the secondOrder strategy in most cases. The lowest win percentage for firstOrder was only 36% when facing two secondOrder agents, while its highest win percentage reached 66% against two random strategies. On average the firstOrder strategy achieved a 43% win percentage across all combinations.
           </p>
           <p>
-            The Combined strategy did not yield the most competitive results as initially anticipated. It achieved a 51% win percentage against two random strategies and a 38% win percentage against a random/Combined combination. However, when paired with other combinations, it failed to achieve win percentages higher than 33%.
+            On the other hand, secondOrder exhibited mixed results overall. It performed poorly against the random/firstOrder combination, achieving a win percentage of 30%, as well as against two firstOrder strategies with a win percentage of 25%. However, its best performance was observed against two random strategies, achieving a win percentage of 49%, and against a random/combined combination with a win percentage of 48%. On average the secondOrder strategy achieved an average win percentage of 37% across all combinations.
+          </p>
+          <p>
+            The Combined strategy did not yield the most competitive results as initially anticipated. It achieved a 51% win percentage against two random strategies and a 38% win percentage against a random/Combined combination. However, when paired with other combinations, it failed to achieve win percentages higher than 33%. On average, the Combined strategy had an average win percentage of 33% across all combinations.
           </p>
           <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Discussion
@@ -28,6 +31,13 @@ export default function Home() {
           <p>
             placeholder
           </p>
+          <h2 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            Limitations
+          </h2>
+          <p>
+            place holder
+          </p>
+
         </div>
       </div>
     </main>

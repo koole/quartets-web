@@ -219,6 +219,57 @@ function guarded(
   }
 
   // defaults to random
+  console.log("default to first order");
+  let [agent, card] = getMostCards(active_agent, agents, cards, state);
+  return [agent, card];
+}
+
+function combined(
+  active_agent: AgentType,
+  agents: AgentType[],
+  cards: Card[],
+  state: GameState
+): [AgentType, Card] {
+  console.log(active_agent + " is guarding, falling back to mostCards");
+
+  // attempt to find a card from advertised suits
+  let advertised_suits = state.common[active_agent].suits;
+  for (let i = 0; i < advertised_suits.length; i++) {
+    for (let j = 0; j < cards.length; j++) {
+      if (advertised_suits[i] === cards[j].color) {
+        // Check if the card color matches the advertised suit
+        const otherAgents = agents.filter((agent) => agent !== active_agent);
+        let index = Math.floor(Math.random() * otherAgents.length)
+        const randomAgent = otherAgents[index];
+
+        // Ask for a suit and number that isn't guarded or held, or is known not to be in the hand of the target
+        let target_suit = CARD_LIST.filter(
+          (card) => card.color === cards[j].color && !state.common[randomAgent].not_cards.includes(card.id)
+        );
+        let card = target_suit.find((card) => !cards.includes(card));
+
+        // check the other agent
+        if(!card){
+          index = index === 0 ? 1 : 0;
+          let target = otherAgents[index];
+
+          target_suit = CARD_LIST.filter(
+            (card) => card.color === cards[j].color && !state.common[target].not_cards.includes(card.id)
+          );
+          card = target_suit.find((card) => !cards.includes(card));
+        }
+
+        if (card) {
+          console.log("Selected card:", card);
+          console.log(`${active_agent} advertises ${state.common[active_agent].suits}`)
+          console.log(`${active_agent} advertises neg ${state.common[active_agent].not_suits}`)
+          return [randomAgent, card];
+        }
+      }
+    }
+  }
+
+  // defaults to random
   console.log("default to random");
   let [agent, card] = getRandomQuestion(active_agent, agents, cards);
   return [agent, card];
@@ -237,9 +288,9 @@ export default function getQuestion(
       return guarded(currentAgent, agents, cards, state);
     case "mostCards":
       // return getMostCards(currentAgent, agents, cards, state);
-      const mostCardsResult = getMostCards(currentAgent, agents, cards, state);
-      console.log("Most cards result:", mostCardsResult);
-      return mostCardsResult;
+      return getMostCards(currentAgent, agents, cards, state);
+    case "combined":
+      return combined(currentAgent, agents, cards, state);
     case "random":
     default:
       return getRandomQuestion(currentAgent, agents, cards);

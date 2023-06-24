@@ -1,12 +1,17 @@
 export type AgentType = "player" | "abelard" | "heloise";
-export type StrategyType = "random" | "mostCards" | "smart";
+export type StrategyType = "random" | "mostCards" | "smart" | "combined";
 export type StrategyComboType =
   | "random-random"
   | "random-mostCards"
   | "random-smart"
+  | "random-combined"
   | "mostCards-mostCards"
   | "mostCards-smart"
-  | "smart-smart";
+  | "mostCards-combined"
+  | "smart-smart"
+  | "smart-combined"
+  | "combined-combined";
+
 
 export type GameState = {
   [key in AgentType]: {

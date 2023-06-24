@@ -21,7 +21,7 @@ export function shuffleArray(arr: any[]) {
 
 export default class GameEnvironment {
   agents: AgentType[] = shuffleArray(["player", "abelard", "heloise"]);
-  strategies: StrategyType[] = ["random", "mostCards", "smart"];
+  strategies: StrategyType[] = ["random", "mostCards", "smart", "combined"];
   state: GameState;
 
   stateCallback: (state: any) => void = (state) => console.log("Placeholder");
@@ -75,6 +75,10 @@ export default class GameEnvironment {
             wins: 0,
             losses: 0,
           },
+          "random-combined": {
+            wins: 0,
+            losses: 0,
+          },
           "mostCards-mostCards": {
             wins: 0,
             losses: 0,
@@ -83,7 +87,19 @@ export default class GameEnvironment {
             wins: 0,
             losses: 0,
           },
+          "mostCards-combined": {
+            wins: 0,
+            losses: 0,
+          },
           "smart-smart": {
+            wins: 0,
+            losses: 0,
+          },
+          "smart-combined": {
+            wins: 0,
+            losses: 0,
+          },
+          "combined-combined": {
             wins: 0,
             losses: 0,
           },
@@ -101,6 +117,10 @@ export default class GameEnvironment {
             wins: 0,
             losses: 0,
           },
+          "random-combined": {
+            wins: 0,
+            losses: 0,
+          },
           "mostCards-mostCards": {
             wins: 0,
             losses: 0,
@@ -109,7 +129,19 @@ export default class GameEnvironment {
             wins: 0,
             losses: 0,
           },
+          "mostCards-combined": {
+            wins: 0,
+            losses: 0,
+          },
           "smart-smart": {
+            wins: 0,
+            losses: 0,
+          },
+          "smart-combined": {
+            wins: 0,
+            losses: 0,
+          },
+          "combined-combined": {
             wins: 0,
             losses: 0,
           },
@@ -127,6 +159,10 @@ export default class GameEnvironment {
             wins: 0,
             losses: 0,
           },
+          "random-combined": {
+            wins: 0,
+            losses: 0,
+          },
           "mostCards-mostCards": {
             wins: 0,
             losses: 0,
@@ -135,7 +171,61 @@ export default class GameEnvironment {
             wins: 0,
             losses: 0,
           },
+          "mostCards-combined": {
+            wins: 0,
+            losses: 0,
+          },
           "smart-smart": {
+            wins: 0,
+            losses: 0,
+          },
+          "smart-combined": {
+            wins: 0,
+            losses: 0,
+          },
+          "combined-combined": {
+            wins: 0,
+            losses: 0,
+          },
+        },
+        combined: {
+          "random-random": {
+            wins: 0,
+            losses: 0,
+          },
+          "random-mostCards": {
+            wins: 0,
+            losses: 0,
+          },
+          "random-smart": {
+            wins: 0,
+            losses: 0,
+          },
+          "random-combined": {
+            wins: 0,
+            losses: 0,
+          },
+          "mostCards-mostCards": {
+            wins: 0,
+            losses: 0,
+          },
+          "mostCards-smart": {
+            wins: 0,
+            losses: 0,
+          },
+          "mostCards-combined": {
+            wins: 0,
+            losses: 0,
+          },
+          "smart-smart": {
+            wins: 0,
+            losses: 0,
+          },
+          "smart-combined": {
+            wins: 0,
+            losses: 0,
+          },
+          "combined-combined": {
             wins: 0,
             losses: 0,
           },

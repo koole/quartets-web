@@ -409,6 +409,12 @@ export default function Game() {
                 scope="col"
                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
+                Random & Combined
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
                 Most Cards & Most Cards
               </th>
               <th
@@ -421,7 +427,25 @@ export default function Game() {
                 scope="col"
                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
+                Most Cards & Combined
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
                 Smart & Smart
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Smart & Combined
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Combined & Combined
               </th>
             </tr>
           </thead>
@@ -456,7 +480,7 @@ export default function Game() {
                         className={`px-3 py-3.5 text-left text-sm font-semibold text-gray-900 ${color}`}
                         key={`${strategy}-${key}`}
                       >
-                        {percentage === null ? "-" : `${percentage}%`}
+                        {percentage === null ? "-" : `${percentage}%`} ({value.wins + value.losses})
                       </td>
                     );
                   }

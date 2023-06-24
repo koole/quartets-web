@@ -229,7 +229,9 @@ export default function Game() {
         <div className="grid grid-cols-3 gap-4 p-6 lg:px-8">
           <div>
             <div className="mb-2">
-              <div className="text-slate-600 mt-2">Strategy: {gameState.abelard.strategy}</div>
+              <div className="text-slate-600 mt-2">
+                Strategy: {gameState.abelard.strategy}
+              </div>
               <select
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 value={gameState.abelard.strategy}
@@ -281,7 +283,9 @@ export default function Game() {
           </div>
           <div>
             <div className="mb-2">
-              <div className="text-slate-600 mt-2">Strategy: {gameState.heloise.strategy}</div>
+              <div className="text-slate-600 mt-2">
+                Strategy: {gameState.heloise.strategy}
+              </div>
               <select
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 value={gameState.heloise.strategy}
@@ -333,7 +337,9 @@ export default function Game() {
           </div>
           <div>
             <div className="mb-2">
-              <div className="text-slate-600 mt-2">Strategy: {gameState.player.strategy}</div>
+              <div className="text-slate-600 mt-2">
+                Strategy: {gameState.player.strategy}
+              </div>
               <select
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 value={gameState.player.strategy}
@@ -377,7 +383,13 @@ export default function Game() {
       </div>
 
       <div className="mt-8 mx-auto max-w-7xl p-6">
-        <div className="text-slate-600 mt-2">Results</div>
+        <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
+          Results
+        </h2>
+        <p className="text-gray-700 py-4">
+          Results show how a strategy performs when playing against each
+          combination of opponent strategies.
+        </p>
         <table className="min-w-full divide-y divide-gray-300">
           <thead>
             <tr>
@@ -397,13 +409,13 @@ export default function Game() {
                 scope="col"
                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
-                Random & Most Cards
+                Random & 1st Order
               </th>
               <th
                 scope="col"
                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
-                Random & Smart
+                Random & 2nd Order
               </th>
               <th
                 scope="col"
@@ -415,31 +427,31 @@ export default function Game() {
                 scope="col"
                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
-                Most Cards & Most Cards
+                1st Order & 1st Order
               </th>
               <th
                 scope="col"
                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
-                Most Cards & Smart
+                1st Order & 2nd Order
               </th>
               <th
                 scope="col"
                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
-                Most Cards & Combined
+                1st Order & Combined
               </th>
               <th
                 scope="col"
                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
-                Smart & Smart
+                2nd Order & 2nd Order
               </th>
               <th
                 scope="col"
                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
-                Smart & Combined
+                2nd Order & Combined
               </th>
               <th
                 scope="col"
@@ -480,7 +492,10 @@ export default function Game() {
                         className={`px-3 py-3.5 text-left text-sm font-semibold text-gray-900 ${color}`}
                         key={`${strategy}-${key}`}
                       >
-                        {percentage === null ? "-" : `${percentage}%`} ({value.wins + value.losses})
+                        {percentage === null ? "-" : `${percentage}%`}
+                        <div className="text-xs opacity-75 font-normal">
+                          {value.wins + value.losses} games
+                        </div>
                       </td>
                     );
                   }

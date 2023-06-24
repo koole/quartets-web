@@ -20,13 +20,14 @@ export function shuffleArray(arr: any[]) {
 }
 
 export default class GameEnvironment {
-  agents: AgentType[] = ["player", "abelard", "heloise"];
+  agents: AgentType[] = shuffleArray(["player", "abelard", "heloise"]);
   strategies: StrategyType[] = ["random", "mostCards", "smart"];
   state: GameState;
 
   stateCallback: (state: any) => void = (state) => console.log("Placeholder");
 
   constructor() {
+    this.agents = shuffleArray(["player", "abelard", "heloise"]);
     this.state = this.createEnvironment({
       player: 0,
       abelard: 0,
@@ -362,6 +363,7 @@ export default class GameEnvironment {
         localStorage.setItem("results", JSON.stringify(newState.results));
 
         // Reset game, keeping track of wins
+        this.agents = shuffleArray(["player", "abelard", "heloise"]);
         this.state = this.createEnvironment(newState.wins);
       } else {
         // If game is not over, update turn

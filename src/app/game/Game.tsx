@@ -401,107 +401,129 @@ export default function Game() {
               </th>
               <th
                 scope="col"
-                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                className="px-3 py-3.5 text-left text-xs font-semibold text-gray-900"
               >
                 Random & Random
               </th>
               <th
                 scope="col"
-                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                className="px-3 py-3.5 text-left text-xs font-semibold text-gray-900"
               >
                 Random & 1st Order
               </th>
               <th
                 scope="col"
-                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                className="px-3 py-3.5 text-left text-xs font-semibold text-gray-900"
               >
                 Random & 2nd Order
               </th>
               <th
                 scope="col"
-                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                className="px-3 py-3.5 text-left text-xs font-semibold text-gray-900"
               >
                 Random & Combined
               </th>
               <th
                 scope="col"
-                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                className="px-3 py-3.5 text-left text-xs font-semibold text-gray-900"
               >
                 1st Order & 1st Order
               </th>
               <th
                 scope="col"
-                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                className="px-3 py-3.5 text-left text-xs font-semibold text-gray-900"
               >
                 1st Order & 2nd Order
               </th>
               <th
                 scope="col"
-                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                className="px-3 py-3.5 text-left text-xs font-semibold text-gray-900"
               >
                 1st Order & Combined
               </th>
               <th
                 scope="col"
-                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                className="px-3 py-3.5 text-left text-xs font-semibold text-gray-900"
               >
                 2nd Order & 2nd Order
               </th>
               <th
                 scope="col"
-                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                className="px-3 py-3.5 text-left text-xs font-semibold text-gray-900"
               >
                 2nd Order & Combined
               </th>
               <th
                 scope="col"
-                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                className="px-3 py-3.5 text-left text-xs font-semibold text-gray-900"
               >
                 Combined & Combined
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3.5 text-left text-xs font-semibold text-gray-900 sm:pr-0"
+              >
+                Average
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {gameEnvironment.current.strategies.map((strategy) => (
-              <tr key={strategy}>
-                <td className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
-                  {strategy}
-                </td>
-                {/* Loop over object keys of strategy */}
-                {Object.entries(gameState.results[strategy]).map(
-                  ([key, value]) => {
-                    let percentage: number | null =
-                      Math.round(
-                        (value.wins / (value.wins + value.losses)) * 100
-                      ) || 0;
-                    if (value.wins === 0 && value.losses === 0) {
-                      percentage = null;
-                    }
-                    // Get the color for the bar based on the percentage from tailwind_heatmap array
-                    // Calculate index based on percentage
-                    let color = "gray-100";
-                    if (percentage !== null) {
-                      const index = Math.round(
-                        (percentage / 100) * (tailwind_heatmap.length - 1)
+            {gameEnvironment.current.strategies.map((strategy) => {
+              let totalWins = 0;
+              let totalLosses = 0;
+              
+              return (
+                <tr key={strategy}>
+                  <td className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                    {strategy}
+                  </td>
+                  {/* Loop over object keys of strategy */}
+                  {Object.entries(gameState.results[strategy]).map(
+                    ([key, value]) => {
+                      let percentage: number | null =
+                        Math.round(
+                          (value.wins / (value.wins + value.losses)) * 100
+                        ) || 0;
+                      if (value.wins === 0 && value.losses === 0) {
+                        percentage = null;
+                      }
+                      // Get the color for the bar based on the percentage from tailwind_heatmap array
+                      // Calculate index based on percentage
+                      let color = "gray-100";
+                      if (percentage !== null) {
+                        const index = Math.round(
+                          (percentage / 100) * (tailwind_heatmap.length - 1)
+                        );
+                        // Get the color from the array
+                        color = tailwind_heatmap[index];
+                      }
+                      // Add to total wins and losses
+                      totalWins += value.wins;
+                      totalLosses += value.losses;
+
+                      return (
+                        <td
+                          className={`px-3 py-3.5 text-left text-sm font-semibold text-gray-900 ${color}`}
+                          key={`${strategy}-${key}`}
+                        >
+                          {percentage === null ? "-" : `${percentage}%`}
+                          <div className="text-xs opacity-75 font-normal">
+                            {value.wins + value.losses} games
+                          </div>
+                        </td>
                       );
-                      // Get the color from the array
-                      color = tailwind_heatmap[index];
                     }
-                    return (
-                      <td
-                        className={`px-3 py-3.5 text-left text-sm font-semibold text-gray-900 ${color}`}
-                        key={`${strategy}-${key}`}
-                      >
-                        {percentage === null ? "-" : `${percentage}%`}
-                        <div className="text-xs opacity-75 font-normal">
-                          {value.wins + value.losses} games
-                        </div>
-                      </td>
-                    );
-                  }
-                )}
-              </tr>
-            ))}
+                  )}
+                  <td className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:pr-0">
+                    {Math.round((totalWins / (totalWins + totalLosses)) * 100) || 0}
+                    %
+                    <div className="text-xs opacity-75 font-normal whitespace-nowrap">
+                      {totalWins + totalLosses} games
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

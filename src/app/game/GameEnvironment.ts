@@ -133,14 +133,14 @@ export default class GameEnvironment {
     this.agents.forEach((agent) => {
       CARD_COLORS.forEach((color) => {
         const cardsOfSameColor = newState[agent].cards.filter(
-          (c) => c.color === color
+          (c: Card) => c.color === color
         );
 
         if (cardsOfSameColor.length === NUM_NUMBERS) {
           //@ts-ignore
           newState[agent].suits.push(color);
           newState[agent].cards = newState[agent].cards.filter(
-            (c) => c.color !== color
+            (c: Card) => c.color !== color
           );
 
           newState.log.push({

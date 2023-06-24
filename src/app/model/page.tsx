@@ -55,7 +55,7 @@ export default function Home() {
               </strong>{" "}
               The set <Latex>$S$</Latex> represents all possible states of the
               system. In this case, each state <em>s</em> represents a
-              particular configuration of cards in each agent's hand.
+              particular configuration of cards in each agent&apos;s hand.
             </li>
             <li>
               <strong>
@@ -81,13 +81,13 @@ export default function Home() {
             In practice, this means that at the start of the game, all states in
             the set S are possible before the agents look at their cards. Once
             an agent looks at their cards, the state space collapses somewhat,
-            as states in which an agent doesn't hold their cards aren't
+            as states in which an agent doesn&apos;t hold their cards aren&apos;t
             accessible anymore. At this point, the gameplay can begin, and the
             idea of common knowledge is introduced. Once an agent asks for a
             card, two important pieces of information become apparent:
           </p>
           <p>
-            First, let's say Agent 1 asks Agent 2 for Green 4. This means that
+            First, let&apos;s say Agent 1 asks Agent 2 for Green 4. This means that
             Agent 1 is holding at least one green card. It thus becomes common
             knowledge that Agent 1 is holding green:{" "}
             <Latex>

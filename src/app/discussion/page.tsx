@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import Navigation from "../../components/Nav";
 import { tailwind_heatmap } from "@/heatmap";
+import { StrategyType } from "../game/types";
 
 const results = {
   random: {
@@ -165,7 +166,7 @@ export default function Home() {
                       {strategy}
                     </td>
                     {/* Loop over object keys of strategy */}
-                    {Object.entries(results[strategy]).map(([key, value]) => {
+                    {Object.entries(results[strategy as StrategyType]).map(([key, value]) => {
                       let percentage: number | null =
                         Math.round(
                           (value.wins / (value.wins + value.losses)) * 100
@@ -259,7 +260,7 @@ export default function Home() {
             firstOrder, secondOrder, and Combined. The experiment involved
             running all possible combinations of these strategies against each
             other. The findings revealed that leveraging first or second-order
-            knowledge generally enhanced an agent's performance, with
+            knowledge generally enhanced an agent&apos;s performance, with
             first-order knowledge yielding the highest performance. However, the
             Combined strategy, which incorporated both first and second-order
             knowledge, did not demonstrate an equivalent level of success.
@@ -270,7 +271,7 @@ export default function Home() {
             second-order knowledge in improving agent performance. Both the
             firstOrder and secondOrder strategies consistently outperformed the
             random strategy, indicating that incorporating knowledge about the
-            game and opponents' behaviour can lead to more successful outcomes.
+            game and opponents&apos; behaviour can lead to more successful outcomes.
             This highlights the importance of strategic decision-making based on
             observed patterns and information.
           </p>
@@ -279,7 +280,7 @@ export default function Home() {
             outperformed the secondOrder strategy suggests that focusing on
             immediate, first-order knowledge may be more impactful in Quartets
             gameplay. The success that it did find, was against combinations
-            that didn't include the firstOrder strategy, indicating that the use
+            that didn&apos;t include the firstOrder strategy, indicating that the use
             of first-order knowledge may be disruptive against an agent that
             uses second-order knowledge.
           </p>
@@ -288,7 +289,7 @@ export default function Home() {
             both first and second-order knowledge, did not demonstrate a
             corresponding improvement in performance as expected. Despite
             achieving moderate success against random strategies and the
-            random/Combined combination, the Combined strategy's overall
+            random/Combined combination, the Combined strategy&apos;s overall
             performance remained relatively modest compared to the individual
             strategies.
           </p>

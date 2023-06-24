@@ -147,7 +147,7 @@ export default class GameEnvironment {
         suits: [],
         strategy: this.state?.abelard.strategy || "random",
         question: {
-          agent: this.agents[0],
+          agent: this.agents[2],
           card: CARD_LIST[0],
         },
       },
@@ -165,19 +165,19 @@ export default class GameEnvironment {
           cards: [],
           suits: [],
           not_cards: [],
-          not_suits: []
+          not_suits: [],
         },
         abelard: {
           cards: [],
           suits: [],
           not_cards: [],
-          not_suits: []
+          not_suits: [],
         },
         heloise: {
           cards: [],
           suits: [],
           not_cards: [],
-          not_suits: []
+          not_suits: [],
         },
       },
     };
@@ -228,11 +228,7 @@ export default class GameEnvironment {
     });
   }
 
-  askForCard(
-    active_agent: AgentType,
-    target_agent: AgentType,
-    card: Card
-  ) {
+  askForCard(active_agent: AgentType, target_agent: AgentType, card: Card) {
     // Requesting agent asks receiving agent for card
     console.info(
       `${active_agent} asked ${target_agent} for ${card.number} ${card.color}`
@@ -242,8 +238,8 @@ export default class GameEnvironment {
       // Receiving agent has card
       console.info(`${target_agent} had ${card.number} ${card.color}`);
 
-      // Makes a positive annoucement of a card into common knowledge. 
-      this.positive_annoucement(card, active_agent, target_agent)
+      // Makes a positive annoucement of a card into common knowledge.
+      this.positive_annoucement(card, active_agent, target_agent);
 
       // Move card from receiving agent to requesting agent
       const newState = {
@@ -251,9 +247,7 @@ export default class GameEnvironment {
         [target_agent]: {
           ...this.state[target_agent],
           // Remove card from receiving agents hand
-          cards: this.state[target_agent].cards.filter(
-            (c) => c.id !== card.id
-          ),
+          cards: this.state[target_agent].cards.filter((c) => c.id !== card.id),
         },
         [active_agent]: {
           ...this.state[active_agent],
@@ -281,9 +275,9 @@ export default class GameEnvironment {
         // ...add the color to the suits of the target agent.
         newState[active_agent].suits.push(color);
         // Remove all cards of the this color from the active agents hand
-        newState[active_agent].cards = newState[
-          active_agent
-        ].cards.filter((c) => c.color !== color);
+        newState[active_agent].cards = newState[active_agent].cards.filter(
+          (c) => c.color !== color
+        );
 
         // remove the cards and suits from the common knowledge
         newState.common[active_agent].suits = newState.common[
@@ -294,9 +288,9 @@ export default class GameEnvironment {
         ].cards.filter((id) => id !== card.id);
 
         // no one has this suit in their hand anymore
-        newState.common.player.not_suits.push(color)
-        newState.common.abelard.not_suits.push(color)
-        newState.common.heloise.not_suits.push(color)
+        newState.common.player.not_suits.push(color);
+        newState.common.abelard.not_suits.push(color);
+        newState.common.heloise.not_suits.push(color);
       }
 
       // If no cards left in all players hands, game is over
@@ -360,13 +354,10 @@ export default class GameEnvironment {
       }
     } else {
       // Receiving agent does not have card, so turn goes to receiving agent
-      console.info(
-        `${target_agent} did not have ${card.number} ${card.color}`
-      );
+      console.info(`${target_agent} did not have ${card.number} ${card.color}`);
 
       // add the card to negation common knowledge
-      this.negative_annoucement(card, active_agent, target_agent)
-      
+      this.negative_annoucement(card, active_agent, target_agent);
 
       console.info(`Turn goes to ${target_agent}`);
       this.state.turn = target_agent;
@@ -431,63 +422,55 @@ export default class GameEnvironment {
   }
 
   // adds the card suit and id to the common knowledge
-  positive_annoucement(    
-    card: Card,
-    active: AgentType,
-    target: AgentType) {
+  positive_annoucement(card: Card, active: AgentType, target: AgentType) {
+    console.log(`POSITIVE ANNOUCEMENT: ${card.id}`);
 
-      console.log(`POSITIVE ANNOUCEMENT: ${card.id}`)
+    // add the color and id to the active agent
+    this.state.common[active].suits.push(card.color);
+    this.state.common[active].cards.push(card.id);
 
-      // add the color and id to the active agent
-      this.state.common[active].suits.push(card.color)
-      this.state.common[active].cards.push(card.id)
+    // remove the suit colour from the target agent
+    const suitsArray = this.state.common[target].suits;
+    const suitsIndex = suitsArray.indexOf(card.color);
+    if (suitsIndex !== -1) {
+      suitsArray.splice(suitsIndex, 1);
+    }
 
-      // remove the suit colour from the target agent
-      const suitsArray = this.state.common[target].suits;
-      const suitsIndex = suitsArray.indexOf(card.color);
-      if (suitsIndex !== -1) {
-        suitsArray.splice(suitsIndex, 1);
-      }
+    // remove the card id from the target agent
+    const cardsArray = this.state.common[target].cards;
+    const cardsIndex = cardsArray.indexOf(card.id);
+    if (cardsIndex !== -1) {
+      cardsArray.splice(cardsIndex, 1);
+    }
 
-      // remove the card id from the target agent
-      const cardsArray = this.state.common[target].cards;
-      const cardsIndex = cardsArray.indexOf(card.id);
-      if (cardsIndex !== -1) {
-        cardsArray.splice(cardsIndex, 1);
-      }
+    // remove all the negation suit knowledge of the active agent
+    this.state.common[active].not_cards = this.state.common[
+      active
+    ].not_cards.filter((color) => color !== card.color);
 
-      // remove all the negation suit knowledge of the active agent
-      this.state.common[active].not_cards = this.state.common[active].not_cards.filter((color) => color !== card.color);
-
-      // remove the negation of card knowledge of the active agent
-      const not_cardsArray = this.state.common[active].not_cards;
-      const not_cardsIndex = not_cardsArray.indexOf(card.id);
-      if (not_cardsIndex !== -1) {
-        cardsArray.splice(not_cardsIndex, 1);
-      }
+    // remove the negation of card knowledge of the active agent
+    const not_cardsArray = this.state.common[active].not_cards;
+    const not_cardsIndex = not_cardsArray.indexOf(card.id);
+    if (not_cardsIndex !== -1) {
+      cardsArray.splice(not_cardsIndex, 1);
+    }
   }
 
-  // adds the card suit and id to negation common knowledge 
-  negative_annoucement(    
-    card: Card,
-    active: AgentType,
-    target: AgentType) {
+  // adds the card suit and id to negation common knowledge
+  negative_annoucement(card: Card, active: AgentType, target: AgentType) {
+    console.log(`NEGATIVE ANNOUCEMENT: ${card.id}`);
 
-    console.log(`NEGATIVE ANNOUCEMENT: ${card.id}`)
-  
     // the active agent is asking for a card, so they hold atleast one of a suit if they hold cards at all
-      if(this.state[active].cards.length){
-        const suitsArray = this.state.common[active].suits;
-        const colorToAdd = card.color;
-        
-        if (!suitsArray.includes(colorToAdd)) {
-          suitsArray.push(colorToAdd);
-        }
+    if (this.state[active].cards.length) {
+      const suitsArray = this.state.common[active].suits;
+      const colorToAdd = card.color;
+
+      if (!suitsArray.includes(colorToAdd)) {
+        suitsArray.push(colorToAdd);
       }
+    }
 
     // the target agent doesn't hold the card, so its added to the negation common knowledge
-    this.state.common[target].not_cards.push(card.id)
+    this.state.common[target].not_cards.push(card.id);
   }
 }
-
-

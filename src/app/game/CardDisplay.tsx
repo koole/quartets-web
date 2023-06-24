@@ -30,7 +30,7 @@ export default function CardDisplay({
           className="text-red-500"
           style={{
             position: "absolute",
-            top: 2,
+            top: -10,
             right: 0,
             display: "flex",
             justifyContent: "center",
@@ -38,7 +38,7 @@ export default function CardDisplay({
             fontWeight: "bold",
           }}
         >
-          <XMarkIcon className="h-5 w-5" />
+          <XMarkIcon className="h-8 w-8" />
         </span>
       )}
       {card.number}

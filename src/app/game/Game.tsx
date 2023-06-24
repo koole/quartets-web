@@ -92,7 +92,9 @@ export default function Game() {
             <div className="flex items-center">
               <div className="flex items-center mr-3">
                 {/* Select box to change speed */}
-                <div className="flex-0 mr-2 text-slate-700 font-bold">Autospeed:</div>
+                <div className="flex-0 mr-2 text-slate-700 font-bold">
+                  Autospeed:
+                </div>
                 <select
                   className="block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   value={gameState.speed}
@@ -232,14 +234,13 @@ export default function Game() {
                   </svg>
                 </div>
 
-                <div className="mt-2 font-bold text-pink-700">
-                  Alebrad {agentSentence}.<br />
-                  <div>
-                    He is going to ask{" "}
-                    {cleanName[gameState.abelard.question.agent]} for the{" "}
-                    {gameState.abelard.question.card.color} card with number{" "}
-                    {gameState.abelard.question.card.number}.
-                  </div>
+                <div className="mt-2 text-pink-700">
+                  Abélard {agentSentence}. He is going to ask{" "}
+                  <strong>{cleanName[gameState.abelard.question.agent]}</strong>{" "}
+                  for the{" "}
+                  <strong>{gameState.abelard.question.card.color} card</strong>{" "}
+                  with number{" "}
+                  <strong>{gameState.abelard.question.card.number}</strong>.
                 </div>
               </div>
             )}
@@ -290,14 +291,13 @@ export default function Game() {
                   </svg>
                 </div>
 
-                <div className="mt-2 font-bold text-pink-700">
-                  Héloïse {agentSentence}.<br />
-                  <div>
-                    She is going to ask{" "}
-                    {cleanName[gameState.heloise.question.agent]} for the{" "}
-                    {gameState.heloise.question.card.color} card with number{" "}
-                    {gameState.heloise.question.card.number}.
-                  </div>
+                <div className="mt-2 text-pink-700">
+                  Héloïse {agentSentence}. She is going to ask{" "}
+                  <strong>{cleanName[gameState.heloise.question.agent]}</strong>{" "}
+                  for the{" "}
+                  <strong>{gameState.heloise.question.card.color} card</strong>{" "}
+                  with number{" "}
+                  <strong>{gameState.heloise.question.card.number}</strong>.
                 </div>
               </div>
             )}
@@ -367,14 +367,17 @@ export default function Game() {
                       </svg>
                     </div>
 
-                    <div className="mt-2 font-bold text-pink-700">
-                      Your agent {agentSentence}.<br />
-                      <div>
-                        You are going to ask{" "}
-                        {cleanName[gameState.heloise.question.agent]} for the{" "}
-                        {gameState.heloise.question.card.color} card with number{" "}
-                        {gameState.heloise.question.card.number}.
-                      </div>
+                    <div className="mt-2 text-pink-700">
+                      Your agent {agentSentence}. You are going to ask{" "}
+                      <strong>
+                        {cleanName[gameState.player.question.agent]}
+                      </strong>{" "}
+                      for the{" "}
+                      <strong>
+                        {gameState.player.question.card.color} card
+                      </strong>{" "}
+                      with number{" "}
+                      <strong>{gameState.player.question.card.number}</strong>.
                     </div>
                   </div>
                 )}

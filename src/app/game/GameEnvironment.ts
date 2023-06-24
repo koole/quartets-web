@@ -20,7 +20,7 @@ export function shuffleArray(arr: any[]) {
 }
 
 export default class GameEnvironment {
-  agents: AgentType[] = shuffleArray(["player", "abelard", "heloise"]);
+  agents: AgentType[] = ["player", "abelard", "heloise"];
   strategies: StrategyType[] = ["random", "mostCards", "smart"];
   state: GameState;
 

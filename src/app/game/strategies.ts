@@ -311,7 +311,7 @@ function combined(
 
   // defaults to random
   console.log("default to random");
-  let [agent, card] = getRandomQuestion(active_agent, agents, cards);
+  let [agent, card] = getRandomQuestion(active_agent, agents, cards, state);
   return [agent, card];
 }
 

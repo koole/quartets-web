@@ -9,6 +9,13 @@ import GameEnvironment from "./GameEnvironment";
 
 import { tailwind_heatmap } from "@/heatmap";
 import { agentSentences } from "@/sentences";
+import CardDisplay from "./CardDisplay";
+
+const cleanName = {
+  player: "you",
+  abelard: "Abélard",
+  heloise: "Héloïse",
+};
 
 const env = new GameEnvironment();
 
@@ -188,7 +195,7 @@ export default function Game() {
                 <div role="status">
                   <svg
                     aria-hidden="true"
-                    className="inline w-4 h-4 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-pink-600 mt-2"
+                    className="inline w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-pink-600 mt-2"
                     viewBox="0 0 100 101"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -205,7 +212,13 @@ export default function Game() {
                 </div>
 
                 <div className="mt-2 font-bold text-pink-700">
-                  {agentSentence}
+                  {agentSentence}.<br />
+                  <div>
+                    Alebrad is going to ask{" "}
+                    {cleanName[gameState.abelard.question.agent]} for the{" "}
+                    {gameState.abelard.question.card.color} card with number{" "}
+                    {gameState.abelard.question.card.number}.
+                  </div>
                 </div>
               </div>
             )}
@@ -242,7 +255,7 @@ export default function Game() {
                 <div role="status">
                   <svg
                     aria-hidden="true"
-                    className="inline w-4 h-4 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-pink-600 mt-2"
+                    className="inline w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-pink-600 mt-2"
                     viewBox="0 0 100 101"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -259,7 +272,13 @@ export default function Game() {
                 </div>
 
                 <div className="mt-2 font-bold text-pink-700">
-                  {agentSentence}
+                  {agentSentence}.<br />
+                  <div>
+                    Héloïse is going to ask{" "}
+                    {cleanName[gameState.heloise.question.agent]} for the{" "}
+                    {gameState.heloise.question.card.color} card with number{" "}
+                    {gameState.heloise.question.card.number}.
+                  </div>
                 </div>
               </div>
             )}
@@ -317,7 +336,8 @@ export default function Game() {
         </h2>
         <p className="text-gray-700 py-4">
           Results show how a strategy performs when playing against each
-          combination of opponent strategies. Results are stored in your browser.
+          combination of opponent strategies. Results are stored in your
+          browser.
         </p>
         <table className="min-w-full divide-y divide-gray-300">
           <thead>
@@ -400,7 +420,7 @@ export default function Game() {
             {gameEnvironment.current.strategies.map((strategy) => {
               let totalWins = 0;
               let totalLosses = 0;
-              
+
               return (
                 <tr key={strategy}>
                   <td className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
@@ -444,7 +464,9 @@ export default function Game() {
                     }
                   )}
                   <td className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:pr-0">
-                    {Math.round((totalWins / (totalWins + totalLosses)) * 100) || 0}
+                    {Math.round(
+                      (totalWins / (totalWins + totalLosses)) * 100
+                    ) || 0}
                     %
                     <div className="text-xs opacity-75 font-normal whitespace-nowrap">
                       {totalWins + totalLosses} games

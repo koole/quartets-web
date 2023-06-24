@@ -43,7 +43,7 @@ export default class GameEnvironment {
     if (this.state.turn !== "player") {
       setTimeout(() => {
         this.autoStep();
-      }, 1000);
+      }, 5000);
     }
 
     this.updateQuestionForAllAgents();
@@ -320,7 +320,7 @@ export default class GameEnvironment {
     if (this.state.turn !== "player" && this.state.autoPlaying === false) {
       setTimeout(() => {
         this.autoStep();
-      }, 1000);
+      }, 5000);
     }
   }
 
@@ -359,7 +359,7 @@ export default class GameEnvironment {
     if (this.state.turn !== "player") {
       setTimeout(() => {
         this.autoStep();
-      }, 1000);
+      }, 5000);
     }
 
     clearInterval(this.autoStepInterval);

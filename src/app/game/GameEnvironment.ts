@@ -64,11 +64,14 @@ export default class GameEnvironment {
       shuffledCards.slice(2 * third),
     ]);
 
+    let results = emptyResults;
+
     // Load results from local storage
-    let results = JSON.parse(localStorage.getItem("results") || "null");
-    // If there are no results, create an empty object
-    if (!results) {
-      results = emptyResults;
+    if (typeof window !== "undefined") {
+      results = JSON.parse((localStorage.getItem("results") as any) || "null");
+      if (!results) {
+        results = emptyResults;
+      }
     }
 
     // Create an initial starting state

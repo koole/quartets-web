@@ -43,7 +43,7 @@ function getMostCards(
 ): [AgentType, Card] {
   const colorCounts: Map<string, number> = new Map();
   const numberSet: Set<number> = new Set();
-  const opponents = agents.filter((agent) => agent !== currentAgent);
+  let opponents = agents.filter((agent) => agent !== currentAgent);
 
   if (cards.length !== 0) {
     // Count the occurrences of each color and collect numbers in the hand
@@ -68,6 +68,7 @@ function getMostCards(
     let opponentWithColor = null;
     let colorMatch: string | null = null;
     let matchedElement: string | null = null;
+    opponents = opponents.sort(() => Math.random() - 0.5);
 
     // Loop through the colors in the hand of the current player
     for (const [color, count] of colorCountsArray) {

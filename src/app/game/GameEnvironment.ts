@@ -142,8 +142,11 @@ export default class GameEnvironment {
         if (cardsOfSameColor.length === NUM_NUMBERS) {
           //@ts-ignore
           newState[agent].suits.push(color);
+          //@ts-ignore
           newState.common.player.not_suits.push(color);
+          //@ts-ignore
           newState.common.abelard.not_suits.push(color);
+          //@ts-ignore
           newState.common.heloise.not_suits.push(color);
           newState[agent].cards = newState[agent].cards.filter(
             (c: Card) => c.color !== color

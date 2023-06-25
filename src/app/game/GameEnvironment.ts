@@ -142,7 +142,9 @@ export default class GameEnvironment {
         if (cardsOfSameColor.length === NUM_NUMBERS) {
           //@ts-ignore
           newState[agent].suits.push(color);
-          newState.common[agent].not_suits.push(color)
+          newState.common.player.not_suits.push(color);
+          newState.common.abelard.not_suits.push(color);
+          newState.common.heloise.not_suits.push(color);
           newState[agent].cards = newState[agent].cards.filter(
             (c: Card) => c.color !== color
           );
@@ -412,6 +414,12 @@ export default class GameEnvironment {
     this.state.common[active].not_cards = this.state.common[
       active
     ].not_cards.filter((id) => id !== card.id);
+
+    // remove the card from the CK card array
+    this.state.common[active].cards = this.state.common[
+      active
+    ].cards.filter((id) => id !== card.id);
+
 
     // remove the suit colour from the target agent
     const suitsArray = this.state.common[target].suits;

@@ -261,22 +261,22 @@ export default class GameEnvironment {
 
         // remove the card common knowledge
         newState.common[active_agent].cards = newState.common[active_agent].cards.filter((c) => {
-          const color = c.split("-")[0];
-          return !color.startsWith(color);
+          const targetcolor = c.split("-")[0];
+          return !targetcolor.startsWith(color);
         });
         
         // remove the card from negation common knowledge
         newState.common.player.not_cards = newState.common.player.not_cards.filter((c) => {
-          const color = c.split("-")[0];
-          return !color.startsWith(color);
+          const targetcolor = c.split("-")[0];
+          return !targetcolor.startsWith(color);
         });
         newState.common.abelard.not_cards = newState.common.abelard.not_cards.filter((c) => {
-          const color = c.split("-")[0];
-          return !color.startsWith(color);
+          const targetcolor = c.split("-")[0];
+          return !targetcolor.startsWith(color);
         });
         newState.common.heloise.not_cards = newState.common.heloise.not_cards.filter((c) => {
-          const color = c.split("-")[0];
-          return !color.startsWith(color);
+          const targetcolor = c.split("-")[0];
+          return !targetcolor.startsWith(color);
         });
 
         // no one has this suit in their hand anymore

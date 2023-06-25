@@ -25,8 +25,8 @@ export default function Home() {
           </p>
           <p className="mt-6">
             This web application was built using Javascript without any
-            additional dependencies. The full source code of the experiment can
-            be found on GitHub at:{" "}
+            additional dependencies. The full source code of the website and
+            game can be found on GitHub at:{" "}
             <a
               href="https://github.com/koole/quartets-web"
               className="text-indigo-600 hover:text-indigo-500"

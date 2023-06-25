@@ -40,8 +40,8 @@ export default function Home() {
             In our hypothesis, we propose that the random strategy will exhibit
             the poorest performance and achieve the lowest win percentage among
             all the strategies under examination. Additionally, we anticipate
-            that STRAT3 will outperform STRAT2 in terms of overall effectiveness
-            and win rates.
+            that Combined strategy will outperform firstOrder and secondOrder in
+            terms of overall effectiveness and win rates.
           </p>
 
           <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">

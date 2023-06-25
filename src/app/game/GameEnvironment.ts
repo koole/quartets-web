@@ -258,11 +258,26 @@ export default class GameEnvironment {
 
         // remove the cards and suits from the common knowledge
         newState.common[active_agent].suits = newState.common[active_agent].suits.filter((suit) => suit !== card.color);
-        newState.common[active_agent].cards = newState.common[active_agent].cards.filter(() => color !== color);
 
-        newState.common.player.not_cards = newState.common.player.not_cards.filter(() => color !== color);
-        newState.common.abelard.not_cards = newState.common.abelard.not_cards.filter(() => color !== color);
-        newState.common.heloise.not_cards = newState.common.heloise.not_cards.filter(() => color !== color);
+        // remove the card common knowledge
+        newState.common[active_agent].cards = newState.common[active_agent].cards.filter((c) => {
+          const color = c.split("-")[0];
+          return !color.startsWith(color);
+        });
+        
+        // remove the card from negation common knowledge
+        newState.common.player.not_cards = newState.common.player.not_cards.filter((c) => {
+          const color = c.split("-")[0];
+          return !color.startsWith(color);
+        });
+        newState.common.abelard.not_cards = newState.common.abelard.not_cards.filter((c) => {
+          const color = c.split("-")[0];
+          return !color.startsWith(color);
+        });
+        newState.common.heloise.not_cards = newState.common.heloise.not_cards.filter((c) => {
+          const color = c.split("-")[0];
+          return !color.startsWith(color);
+        });
 
         // no one has this suit in their hand anymore
         newState.common.player.not_suits.push(color);
@@ -414,12 +429,6 @@ export default class GameEnvironment {
     this.state.common[active].not_cards = this.state.common[
       active
     ].not_cards.filter((id) => id !== card.id);
-
-    // remove the card from the CK card array
-    this.state.common[active].cards = this.state.common[
-      active
-    ].cards.filter((id) => id !== card.id);
-
 
     // remove the suit colour from the target agent
     const suitsArray = this.state.common[target].suits;

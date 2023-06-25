@@ -142,6 +142,7 @@ export default class GameEnvironment {
         if (cardsOfSameColor.length === NUM_NUMBERS) {
           //@ts-ignore
           newState[agent].suits.push(color);
+          newState.common[agent].not_suits.push(color)
           newState[agent].cards = newState[agent].cards.filter(
             (c: Card) => c.color !== color
           );
@@ -251,17 +252,15 @@ export default class GameEnvironment {
         // ...add the color to the suits of the target agent.
         newState[active_agent].suits.push(color);
         // Remove all cards of the this color from the active agents hand
-        newState[active_agent].cards = newState[active_agent].cards.filter(
-          (c) => c.color !== color
-        );
+        newState[active_agent].cards = newState[active_agent].cards.filter((c) => c.color !== color);
 
         // remove the cards and suits from the common knowledge
-        newState.common[active_agent].suits = newState.common[
-          active_agent
-        ].suits.filter((suit) => suit !== card.color);
-        newState.common[active_agent].cards = newState.common[
-          active_agent
-        ].cards.filter((id) => id !== card.id);
+        newState.common[active_agent].suits = newState.common[active_agent].suits.filter((suit) => suit !== card.color);
+        newState.common[active_agent].cards = newState.common[active_agent].cards.filter(() => color !== color);
+
+        newState.common.player.not_cards = newState.common.player.not_cards.filter(() => color !== color);
+        newState.common.abelard.not_cards = newState.common.abelard.not_cards.filter(() => color !== color);
+        newState.common.heloise.not_cards = newState.common.heloise.not_cards.filter(() => color !== color);
 
         // no one has this suit in their hand anymore
         newState.common.player.not_suits.push(color);

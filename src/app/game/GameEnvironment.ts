@@ -165,8 +165,6 @@ export default class GameEnvironment {
       text: `Turn goes to ${newState.turn}`,
     });
 
-    // TODO: Update knowledge for all agents about the suits of other agents
-
     return {
       ...newState,
       wins: wins,

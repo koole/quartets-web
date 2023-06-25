@@ -271,14 +271,15 @@ export default function Home() {
             Some discussion points can be taken from these results. Firstly, the
             experiment demonstrated the effectiveness of utilizing first and
             second-order knowledge in improving agent performance. Both the
-            firstOrder and secondOrder strategies consistently outperformed the
-            random strategy, indicating that incorporating knowledge about the
-            game and opponents&apos; behaviour can lead to more successful
-            outcomes. This highlights the importance of strategic
-            decision-making based on observed patterns and information. The
-            effectiveness should however not be overstated, as the firstOrder
-            strategy only achieved a maximum 66% win percentage against two
-            random strategies, as the game is still largely based on chance.
+            firstOrder, secondOrder, and Combined strategies consistently
+            outperformed the random strategy, indicating that incorporating
+            knowledge about the game and opponents&apos; behaviour can lead to
+            more successful outcomes. This highlights the importance of
+            strategic decision-making based on observed patterns and
+            information. The effectiveness should however not be overstated, as
+            the firstOrder strategy only achieved a maximum 66% win percentage
+            against two random strategies, as the game is still largely based on
+            chance.
           </p>
           <p className="mt-6">
             Secondly, the finding that the firstOrder strategy generally

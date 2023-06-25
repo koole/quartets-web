@@ -1,8 +1,6 @@
 import Footer from "@/components/Footer";
 import Navigation from "../../components/Nav";
-import {
-  CheckCircleIcon,
-} from "@heroicons/react/20/solid";
+import { CheckCircleIcon } from "@heroicons/react/20/solid";
 
 export default function Home() {
   return (

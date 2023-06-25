@@ -445,7 +445,7 @@ export default function Game() {
                 >
                   <div>
                     {item.type === "knowledge" ? (
-                      <strong>🧠 Knowledge update: </strong>
+                      <strong>🧠 Knowledge: </strong>
                     ) : (
                       ""
                     )}

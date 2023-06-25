@@ -33,8 +33,8 @@ export default function Home() {
                 marginTop: "1.5rem",
               }}
             >
-              Which of the Kripke based model strategy performs best in the game
-              of Quartets?
+              Which of the Kripke model based strategies performs best in the
+              game of Quartets?
             </span>
             <br />
             In our hypothesis, we propose that the random strategy will exhibit

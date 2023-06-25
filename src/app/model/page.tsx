@@ -81,31 +81,24 @@ export default function Home() {
             In practice, this means that at the start of the game, all states in
             the set S are possible before the agents look at their cards. Once
             an agent looks at their cards, the state space collapses somewhat,
-            as states in which an agent doesn&apos;t hold their cards aren&apos;t
-            accessible anymore. At this point, the gameplay can begin, and the
-            idea of common knowledge is introduced. Once an agent asks for a
-            card, two important pieces of information become apparent:
+            as states in which an agent doesn&apos;t hold their cards
+            aren&apos;t accessible anymore. At this point, the gameplay can
+            begin, and the idea of common knowledge is introduced. Once an agent
+            asks for a card, two important pieces of information become
+            apparent:
           </p>
           <p>
-            First, let&apos;s say Agent 1 asks Agent 2 for Green 4. This means that
-            Agent 1 is holding at least one green card. It thus becomes common
-            knowledge that Agent 1 is holding green:{" "}
-            <Latex>
-              $C1_G$
-            </Latex>
-            .
+            First, let&apos;s say Agent 1 asks Agent 2 for Green 4. This means
+            that Agent 1 is holding at least one green card. It thus becomes
+            common knowledge that Agent 1 is holding green:{" "}
+            <Latex>$C1_G$</Latex>.
           </p>
           <p>
             Second, if Agent 2 does have Green 4 and hands it over to Agent 1 it
             then becomes common knowledge that Agent 1 is holding Green 4:{" "}
-            <Latex>
-              {"$C(1_G \\land 1_{G4})$"}
-            </Latex>{" "}
-            However, if Agent 2 does not have Green 4, then it becomes common
-            knowledge that Agent 2 does not hold this card:{" "}
-            <Latex>
-              {"$C(1_G \\land \\neg 2_{G4})$"}
-            </Latex>.
+            <Latex>{"$C(1_G \\land 1_{G4})$"}</Latex> However, if Agent 2 does
+            not have Green 4, then it becomes common knowledge that Agent 2 does
+            not hold this card: <Latex>{"$C(1_G \\land \\neg 2_{G4})$"}</Latex>.
           </p>
           <p>
             Obviously, this is a very complicated affair with all cards in play,
@@ -177,7 +170,8 @@ export default function Home() {
             <h2 className="mt-24 border-t border-gray-300 pt-24 text-2xl font-bold tracking-tight text-gray-900">
               Looking at cards
             </h2>
-            Players have seen their own cards, but not the other players&apos; cards.
+            Players have seen their own cards, but not the other players&apos;
+            cards.
             <br />
             In this scenario, we have the following true state:
             <br />

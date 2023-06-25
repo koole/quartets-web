@@ -166,40 +166,42 @@ export default function Home() {
                       {strategy}
                     </td>
                     {/* Loop over object keys of strategy */}
-                    {Object.entries(results[strategy as StrategyType]).map(([key, value]) => {
-                      let percentage: number | null =
-                        Math.round(
-                          (value.wins / (value.wins + value.losses)) * 100
-                        ) || 0;
-                      if (value.wins === 0 && value.losses === 0) {
-                        percentage = null;
-                      }
-                      // Get the color for the bar based on the percentage from tailwind_heatmap array
-                      // Calculate index based on percentage
-                      let color = "gray-100";
-                      if (percentage !== null) {
-                        const index = Math.round(
-                          (percentage / 100) * (tailwind_heatmap.length - 1)
-                        );
-                        // Get the color from the array
-                        color = tailwind_heatmap[index];
-                      }
-                      // Add to total wins and losses
-                      totalWins += value.wins;
-                      totalLosses += value.losses;
+                    {Object.entries(results[strategy as StrategyType]).map(
+                      ([key, value]) => {
+                        let percentage: number | null =
+                          Math.round(
+                            (value.wins / (value.wins + value.losses)) * 100
+                          ) || 0;
+                        if (value.wins === 0 && value.losses === 0) {
+                          percentage = null;
+                        }
+                        // Get the color for the bar based on the percentage from tailwind_heatmap array
+                        // Calculate index based on percentage
+                        let color = "gray-100";
+                        if (percentage !== null) {
+                          const index = Math.round(
+                            (percentage / 100) * (tailwind_heatmap.length - 1)
+                          );
+                          // Get the color from the array
+                          color = tailwind_heatmap[index];
+                        }
+                        // Add to total wins and losses
+                        totalWins += value.wins;
+                        totalLosses += value.losses;
 
-                      return (
-                        <td
-                          className={`px-3 py-3.5 text-left text-sm font-semibold text-gray-900 ${color}`}
-                          key={`${strategy}-${key}`}
-                        >
-                          {percentage === null ? "-" : `${percentage}%`}
-                          {/* <div className="text-xs opacity-75 font-normal">
+                        return (
+                          <td
+                            className={`px-3 py-3.5 text-left text-sm font-semibold text-gray-900 ${color}`}
+                            key={`${strategy}-${key}`}
+                          >
+                            {percentage === null ? "-" : `${percentage}%`}
+                            {/* <div className="text-xs opacity-75 font-normal">
                             {value.wins + value.losses} games
                           </div> */}
-                        </td>
-                      );
-                    })}
+                          </td>
+                        );
+                      }
+                    )}
                     <td className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:pr-0">
                       {Math.round(
                         (totalWins / (totalWins + totalLosses)) * 100
@@ -220,12 +222,12 @@ export default function Home() {
       <div className="bg-white px-6 py-32 lg:px-8 pt-16">
         <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
           <p className="mt-6">
-            Contrary to our initial expectations, the firstOrder strategy
-            consistently outperformed the secondOrder strategy in most cases.
-            The lowest win percentage for firstOrder was only 36% when facing
-            two secondOrder agents, while its highest win percentage reached 66%
-            against two random strategies. On average the firstOrder strategy
-            achieved a 43% win percentage across all combinations.
+            The firstOrder strategy consistently outperformed the secondOrder
+            strategy in most cases. The lowest win percentage for firstOrder was
+            only 36% when facing two secondOrder agents, while its highest win
+            percentage reached 66% against two random strategies. On average the
+            firstOrder strategy achieved a 43% win percentage across all
+            combinations.
           </p>
           <p className="mt-6">
             On the other hand, secondOrder exhibited mixed results overall. It
@@ -271,18 +273,23 @@ export default function Home() {
             second-order knowledge in improving agent performance. Both the
             firstOrder and secondOrder strategies consistently outperformed the
             random strategy, indicating that incorporating knowledge about the
-            game and opponents&apos; behaviour can lead to more successful outcomes.
-            This highlights the importance of strategic decision-making based on
-            observed patterns and information.
+            game and opponents&apos; behaviour can lead to more successful
+            outcomes. This highlights the importance of strategic
+            decision-making based on observed patterns and information. The
+            effectiveness should however not be overstated, as the firstOrder
+            strategy only achieved a maximum 66% win percentage against two
+            random strategies, as the game is still largely based on chance.
           </p>
           <p className="mt-6">
             Secondly, the finding that the firstOrder strategy generally
             outperformed the secondOrder strategy suggests that focusing on
-            immediate, first-order knowledge may be more impactful in Quartets
-            gameplay. The success that it did find, was against combinations
-            that didn&apos;t include the firstOrder strategy, indicating that the use
-            of first-order knowledge may be disruptive against an agent that
-            uses second-order knowledge.
+            immediate, first-order knowledge and greedily attempting to complete
+            their own quartets may be more impactful in Quartets gameplay than
+            reasoning about what the others might know. The success that it did
+            find, was against combinations that didn&apos;t include the
+            firstOrder strategy, indicating that the use of first-order
+            knowledge may be disruptive against an agent that uses second-order
+            knowledge.
           </p>
           <p className="mt-6">
             However, it is notable that the Combined strategy, which combined
@@ -292,6 +299,16 @@ export default function Home() {
             random/Combined combination, the Combined strategy&apos;s overall
             performance remained relatively modest compared to the individual
             strategies.
+          </p>
+          <p className="mt-6">
+            It is also worth noting that the secondOrder strategy performed
+            worse than firstOrder against the random strategy. This was to be
+            expected, as the secondOrder strategy might not choose a cards that
+            would more quickly complete a quartet, just to hide this information
+            from the other strategies. However, the random strategy never
+            considers this knowledge as it will always choose a random card.
+            Therefore there is no benefit to the knowledge used in the
+            secondOrder strategy in this case.
           </p>
         </div>
       </div>
